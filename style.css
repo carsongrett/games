@@ -448,6 +448,145 @@ footer p {
     color: #6b7280;
 }
 
+/* NFL Player Challenge Styles */
+.player-challenge-stats {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #f8fafc;
+    border-radius: 8px;
+}
+
+.player-challenge-stats span {
+    font-weight: 600;
+    color: #374151;
+}
+
+#new-player-btn {
+    background: #10b981;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+#new-player-btn:hover {
+    background: #059669;
+}
+
+.player-input-container {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.player-dropdown {
+    flex: 1;
+    max-width: 300px;
+    padding: 0.75rem;
+    border: 2px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 1rem;
+    background: white;
+    cursor: pointer;
+}
+
+.player-dropdown:focus {
+    outline: none;
+    border-color: #2563eb;
+}
+
+#submit-guess-btn {
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+#submit-guess-btn:hover:not(:disabled) {
+    background: #1d4ed8;
+}
+
+#submit-guess-btn:disabled {
+    background: #9ca3af;
+    cursor: not-allowed;
+}
+
+.player-grid-container {
+    max-width: 900px;
+    margin: 0 auto;
+    overflow-x: auto;
+}
+
+.player-grid-header {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 2px;
+    margin-bottom: 2px;
+    background: #e5e7eb;
+    padding: 2px;
+    border-radius: 8px 8px 0 0;
+}
+
+.player-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 2px;
+    background: #e5e7eb;
+    padding: 2px;
+    border-radius: 0 0 8px 8px;
+    min-height: 50px;
+}
+
+.grid-cell {
+    background: white;
+    padding: 0.75rem 0.5rem;
+    text-align: center;
+    font-weight: 500;
+    border-radius: 4px;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+}
+
+.grid-cell.header {
+    background: #374151;
+    color: white;
+    font-weight: 600;
+}
+
+.grid-cell.correct {
+    background: #10b981;
+    color: white;
+}
+
+.grid-cell.close {
+    background: #f59e0b;
+    color: white;
+}
+
+.grid-cell.incorrect {
+    background: #6b7280;
+    color: white;
+}
+
+.player-row {
+    display: contents;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .nav-container {
@@ -485,5 +624,30 @@ footer p {
         padding: 10px 6px;
         min-width: 30px;
         font-size: 0.9rem;
+    }
+
+    .player-input-container {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .player-dropdown {
+        max-width: 100%;
+    }
+
+    .player-challenge-stats {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+
+    .grid-cell {
+        padding: 0.5rem 0.25rem;
+        font-size: 0.8rem;
+        min-height: 40px;
+    }
+
+    .player-grid-container {
+        font-size: 0.8rem;
     }
 } 

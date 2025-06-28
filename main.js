@@ -38,6 +38,8 @@ function showSection(sectionName) {
         initializeWordle();
     } else if (sectionName === 'nfl-trivia' && typeof initializeNFLTrivia === 'function') {
         initializeNFLTrivia();
+    } else if (sectionName === 'player-challenge' && typeof initializePlayerChallenge === 'function') {
+        initializePlayerChallenge();
     }
 }
 
