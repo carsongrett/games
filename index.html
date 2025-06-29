@@ -144,7 +144,11 @@
                 
                 <div class="game-container">
                     <div class="game-info">
-                        <p>Guess the NFL player using team, position, age, and jersey number clues!</p>
+                        <p>Guess the NFL player using their conference, team, position, and stats!</p>
+                        <div class="game-notes">
+                            <p><strong>Stats are from the 2024-2025 NFL season.</strong></p>
+                            <p><strong>Color Coding:</strong> 🟢 Correct match | 🟡 Close (Rec ±10, Rec Yds ±100, Rec TDs ±2, Rush Yds ±100, Tot TDs ±3) | ⚫ Incorrect</p>
+                        </div>
                         <div class="player-challenge-stats">
                             <span>Guesses: <span id="player-guesses">0</span>/8</span>
                             <button id="new-player-btn" onclick="newPlayerGame()">New Game</button>
@@ -160,13 +164,16 @@
                     </div>
                     
                     <div class="player-grid-container">
+                        <div class="mobile-scroll-hint">← Swipe to see all stats →</div>
                         <div class="player-grid-header">
                             <div class="grid-cell header">Conference</div>
-                            <div class="grid-cell header">Division</div>
                             <div class="grid-cell header">Team</div>
-                            <div class="grid-cell header">Jersey #</div>
-                            <div class="grid-cell header">Age</div>
                             <div class="grid-cell header">Position</div>
+                            <div class="grid-cell header">Rec</div>
+                            <div class="grid-cell header">Rec Yds</div>
+                            <div class="grid-cell header">Rec TDs</div>
+                            <div class="grid-cell header">Rush Yds</div>
+                            <div class="grid-cell header">Tot TDs</div>
                         </div>
                         <div id="player-grid" class="player-grid">
                             <!-- Guesses will be added here -->
@@ -189,6 +196,10 @@
                 <div class="game-container">
                     <div class="game-info">
                         <p>Guess the NBA player using their age, team, conference, position, and stats!</p>
+                        <div class="game-notes">
+                            <p><strong>Stats are from the 2024-2025 NBA season.</strong></p>
+                            <p><strong>Color Coding:</strong> 🟢 Correct match | 🟡 Close (3P% ±5%, Points ±3, Rebounds ±2) | ⚫ Incorrect</p>
+                        </div>
                         <div class="player-challenge-stats">
                             <span>Guesses: <span id="nba-player-guesses">0</span>/8</span>
                             <button id="new-nba-player-btn" onclick="newNBAPlayerGame()">New Game</button>

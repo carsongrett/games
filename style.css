@@ -538,21 +538,8 @@ footer p {
     font-style: italic;
 }
 
-.player-grid-header {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 4px;
-    margin-bottom: 4px;
-}
-
 .player-grid {
     display: grid;
-    gap: 4px;
-}
-
-.player-row {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
     gap: 4px;
 }
 
@@ -639,22 +626,7 @@ footer p {
         text-align: center;
     }
 
-    /* Mobile-optimized grid */
-    .player-grid-container {
-        font-size: 0.8rem;
-        padding: 0 0.5rem;
-        margin: 1rem 0;
-    }
-
-    .player-grid-header {
-        grid-template-columns: repeat(6, minmax(50px, 1fr));
-        gap: 2px;
-    }
-
-    .player-row {
-        grid-template-columns: repeat(6, minmax(50px, 1fr));
-        gap: 2px;
-    }
+    /* Mobile-optimized grid - General styles */
 
     .grid-cell {
         padding: 0.5rem 0.2rem;
@@ -690,4 +662,105 @@ footer p {
         font-size: 0.9rem;
         margin-bottom: 1rem;
     }
+}
+
+.game-info p {
+    margin-bottom: 1rem;
+    color: #6b7280;
+}
+
+.game-notes {
+    background-color: #f3f4f6;
+    border-left: 4px solid #2563eb;
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 4px;
+}
+
+.game-notes p {
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+    color: #374151;
+}
+
+.game-notes p:last-child {
+    margin-bottom: 0;
+}
+
+/* NFL Player Grid - 8 columns */
+#player-challenge .player-grid-header {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 4px;
+    margin-bottom: 4px;
+}
+
+#player-challenge .player-row {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 4px;
+}
+
+/* NBA Player Grid - 6 columns */
+#nba-player-challenge .player-grid-header {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 4px;
+    margin-bottom: 4px;
+}
+
+#nba-player-challenge .player-row {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 4px;
+}
+
+/* Mobile-optimized grid */
+.player-grid-container {
+    font-size: 0.8rem;
+    padding: 0 0.5rem;
+    margin: 1rem 0;
+}
+
+/* NFL Player Grid - 8 columns (mobile) */
+#player-challenge .player-grid-container {
+    overflow-x: auto;
+    font-size: 0.7rem;
+}
+
+#player-challenge .mobile-scroll-hint {
+    display: block;
+}
+
+#player-challenge .player-grid-header {
+    grid-template-columns: repeat(8, minmax(40px, 1fr));
+    gap: 2px;
+}
+
+#player-challenge .player-row {
+    grid-template-columns: repeat(8, minmax(40px, 1fr));
+    gap: 2px;
+}
+
+#player-challenge .grid-cell {
+    padding: 0.4rem 0.1rem;
+    font-size: 0.6rem;
+    min-height: 35px;
+}
+
+#player-challenge .grid-cell.header {
+    font-size: 0.55rem;
+    font-weight: 700;
+    padding: 0.3rem 0.05rem;
+}
+
+/* NBA Player Grid - 6 columns (mobile) */
+#nba-player-challenge .player-grid-header {
+    grid-template-columns: repeat(6, minmax(50px, 1fr));
+    gap: 2px;
+}
+
+#nba-player-challenge .player-row {
+    grid-template-columns: repeat(6, minmax(50px, 1fr));
+    gap: 2px;
 } 
