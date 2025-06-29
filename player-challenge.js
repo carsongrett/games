@@ -28,7 +28,7 @@ class PlayerChallengeGame {
             this.players = rows.map(row => {
                 const columns = row.split(',');
                 // Skip rows that don't have enough data
-                if (columns.length < 9 || !columns[0].trim()) return null;
+                if (columns.length < 8 || !columns[0].trim()) return null;
                 
                 return {
                     name: columns[0].trim(),
@@ -37,9 +37,8 @@ class PlayerChallengeGame {
                     position: columns[3].trim(),
                     receptions: parseInt(columns[4]) || 0,
                     receivingYards: parseInt(columns[5]) || 0,
-                    receivingTDs: parseInt(columns[6]) || 0,
-                    rushingYards: parseInt(columns[7]) || 0,
-                    totalTDs: parseInt(columns[8]) || 0
+                    rushingYards: parseInt(columns[6]) || 0,
+                    totalTDs: parseInt(columns[7]) || 0
                 };
             }).filter(player => player && player.name); // Filter out null and empty rows
             
@@ -193,7 +192,6 @@ class PlayerChallengeGame {
             { value: guessedPlayer.position, type: 'position' },
             { value: guessedPlayer.receptions.toString(), type: 'receptions' },
             { value: guessedPlayer.receivingYards.toString(), type: 'receivingYards' },
-            { value: guessedPlayer.receivingTDs.toString(), type: 'receivingTDs' },
             { value: guessedPlayer.rushingYards.toString(), type: 'rushingYards' },
             { value: guessedPlayer.totalTDs.toString(), type: 'totalTDs' }
         ];
@@ -229,8 +227,6 @@ class PlayerChallengeGame {
                 return getStatComparison('receptions', 10); // Within 10 receptions
             case 'receivingYards':
                 return getStatComparison('receivingYards', 100); // Within 100 yards
-            case 'receivingTDs':
-                return getStatComparison('receivingTDs', 2); // Within 2 TDs
             case 'rushingYards':
                 return getStatComparison('rushingYards', 100); // Within 100 yards
             case 'totalTDs':
