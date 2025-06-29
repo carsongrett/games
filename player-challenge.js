@@ -156,55 +156,52 @@ class PlayerChallengeGame {
         this.gameOver = false;
         this.gameWon = false;
         
-        this.populateDropdown();
+        this.setupAutocomplete();
         this.updateDisplay();
         this.clearGrid();
-        
-        // Setup dropdown event listener
-        document.getElementById('player-dropdown').addEventListener('change', this.handleDropdownChange.bind(this));
         
         hideMessage('player-message');
         
         console.log('Target player:', this.targetPlayer.name); // For testing
     }
     
-    populateDropdown() {
+    setupAutocomplete() {
         const dropdown = document.getElementById('player-dropdown');
-        dropdown.innerHTML = '<option value="">Select a player...</option>';
+        const datalist = document.getElementById('nfl-players-list');
+        
+        // Clear existing options
+        dropdown.value = '';
+        datalist.innerHTML = '';
         
         // Sort players alphabetically
         const sortedPlayers = [...this.players].sort((a, b) => a.name.localeCompare(b.name));
         
-        sortedPlayers.forEach((player, index) => {
+        // Populate datalist with options
+        sortedPlayers.forEach(player => {
             const option = document.createElement('option');
-            option.value = index;
-            option.textContent = `${player.name} (${player.team}) - ${player.position}`;
-            option.dataset.originalIndex = this.players.findIndex(p => p.name === player.name);
-            dropdown.appendChild(option);
+            option.value = `${player.name} (${player.team}) - ${player.position}`;
+            option.setAttribute('data-player', JSON.stringify(player));
+            datalist.appendChild(option);
         });
-    }
-    
-    handleDropdownChange() {
-        const dropdown = document.getElementById('player-dropdown');
-        const submitBtn = document.getElementById('submit-guess-btn');
         
-        if (dropdown.value) {
-            submitBtn.disabled = false;
-        } else {
-            submitBtn.disabled = true;
-        }
+        // Setup input event listeners
+        dropdown.addEventListener('input', () => {
+            const submitBtn = document.getElementById('submit-guess-btn');
+            const selectedOption = Array.from(datalist.options).find(opt => opt.value === dropdown.value);
+            submitBtn.disabled = !selectedOption;
+        });
     }
     
     submitPlayerGuess() {
         if (this.gameOver) return;
         
         const dropdown = document.getElementById('player-dropdown');
-        const selectedOption = dropdown.options[dropdown.selectedIndex];
+        const datalist = document.getElementById('nfl-players-list');
+        const selectedOption = Array.from(datalist.options).find(opt => opt.value === dropdown.value);
         
-        if (!selectedOption.dataset.originalIndex) return;
+        if (!selectedOption) return;
         
-        const playerIndex = parseInt(selectedOption.dataset.originalIndex);
-        const guessedPlayer = this.players[playerIndex];
+        const guessedPlayer = JSON.parse(selectedOption.getAttribute('data-player'));
         
         // Check if already guessed
         if (this.guesses.some(guess => guess.name === guessedPlayer.name)) {
@@ -246,7 +243,11 @@ class PlayerChallengeGame {
             { value: guessedPlayer.position, type: 'position' }
         ];
         
-        // Add cells to grid
+        // Create row container
+        const rowElement = document.createElement('div');
+        rowElement.className = 'player-row';
+        
+        // Add cells to row
         rowData.forEach(cell => {
             const cellElement = document.createElement('div');
             cellElement.className = 'grid-cell';
@@ -256,8 +257,11 @@ class PlayerChallengeGame {
             const colorClass = this.getColorClass(cell.type, guessedPlayer);
             cellElement.classList.add(colorClass);
             
-            grid.appendChild(cellElement);
+            rowElement.appendChild(cellElement);
         });
+        
+        // Add row to grid
+        grid.appendChild(rowElement);
     }
     
     getColorClass(type, guessedPlayer) {

@@ -13,9 +13,12 @@
                 <h1 class="logo">GAME HUB</h1>
                 <div class="nav-links">
                     <button class="nav-btn active" onclick="showSection('home')">Home</button>
-                    <button class="nav-btn" onclick="showSection('wordle')">Wordle</button>
+                    <!-- Temporarily hidden Wordle game -->
+                    <!-- <button class="nav-btn" onclick="showSection('wordle')">Wordle</button> -->
                     <button class="nav-btn" onclick="showSection('nfl-trivia')">NFL Trivia</button>
-                    <button class="nav-btn" onclick="showSection('player-challenge')">Player Challenge</button>
+                    <button class="nav-btn" onclick="showSection('player-challenge')">NFL Player Challenge</button>
+                    <button class="nav-btn" onclick="showSection('nba-player-challenge')">NBA Player Challenge</button>
+                    <button class="nav-btn" onclick="showSection('mlb-player-challenge')">MLB Player Challenge</button>
                 </div>
             </div>
         </nav>
@@ -31,11 +34,12 @@
                 </div>
                 
                 <div class="game-grid">
-                    <div class="game-card" onclick="showSection('wordle')">
+                    <!-- Temporarily hidden Wordle game -->
+                    <!-- <div class="game-card" onclick="showSection('wordle')">
                         <h3>🔤 Word Challenge</h3>
                         <p>Guess the hidden word in 6 tries. A classic word puzzle game that tests your vocabulary and deduction skills.</p>
                         <button class="play-btn">Play Now!</button>
-                    </div>
+                    </div> -->
                     
                     <div class="game-card" onclick="showSection('nfl-trivia')">
                         <h3>🏈 NFL Trivia</h3>
@@ -48,12 +52,24 @@
                         <p>Guess the NFL player using clues about their team, position, age, and jersey number. A Wordle-style challenge for football fans!</p>
                         <button class="play-btn">Play Now!</button>
                     </div>
+
+                    <div class="game-card" onclick="showSection('nba-player-challenge')">
+                        <h3>🏀 NBA Player Challenge</h3>
+                        <p>Test your NBA knowledge! Guess players using their conference, team, position, stats, and more.</p>
+                        <button class="play-btn">Play Now!</button>
+                    </div>
+
+                    <div class="game-card" onclick="showSection('mlb-player-challenge')">
+                        <h3>⚾ MLB Player Challenge</h3>
+                        <p>Challenge yourself to guess MLB position players using their league, team, batting average, and more!</p>
+                        <button class="play-btn">Play Now!</button>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- Wordle Game Section -->
-        <section id="wordle" class="section">
+        <!-- Temporarily hidden Wordle game section -->
+        <!-- <section id="wordle" class="section">
             <div class="container">
                 <div class="game-header">
                     <h2>🔤 Word Challenge</h2>
@@ -80,7 +96,7 @@
                     <div id="wordle-message" class="game-message"></div>
                 </div>
             </div>
-        </section>
+        </section> -->
 
         <!-- NFL Trivia Section -->
         <section id="nfl-trivia" class="section">
@@ -136,9 +152,10 @@
                     </div>
                     
                     <div class="player-input-container">
-                        <select id="player-dropdown" class="player-dropdown">
-                            <option value="">Select a player...</option>
-                        </select>
+                        <input type="text" id="player-dropdown" list="nfl-players-list" class="player-dropdown" placeholder="Type to search for a player...">
+                        <datalist id="nfl-players-list">
+                            <!-- Options will be populated by JavaScript -->
+                        </datalist>
                         <button id="submit-guess-btn" onclick="submitPlayerGuess()" disabled>Submit Guess</button>
                     </div>
                     
@@ -160,6 +177,92 @@
                 </div>
             </div>
         </section>
+
+        <!-- NBA Player Challenge Section -->
+        <section id="nba-player-challenge" class="section">
+            <div class="container">
+                <div class="game-header">
+                    <h2>🏀 NBA Player Challenge</h2>
+                    <button class="back-btn" onclick="showSection('home')">← Back to Home</button>
+                </div>
+                
+                <div class="game-container">
+                    <div class="game-info">
+                        <p>Guess the NBA player using their team, position, and stats!</p>
+                        <div class="player-challenge-stats">
+                            <span>Guesses: <span id="nba-player-guesses">0</span>/8</span>
+                            <button id="new-nba-player-btn" onclick="newNBAPlayerGame()">New Game</button>
+                        </div>
+                    </div>
+                    
+                    <div class="player-input-container">
+                        <input type="text" id="nba-player-dropdown" list="nba-players-list" class="player-dropdown" placeholder="Type to search for a player...">
+                        <datalist id="nba-players-list">
+                            <!-- Options will be populated by JavaScript -->
+                        </datalist>
+                        <button id="submit-nba-guess-btn" onclick="submitNBAPlayerGuess()" disabled>Submit Guess</button>
+                    </div>
+                    
+                    <div class="player-grid-container">
+                        <div class="player-grid-header">
+                            <div class="grid-cell header">Team</div>
+                            <div class="grid-cell header">Position</div>
+                            <div class="grid-cell header">PTS</div>
+                            <div class="grid-cell header">TRB</div>
+                            <div class="grid-cell header">AST</div>
+                        </div>
+                        <div id="nba-player-grid" class="player-grid">
+                            <!-- Guesses will be added here -->
+                        </div>
+                    </div>
+                    
+                    <div id="nba-player-message" class="game-message"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MLB Player Challenge Section -->
+        <section id="mlb-player-challenge" class="section">
+            <div class="container">
+                <div class="game-header">
+                    <h2>⚾ MLB Player Challenge</h2>
+                    <button class="back-btn" onclick="showSection('home')">← Back to Home</button>
+                </div>
+                
+                <div class="game-container">
+                    <div class="game-info">
+                        <p>Guess the MLB position player using league, team, position, jersey number, and age!</p>
+                        <div class="player-challenge-stats">
+                            <span>Guesses: <span id="mlb-player-guesses">0</span>/8</span>
+                            <button id="new-mlb-player-btn" onclick="newMLBPlayerGame()">New Game</button>
+                        </div>
+                    </div>
+                    
+                    <div class="player-input-container">
+                        <input type="text" id="mlb-player-dropdown" list="mlb-players-list" class="player-dropdown" placeholder="Type to search for a player...">
+                        <datalist id="mlb-players-list">
+                            <!-- Options will be populated by JavaScript -->
+                        </datalist>
+                        <button id="submit-mlb-guess-btn" onclick="submitMLBPlayerGuess()" disabled>Submit Guess</button>
+                    </div>
+                    
+                    <div class="player-grid-container">
+                        <div class="player-grid-header">
+                            <div class="grid-cell header">League</div>
+                            <div class="grid-cell header">Team</div>
+                            <div class="grid-cell header">Position</div>
+                            <div class="grid-cell header">Jersey #</div>
+                            <div class="grid-cell header">Age</div>
+                        </div>
+                        <div id="mlb-player-grid" class="player-grid">
+                            <!-- Guesses will be added here -->
+                        </div>
+                    </div>
+                    
+                    <div id="mlb-player-message" class="game-message"></div>
+                </div>
+            </div>
+        </section>
     </main>
 
     <footer>
@@ -168,9 +271,12 @@
         </div>
     </footer>
 
-    <script src="wordle.js"></script>
+    <!-- Temporarily hidden Wordle game -->
+    <!-- <script src="wordle.js"></script> -->
     <script src="nfl-trivia.js"></script>
     <script src="player-challenge.js"></script>
+    <script src="nba-player-challenge.js"></script>
+    <script src="mlb-player-challenge.js"></script>
     <script src="main.js"></script>
 </body>
 </html> 
