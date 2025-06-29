@@ -11,32 +11,46 @@ class NBAPlayerChallengeGame {
 
     async loadPlayers() {
         try {
+            console.log('Starting to load NBA players...'); // Debug log
             const response = await fetch('nba_players.csv');
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
             const csvText = await response.text();
+            console.log('CSV loaded, first 200 chars:', csvText.substring(0, 200)); // Debug log
             
             // Skip header row and parse CSV
             const rows = csvText.split('\n').slice(1);
+            console.log('Total rows after header:', rows.length); // Debug log
+            
             this.players = rows.map(row => {
                 const columns = row.split(',');
                 // Skip rows that don't have enough data
-                if (columns.length < 9 || !columns[0].trim()) return null;
+                if (columns.length < 10 || !columns[0].trim()) return null;
                 
                 return {
                     name: columns[0].trim(),
                     age: parseInt(columns[1]),
                     team: columns[2].trim(),
-                    position: columns[3].trim(),
-                    fgPercent: parseFloat(columns[4]) || 0,
-                    threePPercent: parseFloat(columns[5]) || 0,
-                    rebounds: parseFloat(columns[6]) || 0,
-                    assists: parseFloat(columns[7]) || 0,
-                    points: parseFloat(columns[8]) || 0
+                    conference: columns[3].trim(),
+                    position: columns[4].trim(),
+                    fgPercent: parseFloat(columns[5]) || 0,
+                    threePPercent: parseFloat(columns[6]) || 0,
+                    rebounds: parseFloat(columns[7]) || 0,
+                    assists: parseFloat(columns[8]) || 0,
+                    points: parseFloat(columns[9]) || 0
                 };
             }).filter(player => player && player.name); // Filter out null and empty rows
             
             console.log('Loaded players:', this.players.length); // Debug log
+            if (this.players.length > 0) {
+                console.log('First player:', this.players[0]); // Debug log
+            }
         } catch (error) {
             console.error('Error loading NBA players:', error);
+            this.showMessage('nba-player-message', 'Error loading player data. Please refresh the page.', 'error', 0);
         }
     }
 
@@ -65,12 +79,9 @@ class NBAPlayerChallengeGame {
             return;
         }
         
-        // Clear existing options and event listeners
+        // Clear existing options
         dropdown.value = '';
         datalist.innerHTML = '';
-        
-        // Remove existing event listeners
-        dropdown.removeEventListener('input', this.handleDropdownInput);
         
         // Sort players alphabetically
         const sortedPlayers = [...this.players].sort((a, b) => a.name.localeCompare(b.name));
@@ -85,16 +96,35 @@ class NBAPlayerChallengeGame {
         
         console.log('Added options to datalist:', datalist.options.length); // Debug log
         
-        // Setup input event listener
-        this.handleDropdownInput = () => {
+        // Remove any existing event listeners
+        const newDropdown = dropdown.cloneNode(true);
+        dropdown.parentNode.replaceChild(newDropdown, dropdown);
+        
+        // Add fresh event listener
+        newDropdown.addEventListener('input', (event) => {
             const submitBtn = document.getElementById('submit-nba-guess-btn');
-            const selectedOption = Array.from(datalist.options).find(opt => opt.value === dropdown.value);
+            const inputValue = event.target.value;
+            const selectedOption = Array.from(datalist.options).find(opt => opt.value === inputValue);
+            
             if (submitBtn) {
                 submitBtn.disabled = !selectedOption;
             }
-        };
+            
+            console.log('Input changed:', inputValue, 'Found option:', !!selectedOption); // Debug log
+        });
         
-        dropdown.addEventListener('input', this.handleDropdownInput);
+        // Also listen for change events (when user selects from dropdown)
+        newDropdown.addEventListener('change', (event) => {
+            const submitBtn = document.getElementById('submit-nba-guess-btn');
+            const inputValue = event.target.value;
+            const selectedOption = Array.from(datalist.options).find(opt => opt.value === inputValue);
+            
+            if (submitBtn) {
+                submitBtn.disabled = !selectedOption;
+            }
+            
+            console.log('Selection changed:', inputValue, 'Found option:', !!selectedOption); // Debug log
+        });
     }
     
     submitPlayerGuess() {
@@ -102,6 +132,12 @@ class NBAPlayerChallengeGame {
         
         const dropdown = document.getElementById('nba-player-dropdown');
         const datalist = document.getElementById('nba-players-list');
+        
+        if (!dropdown || !datalist) {
+            console.error('Dropdown elements not found in submit');
+            return;
+        }
+        
         const selectedOption = Array.from(datalist.options).find(opt => opt.value === dropdown.value);
         
         if (!selectedOption) {
@@ -109,7 +145,14 @@ class NBAPlayerChallengeGame {
             return;
         }
         
-        const guessedPlayer = JSON.parse(selectedOption.getAttribute('data-player'));
+        let guessedPlayer;
+        try {
+            guessedPlayer = JSON.parse(selectedOption.getAttribute('data-player'));
+        } catch (error) {
+            console.error('Error parsing player data:', error);
+            this.showMessage('nba-player-message', 'Error processing player selection!', 'error', 2000);
+            return;
+        }
         
         // Check if already guessed
         if (this.guesses.some(guess => guess.name === guessedPlayer.name)) {
@@ -144,13 +187,17 @@ class NBAPlayerChallengeGame {
     addGuessToGrid(guessedPlayer) {
         const grid = document.getElementById('nba-player-grid');
         
-        // Create row data with statistics from CSV
+        // Create row data with all statistics from CSV
         const rowData = [
+            { value: guessedPlayer.age.toString(), type: 'age' },
             { value: guessedPlayer.team, type: 'team' },
+            { value: guessedPlayer.conference, type: 'conference' },
             { value: guessedPlayer.position, type: 'position' },
-            { value: guessedPlayer.points.toFixed(1), type: 'points' },
+            { value: (guessedPlayer.fgPercent * 100).toFixed(1) + '%', type: 'fgPercent' },
+            { value: guessedPlayer.threePPercent ? (guessedPlayer.threePPercent * 100).toFixed(1) + '%' : 'N/A', type: 'threePPercent' },
             { value: guessedPlayer.rebounds.toFixed(1), type: 'rebounds' },
-            { value: guessedPlayer.assists.toFixed(1), type: 'assists' }
+            { value: guessedPlayer.assists.toFixed(1), type: 'assists' },
+            { value: guessedPlayer.points.toFixed(1), type: 'points' }
         ];
         
         const row = document.createElement('div');
@@ -173,17 +220,32 @@ class NBAPlayerChallengeGame {
             return diff <= threshold ? 'close' : 'incorrect';
         };
 
+        const getPercentComparison = (stat, threshold) => {
+            if (guessedPlayer[stat] === this.targetPlayer[stat]) return 'correct';
+            const diff = Math.abs(guessedPlayer[stat] - this.targetPlayer[stat]);
+            return diff <= threshold ? 'close' : 'incorrect';
+        };
+
         switch (type) {
+            case 'age':
+                if (guessedPlayer.age === this.targetPlayer.age) return 'correct';
+                return Math.abs(guessedPlayer.age - this.targetPlayer.age) <= 2 ? 'close' : 'incorrect';
             case 'team':
                 return guessedPlayer.team === this.targetPlayer.team ? 'correct' : 'incorrect';
+            case 'conference':
+                return guessedPlayer.conference === this.targetPlayer.conference ? 'correct' : 'incorrect';
             case 'position':
                 return guessedPlayer.position === this.targetPlayer.position ? 'correct' : 'incorrect';
-            case 'points':
-                return getStatComparison('points', 3);
+            case 'fgPercent':
+                return getPercentComparison('fgPercent', 0.05); // Within 5%
+            case 'threePPercent':
+                return getPercentComparison('threePPercent', 0.05); // Within 5%
             case 'rebounds':
                 return getStatComparison('rebounds', 2);
             case 'assists':
                 return getStatComparison('assists', 2);
+            case 'points':
+                return getStatComparison('points', 3);
             default:
                 return '';
         }

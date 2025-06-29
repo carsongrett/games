@@ -188,7 +188,7 @@
                 
                 <div class="game-container">
                     <div class="game-info">
-                        <p>Guess the NBA player using their team, position, and stats!</p>
+                        <p>Guess the NBA player using their age, team, conference, position, and stats!</p>
                         <div class="player-challenge-stats">
                             <span>Guesses: <span id="nba-player-guesses">0</span>/8</span>
                             <button id="new-nba-player-btn" onclick="newNBAPlayerGame()">New Game</button>
@@ -205,11 +205,15 @@
                     
                     <div class="player-grid-container">
                         <div class="player-grid-header">
+                            <div class="grid-cell header">Age</div>
                             <div class="grid-cell header">Team</div>
+                            <div class="grid-cell header">Conference</div>
                             <div class="grid-cell header">Position</div>
-                            <div class="grid-cell header">PTS</div>
-                            <div class="grid-cell header">TRB</div>
+                            <div class="grid-cell header">FG%</div>
+                            <div class="grid-cell header">3P%</div>
+                            <div class="grid-cell header">REB</div>
                             <div class="grid-cell header">AST</div>
+                            <div class="grid-cell header">PTS</div>
                         </div>
                         <div id="nba-player-grid" class="player-grid">
                             <!-- Guesses will be added here -->
