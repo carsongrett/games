@@ -28,19 +28,16 @@ class NBAPlayerChallengeGame {
             this.players = rows.map(row => {
                 const columns = row.split(',');
                 // Skip rows that don't have enough data
-                if (columns.length < 10 || !columns[0].trim()) return null;
+                if (columns.length < 7 || !columns[0].trim()) return null;
                 
                 return {
                     name: columns[0].trim(),
-                    age: parseInt(columns[1]),
+                    conference: columns[1].trim(),
                     team: columns[2].trim(),
-                    conference: columns[3].trim(),
-                    position: columns[4].trim(),
-                    fgPercent: parseFloat(columns[5]) || 0,
-                    threePPercent: parseFloat(columns[6]) || 0,
-                    rebounds: parseFloat(columns[7]) || 0,
-                    assists: parseFloat(columns[8]) || 0,
-                    points: parseFloat(columns[9]) || 0
+                    position: columns[3].trim(),
+                    threePPercent: parseFloat(columns[4]) || 0,
+                    points: parseFloat(columns[5]) || 0,
+                    rebounds: parseFloat(columns[6]) || 0
                 };
             }).filter(player => player && player.name); // Filter out null and empty rows
             
@@ -187,17 +184,14 @@ class NBAPlayerChallengeGame {
     addGuessToGrid(guessedPlayer) {
         const grid = document.getElementById('nba-player-grid');
         
-        // Create row data with all statistics from CSV
+        // Create row data with the 6 columns from the new CSV structure
         const rowData = [
-            { value: guessedPlayer.age.toString(), type: 'age' },
-            { value: guessedPlayer.team, type: 'team' },
             { value: guessedPlayer.conference, type: 'conference' },
+            { value: guessedPlayer.team, type: 'team' },
             { value: guessedPlayer.position, type: 'position' },
-            { value: (guessedPlayer.fgPercent * 100).toFixed(1) + '%', type: 'fgPercent' },
             { value: guessedPlayer.threePPercent ? (guessedPlayer.threePPercent * 100).toFixed(1) + '%' : 'N/A', type: 'threePPercent' },
-            { value: guessedPlayer.rebounds.toFixed(1), type: 'rebounds' },
-            { value: guessedPlayer.assists.toFixed(1), type: 'assists' },
-            { value: guessedPlayer.points.toFixed(1), type: 'points' }
+            { value: guessedPlayer.points.toFixed(1), type: 'points' },
+            { value: guessedPlayer.rebounds.toFixed(1), type: 'rebounds' }
         ];
         
         const row = document.createElement('div');
@@ -227,23 +221,16 @@ class NBAPlayerChallengeGame {
         };
 
         switch (type) {
-            case 'age':
-                if (guessedPlayer.age === this.targetPlayer.age) return 'correct';
-                return Math.abs(guessedPlayer.age - this.targetPlayer.age) <= 2 ? 'close' : 'incorrect';
             case 'team':
                 return guessedPlayer.team === this.targetPlayer.team ? 'correct' : 'incorrect';
             case 'conference':
                 return guessedPlayer.conference === this.targetPlayer.conference ? 'correct' : 'incorrect';
             case 'position':
                 return guessedPlayer.position === this.targetPlayer.position ? 'correct' : 'incorrect';
-            case 'fgPercent':
-                return getPercentComparison('fgPercent', 0.05); // Within 5%
             case 'threePPercent':
                 return getPercentComparison('threePPercent', 0.05); // Within 5%
             case 'rebounds':
                 return getStatComparison('rebounds', 2);
-            case 'assists':
-                return getStatComparison('assists', 2);
             case 'points':
                 return getStatComparison('points', 3);
             default:
