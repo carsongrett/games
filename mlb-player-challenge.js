@@ -4,7 +4,7 @@ class MLBTeamChallengeGame {
         this.teams = [];
         this.targetTeam = null;
         this.guesses = [];
-        this.maxGuesses = 8;
+        this.maxGuesses = 6;
         this.gameOver = false;
         this.gameWon = false;
     }
@@ -86,7 +86,7 @@ class MLBTeamChallengeGame {
         // Populate datalist with options
         sortedTeams.forEach(team => {
             const option = document.createElement('option');
-            option.value = `${team.name} (${team.league} ${team.division})`;
+            option.value = team.name;
             option.setAttribute('data-team', JSON.stringify(team));
             datalist.appendChild(option);
         });
