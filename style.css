@@ -10,6 +10,8 @@ body {
     line-height: 1.6;
     color: #333;
     background-color: #fafafa;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .container {
@@ -25,6 +27,17 @@ header {
     position: sticky;
     top: 0;
     z-index: 100;
+}
+
+/* Mobile scroll hint - hidden by default */
+.mobile-scroll-hint {
+    display: none;
+    background: #f59e0b;
+    color: white;
+    text-align: center;
+    padding: 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 600;
 }
 
 .nav-container {
@@ -574,168 +587,364 @@ footer p {
 /* Responsive Design */
 @media (max-width: 768px) {
     .nav-container {
-        flex-direction: column;
-        gap: 1rem;
+        padding: 1.5rem 20px;
+    }
+
+    .logo {
+        font-size: 2rem;
+        font-weight: bold;
+    }
+
+    .nav-btn {
+        padding: 1rem 2rem;
+        font-size: 1.1rem;
+        border-radius: 12px;
     }
 
     .hero h2 {
-        font-size: 2rem;
+        font-size: 2.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .hero p {
+        font-size: 1.3rem;
+        line-height: 1.6;
     }
 
     .game-grid {
         grid-template-columns: 1fr;
+        gap: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .game-card {
+        padding: 2.5rem;
+        border-radius: 16px;
+        margin: 0 1rem;
+    }
+
+    .game-card h3 {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .game-card p {
+        font-size: 1.1rem;
+        line-height: 1.7;
+        margin-bottom: 2rem;
+    }
+
+    .play-btn {
+        padding: 1.2rem 2rem;
+        font-size: 1.2rem;
+        border-radius: 12px;
+        font-weight: 700;
     }
 
     .game-header {
         flex-direction: column;
-        gap: 1rem;
+        gap: 1.5rem;
         text-align: center;
+        margin-bottom: 2.5rem;
+    }
+
+    .game-header h2 {
+        font-size: 2.2rem;
+    }
+
+    .back-btn {
+        padding: 1rem 2rem;
+        font-size: 1.1rem;
+        border-radius: 12px;
+    }
+
+    .game-container {
+        padding: 2.5rem 1.5rem;
+        border-radius: 16px;
+    }
+
+    .game-info {
+        margin-bottom: 2.5rem;
+    }
+
+    .game-info p {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+    }
+
+    .game-notes {
+        margin: 1.5rem 0;
+        padding: 1.5rem;
+        border-radius: 12px;
+    }
+
+    .game-notes p {
+        font-size: 1rem;
+        margin: 0.8rem 0;
     }
 
     .game-stats, .trivia-stats {
         flex-direction: column;
-        gap: 1rem;
+        gap: 1.5rem;
         text-align: center;
+        padding: 1.5rem;
+        border-radius: 12px;
     }
 
-    .wordle-cell {
-        width: 50px;
-        height: 50px;
+    .game-stats span, .trivia-stats span {
         font-size: 1.2rem;
-    }
-
-    .key {
-        padding: 10px 6px;
-        min-width: 30px;
-        font-size: 0.9rem;
-    }
-
-    .player-input-container {
-        flex-direction: column;
-        gap: 1rem;
-        padding: 0 1rem;
-    }
-
-    .player-dropdown {
-        max-width: 100%;
+        font-weight: 600;
     }
 
     .player-challenge-stats {
         flex-direction: column;
-        gap: 1rem;
+        gap: 1.5rem;
         text-align: center;
+        padding: 1.5rem;
+        background: #f8fafc;
+        border-radius: 12px;
+        margin-bottom: 2rem;
+    }
+
+    .player-challenge-stats span {
+        font-size: 1.2rem;
+        font-weight: 600;
+    }
+
+    .trivia-container {
+        padding: 0 1rem;
+    }
+
+    .question-container h3 {
+        font-size: 1.4rem;
+        line-height: 1.5;
+        margin-bottom: 2rem;
+    }
+
+    .answers-container {
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .answer-btn {
+        padding: 1.5rem 2rem;
+        font-size: 1.1rem;
+        border-radius: 12px;
+        min-height: 60px;
+        line-height: 1.4;
+    }
+
+    #next-question-btn {
+        padding: 1.2rem 2.5rem;
+        font-size: 1.2rem;
+        border-radius: 12px;
+        margin-top: 2rem;
+    }
+
+    .player-input-container {
+        flex-direction: column;
+        gap: 1.5rem;
+        padding: 0 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .player-dropdown {
+        max-width: 100%;
+        padding: 1.2rem 1.5rem;
+        font-size: 1.1rem;
+        border-radius: 12px;
+        min-height: 56px;
+    }
+
+    .game-message {
+        font-size: 1.1rem;
+        padding: 1.5rem;
+        margin: 1.5rem 0;
+        border-radius: 12px;
+        line-height: 1.5;
     }
 
     /* Mobile-optimized grid - General styles */
+    .player-grid-container {
+        margin: 2rem 0;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .mobile-scroll-hint {
+        display: block;
+        text-align: center;
+        padding: 1rem;
+        background: #f59e0b;
+        color: white;
+        font-size: 1rem;
+        font-weight: 600;
+        margin-bottom: 0;
+    }
 
     .grid-cell {
-        padding: 0.5rem 0.2rem;
-        font-size: 0.7rem;
-        min-height: 40px;
+        padding: 1rem 0.5rem;
+        font-size: 0.95rem;
+        min-height: 50px;
         display: flex;
         align-items: center;
         justify-content: center;
         word-break: break-word;
-        line-height: 1.2;
+        line-height: 1.3;
+        border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
     .grid-cell.header {
-        font-size: 0.65rem;
+        font-size: 0.9rem;
         font-weight: 700;
-        padding: 0.4rem 0.15rem;
+        padding: 1rem 0.3rem;
+        background: #374151;
+        color: white;
+        text-align: center;
     }
 
     /* Improve button sizes on mobile */
-    #submit-guess-btn, #submit-nba-guess-btn, #submit-mlb-guess-btn {
-        padding: 0.75rem 1rem;
-        font-size: 0.9rem;
+    #submit-guess-btn, #submit-nba-guess-btn, #submit-mlb-guess-btn, 
+    #new-player-btn, #new-nba-player-btn, #new-mlb-player-btn, #new-trivia-btn {
+        padding: 1.2rem 2rem;
+        font-size: 1.1rem;
         width: 100%;
-        max-width: 200px;
+        max-width: 300px;
+        border-radius: 12px;
+        font-weight: 600;
+        min-height: 56px;
     }
 
     /* Better spacing for mobile */
     .container {
-        padding: 0 0.5rem;
+        padding: 0 1rem;
     }
 
-    .game-info p {
-        font-size: 0.9rem;
-        margin-bottom: 1rem;
+    /* Ensure consistent spacing */
+    .section {
+        padding: 1.5rem 0;
+        min-height: calc(100vh - 120px);
+    }
+
+    /* Smooth scrolling for mobile */
+    html {
+        scroll-behavior: smooth;
+    }
+
+    /* Better touch targets */
+    button, .game-card, .answer-btn {
+        cursor: pointer;
+        touch-action: manipulation;
     }
 
     /* NFL Player Grid - Mobile specific */
-    #player-challenge .mobile-scroll-hint {
-        display: block;
-    }
-
     #player-challenge .player-grid-container {
         overflow-x: auto;
-        font-size: 0.7rem;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
     #player-challenge .player-grid-header {
-        grid-template-columns: repeat(7, minmax(45px, 1fr));
-        gap: 2px;
+        grid-template-columns: repeat(7, minmax(70px, 1fr));
+        gap: 1px;
+        background: #374151;
     }
 
     #player-challenge .player-row {
-        grid-template-columns: repeat(7, minmax(45px, 1fr));
-        gap: 2px;
+        grid-template-columns: repeat(7, minmax(70px, 1fr));
+        gap: 1px;
+        background: #f8fafc;
+        margin-bottom: 1px;
     }
 
     #player-challenge .grid-cell {
-        padding: 0.4rem 0.1rem;
-        font-size: 0.6rem;
-        min-height: 35px;
+        padding: 1rem 0.5rem;
+        font-size: 0.85rem;
+        min-height: 50px;
+        background: white;
     }
 
     #player-challenge .grid-cell.header {
-        font-size: 0.55rem;
+        font-size: 0.8rem;
         font-weight: 700;
-        padding: 0.3rem 0.05rem;
+        padding: 1rem 0.3rem;
+        background: #374151;
+        color: white;
     }
 
     /* NBA Player Grid - Mobile specific */
+    #nba-player-challenge .player-grid-container {
+        overflow-x: auto;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
     #nba-player-challenge .player-grid-header {
-        grid-template-columns: repeat(6, minmax(50px, 1fr));
-        gap: 2px;
+        grid-template-columns: repeat(6, minmax(75px, 1fr));
+        gap: 1px;
+        background: #374151;
     }
 
     #nba-player-challenge .player-row {
-        grid-template-columns: repeat(6, minmax(50px, 1fr));
-        gap: 2px;
+        grid-template-columns: repeat(6, minmax(75px, 1fr));
+        gap: 1px;
+        background: #f8fafc;
+        margin-bottom: 1px;
+    }
+
+    #nba-player-challenge .grid-cell {
+        padding: 1rem 0.5rem;
+        font-size: 0.85rem;
+        min-height: 50px;
+        background: white;
+    }
+
+    #nba-player-challenge .grid-cell.header {
+        font-size: 0.8rem;
+        font-weight: 700;
+        padding: 1rem 0.3rem;
+        background: #374151;
+        color: white;
     }
 
     /* MLB Team Grid - Mobile specific */
-    #mlb-player-challenge .mobile-scroll-hint {
-        display: block;
-    }
-
     #mlb-player-challenge .player-grid-container {
         overflow-x: auto;
-        font-size: 0.7rem;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
     #mlb-player-challenge .player-grid-header {
-        grid-template-columns: repeat(6, minmax(50px, 1fr));
-        gap: 2px;
+        grid-template-columns: repeat(6, minmax(75px, 1fr));
+        gap: 1px;
+        background: #374151;
     }
 
     #mlb-player-challenge .player-row {
-        grid-template-columns: repeat(6, minmax(50px, 1fr));
-        gap: 2px;
+        grid-template-columns: repeat(6, minmax(75px, 1fr));
+        gap: 1px;
+        background: #f8fafc;
+        margin-bottom: 1px;
     }
 
     #mlb-player-challenge .grid-cell {
-        padding: 0.4rem 0.1rem;
-        font-size: 0.6rem;
-        min-height: 35px;
+        padding: 1rem 0.5rem;
+        font-size: 0.85rem;
+        min-height: 50px;
+        background: white;
     }
 
     #mlb-player-challenge .grid-cell.header {
-        font-size: 0.55rem;
+        font-size: 0.8rem;
         font-weight: 700;
-        padding: 0.3rem 0.05rem;
+        padding: 1rem 0.3rem;
+        background: #374151;
+        color: white;
     }
 }
 

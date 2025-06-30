@@ -88,7 +88,6 @@ Paul George,East,PHI,PF,0.358,16.2,5.3
 Jalen Suggs,East,ORL,PG,0.314,16.2,4
 Bennedict Mathurin,East,IND,SF,0.34,16.1,5.3
 Myles Turner,East,IND,C,0.396,15.6,6.5
-Christian Braun,West,DEN,SG,0.397,15.4,5.2
 Jonathan Kuminga,West,GSW,PF,0.305,15.3,4.6
 Jared McCain,East,PHI,SG,0.383,15.3,2.4
 Mark Williams,West,CHO,C,0,15.3,10.2
@@ -110,7 +109,6 @@ Tre Mann,West,CHO,PG,0.4,14.1,2.9
 Amen Thompson,West,HOU,SF,0.275,14.1,8.2
 Fred VanVleet,West,HOU,PG,0.345,14.1,3.7
 Dillon Brooks,West,HOU,SF,0.397,14,3.7
-Tolu Smith,East,DET,PF,0,14,8
 Klay Thompson,West,DAL,SF,0.391,14,3.4
 Bobby Portis,East,MIL,PF,0.365,13.9,8.4
 Tobias Harris,East,DET,PF,0.345,13.7,5.9
@@ -121,24 +119,18 @@ Russell Westbrook,West,DEN,PG,0.323,13.3,4.9
 Naji Marshall,West,DAL,SF,0.275,13.2,4.8
 Rui Hachimura,West,LAL,PF,0.413,13.1,5
 Brook Lopez,East,MIL,C,0.373,13,5
-Alex Sarr,East,WAS,C,0.308,13,6.5
 Moritz Wagner,East,ORL,C,0.36,12.9,4.9
 Malcolm Brogdon,East,WAS,PG,0.286,12.7,3.8
 Scoot Henderson,West,POR,PG,0.354,12.7,3
 Keldon Johnson,West,SAS,SF,0.318,12.7,4.8
 D'Angelo Russell,West,BKN,PG,0.314,12.6,2.8
-Zaccharie Risacher,East,ATL,SF,0.355,12.6,3.6
-Santi Aldama,West,MEM,PF,0.368,12.5,6.4
-Ty Jerome,East,CLE,SG,0.439,12.5,2.5
 Keegan Murray,West,SAC,PF,0.343,12.4,6.7
 Lonnie Walker IV,East,PHI,SG,0.354,12.4,3.2
 Harrison Barnes,West,SAS,PF,0.433,12.3,3.8
-Bilal Coulibaly,East,WAS,SF,0.281,12.3,5
 Ayo Dosunmu,East,CHI,SG,0.328,12.3,3.5
 Daniel Gafford,West,DAL,C,0,12.3,6.8
 Jaden McDaniels,West,MIN,PF,0.33,12.2,5.7
 Jabari Smith Jr.,West,HOU,PF,0.354,12.2,7
-Drew Timme,East,BRK,PF,0.257,12.1,7.2
 Tari Eason,West,HOU,PF,0.342,12,6.4
 Rudy Gobert,West,MIN,C,0,12,10.9
 Aaron Nesmith,East,IND,SF,0.431,12,4
@@ -146,9 +138,6 @@ Aaron Wiggins,West,OKC,SG,0.383,12,3.9
 Khris Middleton,East,WAS,SF,0.361,11.9,3.7
 Jalen Duren,East,DET,C,0,11.8,10.3
 Donte DiVincenzo,West,MIN,SG,0.397,11.7,3.7
-Brandin Podziemski,West,GSW,SG,0.372,11.7,5.1
-Corey Kispert,East,WAS,SF,0.364,11.6,3
-Jeremy Sochan,West,SAS,PF,0.308,11.4,6.5
 Toumani Camara,West,POR,PF,0.375,11.3,5.8
 Isaiah Hartenstein,West,OKC,C,0,11.2,10.7
 Buddy Hield,West,GSW,SG,0.37,11.1,3.2
@@ -158,17 +147,10 @@ Gary Trent Jr.,East,MIL,SG,0.416,11.1,2.3
 Spencer Dinwiddie,West,DAL,PG,0.334,11,2.6
 Tim Hardaway Jr.,East,DET,SG,0.368,11,2.4
 Duncan Robinson,East,MIA,SF,0.393,11,2.3
-Guerschon Yabusele,East,PHI,C,0.38,11,5.6
-Brice Sensabaugh,West,UTA,SF,0.422,10.9,3
-Jordan Hawkins,West,NOP,SG,0.331,10.8,2.8
-Brandon Boston Jr.,West,NOP,SG,0.35,10.7,3.2
-Nikola Jovi?,East,MIA,PF,0.371,10.7,3.9
 Grayson Allen,West,PHO,SG,0.426,10.6,3
 Keon Johnson,East,BRK,SG,0.314,10.6,3.8
 Terry Rozier,East,MIA,PG,0.295,10.6,3.7
 Obi Toppin,East,IND,PF,0.365,10.5,4
-Ochai Agbaji,East,TOR,SG,0.399,10.4,3.8
-Jaylen Wells,West,MEM,SG,0.352,10.4,3.4
 Grant Williams,West,CHO,PF,0.365,10.4,5.1
 Jose Alvarado,West,NOP,PG,0.359,10.3,2.4
 Nic Claxton,East,BRK,C,0.238,10.3,7.4
@@ -176,96 +158,47 @@ Herbert Jones,West,NOP,SF,0.306,10.3,3.9
 De'Anthony Melton,West,GSW,SG,0.371,10.3,3.3
 Isaiah Joe,West,OKC,SG,0.412,10.2,2.6
 Tyus Jones,West,PHO,PG,0.414,10.2,2.4
-Trendon Watford,East,BRK,PF,0.33,10.2,3.6
-Keion Brooks Jr.,West,NOP,SF,0.326,10.1,4.1
 Luguentz Dort,West,OKC,SF,0.412,10.1,4.1
-Justin Edwards,East,PHI,SF,0.363,10.1,3.4
 Derrick Jones Jr.,West,LAC,SF,0.356,10.1,3.4
-Ausar Thompson,East,DET,SF,0.224,10.1,5.1
-Chris Boucher,East,TOR,PF,0.363,10,4.5
 Andrew Nembhard,East,IND,SG,0.291,10,3.3
 Ziaire Williams,East,BRK,SF,0.341,10,4.6
 Julian Champagnie,West,SAS,SF,0.371,9.9,3.9
 Scotty Pippen Jr.,West,MEM,PG,0.397,9.9,3.3
-Nick Smith Jr.,West,CHO,SG,0.34,9.9,2.1
-Bub Carrington,East,WAS,PG,0.339,9.8,4.2
 Moses Moody,West,GSW,SG,0.374,9.8,2.6
 Amir Coffey,West,LAC,SG,0.409,9.7,2.2
 Kyle Filipowski,West,UTA,C,0.35,9.6,6.1
 Tosan Evbuomwan,East,BRK,SF,0.312,9.5,4.3
 Miles McBride,East,NYK,PG,0.369,9.5,2.5
-Jalen Wilson,East,BRK,PF,0.337,9.5,3.4
 Nickeil Alexander-Walker,West,MIN,SG,0.381,9.4,3.2
 Cole Anthony,East,ORL,PG,0.353,9.4,3
-Anthony Black,East,ORL,PG,0.318,9.4,2.9
 Max Strus,East,CLE,SF,0.386,9.4,4.3
 Tristan Vukcevic,East,WAS,C,0.373,9.4,3.7
-Cam Whitmore,West,HOU,SF,0.355,9.4,3
-Kel'el Ware,East,MIA,C,0.315,9.3,7.4
 Zach Edey,West,MEM,C,0.346,9.2,8.3
 Wendell Carter Jr.,East,ORL,C,0.234,9.1,7.2
-Noah Clowney,East,BRK,PF,0.333,9.1,3.9
 Dalton Knecht,West,LAL,SF,0.376,9.1,2.8
-A.J. Lawson,East,TOR,SG,0.327,9.1,3.3
 T.J. McConnell,East,IND,PG,0.306,9.1,2.4
-Yves Missi,West,NOP,C,0,9.1,8.2
 Royce O'Neale,West,PHO,SF,0.406,9.1,4.7
 Marcus Smart,East,WAS,PG,0.348,9,2.1
 Draymond Green,West,GSW,PF,0.325,9,6.1
 Killian Hayes,East,BRK,PG,0.381,9,3
 Al Horford,East,BOS,C,0.363,9,6.2
-Julian Strawther,West,DEN,SG,0.349,9,2.2
-Patrick Williams,East,CHI,PF,0.353,9,3.8
 Clint Capela,East,ATL,C,0,8.9,8.5
-Johnny Juzang,West,UTA,SG,0.376,8.9,2.9
 Luke Kennard,West,MEM,SG,0.433,8.9,2.8
-Justin Champagnie,East,WAS,SF,0.383,8.8,5.7
-Svi Mykhailiuk,West,UTA,SF,0.345,8.8,2.4
 Chris Paul,West,SAS,PG,0.377,8.8,3.6
 Kelly Olynyk,West,NOP,C,0.418,8.7,4.7
 Dorian Finney-Smith,West,LAL,PF,0.411,8.7,3.9
-Oshae Brissett,East,PHI,SF,0.333,8.7,3.7
 Kentavious Caldwell-Pope,East,ORL,SG,0.342,8.7,2.2
-Isaiah Collier,West,UTA,PG,0.249,8.7,3.3
 Dante Exum,West,DAL,PG,0.434,8.7,1.7
-Kyshawn George,East,WAS,SG,0.322,8.7,4.2
-Jaden Hardy,West,DAL,SG,0.386,8.7,1.6
 Dereck Lively II,West,DAL,C,0,8.7,7.5
 Tyrese Martin,East,BRK,SG,0.351,8.7,3.7
-Matas Buzelis,East,CHI,SF,0.361,8.6,3.5
-Jaime Jaquez Jr.,East,MIA,SF,0.311,8.6,4.4
-Ja'Kobe Walter,East,TOR,SG,0.349,8.6,3.1
 Sam Hauser,East,BOS,PF,0.416,8.5,3.2
 Larry Nance Jr.,East,ATL,PF,0.447,8.5,4.3
-Jaylen Nowell,West,NOP,SG,0.296,8.4,2.5
-Cason Wallace,West,OKC,SG,0.356,8.4,3.4
-Dalano Banton,West,POR,PG,0.324,8.3,2
 Brandon Clarke,West,MEM,PF,0.059,8.3,5.1
-Keon Ellis,West,SAC,SG,0.433,8.3,2.7
 Brandon Williams,West,DAL,PG,0.4,8.3,1.8
 Mike Conley,West,MIN,PG,0.41,8.2,2.6
 Taurean Prince,East,MIL,SF,0.439,8.2,3.6
 Jalen Smith,East,CHI,C,0.324,8.2,5.6
-Quinten Post,West,GSW,PF,0.408,8.1,3.5
-Peyton Watson,West,DEN,SF,0.353,8.1,3.4
-Tyson Etienne,East,BRK,PG,0.295,7.9,1.3
-Day'Ron Sharpe,East,BRK,C,0.244,7.9,6.6
-KJ Simpson,West,CHO,PG,0.254,7.8,3
 Lonzo Ball,East,CHI,PG,0.344,7.6,3.4
-Oscar Tshiebwe,West,UTA,C,0,7.6,8.7
-Garrison Mathews,East,ATL,SG,0.39,7.5,1.9
 Matisse Thybulle,West,POR,SG,0.438,7.5,3.5
-A.J. Green,East,MIL,SG,0.427,7.4,2.4
-Josh Green,West,CHO,SG,0.391,7.4,2.5
 Richaun Holmes,East,WAS,PF,0,7.4,5.7
-Damion Baugh,West,CHO,SG,0.214,7.3,3.3
-Alec Burks,East,MIA,SG,0.425,7.3,2.5
-Ricky Council IV,East,PHI,SF,0.258,7.3,2.9
 Andre Drummond,East,PHI,C,0.15,7.3,7.8
-Goga Bitadze,East,ORL,C,0.107,7.2,6.6
-Tristan Da Silva,East,ORL,SF,0.335,7.2,3.3
-GG Jackson II,West,MEM,PF,0.337,7.2,3.2
-Vit Krejci,East,ATL,PG,0.437,7.2,2.7
-Sam Merrill,East,CLE,SG,0.372,7.2,2.2
-Daeqwon Plowden,East,ATL,SG,0.529,7.2,1.8
-Nae'Qwan Tomlin,East,CLE,PF,0.2,7.2,4.2
