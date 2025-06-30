@@ -646,7 +646,7 @@ footer p {
     }
 
     /* Improve button sizes on mobile */
-    #submit-guess-btn, #submit-nba-guess-btn {
+    #submit-guess-btn, #submit-nba-guess-btn, #submit-mlb-guess-btn {
         padding: 0.75rem 1rem;
         font-size: 0.9rem;
         width: 100%;
@@ -705,6 +705,38 @@ footer p {
         grid-template-columns: repeat(6, minmax(50px, 1fr));
         gap: 2px;
     }
+
+    /* MLB Team Grid - Mobile specific */
+    #mlb-player-challenge .mobile-scroll-hint {
+        display: block;
+    }
+
+    #mlb-player-challenge .player-grid-container {
+        overflow-x: auto;
+        font-size: 0.7rem;
+    }
+
+    #mlb-player-challenge .player-grid-header {
+        grid-template-columns: repeat(6, minmax(50px, 1fr));
+        gap: 2px;
+    }
+
+    #mlb-player-challenge .player-row {
+        grid-template-columns: repeat(6, minmax(50px, 1fr));
+        gap: 2px;
+    }
+
+    #mlb-player-challenge .grid-cell {
+        padding: 0.4rem 0.1rem;
+        font-size: 0.6rem;
+        min-height: 35px;
+    }
+
+    #mlb-player-challenge .grid-cell.header {
+        font-size: 0.55rem;
+        font-weight: 700;
+        padding: 0.3rem 0.05rem;
+    }
 }
 
 .game-info p {
@@ -753,6 +785,20 @@ footer p {
 }
 
 #nba-player-challenge .player-row {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 4px;
+}
+
+/* MLB Team Grid - 6 columns */
+#mlb-player-challenge .player-grid-header {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 4px;
+    margin-bottom: 4px;
+}
+
+#mlb-player-challenge .player-row {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     gap: 4px;
