@@ -867,44 +867,40 @@ footer p {
         line-height: 1.5;
     }
 
-    /* Mobile-optimized grid - General styles */
+    /* Mobile-optimized grid - Full screen like Weddle */
     .player-grid-container {
-        margin: 2rem 0;
-        border-radius: 12px;
-        overflow: hidden;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin: 1rem 0;
+        border-radius: 0;
+        overflow: visible;
+        box-shadow: none;
+        width: 100%;
     }
 
     .mobile-scroll-hint {
-        display: block;
-        text-align: center;
-        padding: 1rem;
-        background: #f59e0b;
-        color: white;
-        font-size: 1rem;
-        font-weight: 600;
-        margin-bottom: 0;
+        display: none;
     }
 
     .grid-cell {
-        padding: 1rem 0.5rem;
-        font-size: 0.95rem;
-        min-height: 50px;
+        padding: 1.2rem 0.3rem;
+        font-size: 1.1rem;
+        min-height: 60px;
         display: flex;
         align-items: center;
         justify-content: center;
         word-break: break-word;
-        line-height: 1.3;
+        line-height: 1.2;
         border: 1px solid rgba(255, 255, 255, 0.2);
+        font-weight: 500;
     }
 
     .grid-cell.header {
-        font-size: 0.9rem;
+        font-size: 1rem;
         font-weight: 700;
-        padding: 1rem 0.3rem;
+        padding: 1.2rem 0.3rem;
         background: #374151;
         color: white;
         text-align: center;
+        min-height: 60px;
     }
 
     /* Improve button sizes on mobile */
@@ -1015,130 +1011,137 @@ footer p {
 
     #player-challenge .player-grid-container {
         order: 1;
-        overflow-x: auto;
-        background: white;
-        border-radius: 12px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: thin;
-    }
-
-    #player-challenge .player-grid-container::-webkit-scrollbar {
-        height: 6px;
-    }
-
-    #player-challenge .player-grid-container::-webkit-scrollbar-track {
-        background: #f1f5f9;
-        border-radius: 3px;
-    }
-
-    #player-challenge .player-grid-container::-webkit-scrollbar-thumb {
-        background: #cbd5e1;
-        border-radius: 3px;
-    }
-
-    #player-challenge .player-grid-container::-webkit-scrollbar-thumb:hover {
-        background: #94a3b8;
+        overflow: visible;
+        background: transparent;
+        border-radius: 0;
+        box-shadow: none;
+        width: 100%;
+        margin: 0 -1rem;
+        padding: 0 1rem;
     }
 
     #player-challenge .player-grid-header {
-        grid-template-columns: repeat(6, minmax(70px, 1fr));
-        gap: 1px;
-        background: #374151;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 2px;
+        background: transparent;
+        margin-bottom: 2px;
     }
 
     #player-challenge .player-row {
-        grid-template-columns: repeat(6, minmax(70px, 1fr));
-        gap: 1px;
-        background: #f8fafc;
-        margin-bottom: 1px;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 2px;
+        background: transparent;
+        margin-bottom: 2px;
     }
 
     #player-challenge .grid-cell {
-        padding: 1rem 0.5rem;
-        font-size: 0.85rem;
-        min-height: 50px;
+        padding: 1.5rem 0.5rem;
+        font-size: 1.2rem;
+        min-height: 70px;
         background: white;
+        border-radius: 8px;
+        font-weight: 600;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
     #player-challenge .grid-cell.header {
-        font-size: 0.8rem;
+        font-size: 1.1rem;
         font-weight: 700;
-        padding: 1rem 0.3rem;
+        padding: 1.5rem 0.5rem;
         background: #374151;
         color: white;
+        min-height: 70px;
+        border-radius: 8px;
     }
 
     /* NBA Player Grid - Mobile specific */
     #nba-player-challenge .player-grid-container {
-        overflow-x: auto;
-        background: white;
-        border-radius: 12px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        overflow: visible;
+        background: transparent;
+        border-radius: 0;
+        box-shadow: none;
+        width: 100%;
+        margin: 0 -1rem;
+        padding: 0 1rem;
     }
 
     #nba-player-challenge .player-grid-header {
-        grid-template-columns: repeat(6, minmax(75px, 1fr));
-        gap: 1px;
-        background: #374151;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 2px;
+        background: transparent;
+        margin-bottom: 2px;
     }
 
     #nba-player-challenge .player-row {
-        grid-template-columns: repeat(6, minmax(75px, 1fr));
-        gap: 1px;
-        background: #f8fafc;
-        margin-bottom: 1px;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 2px;
+        background: transparent;
+        margin-bottom: 2px;
     }
 
     #nba-player-challenge .grid-cell {
-        padding: 1rem 0.5rem;
-        font-size: 0.85rem;
-        min-height: 50px;
+        padding: 1.5rem 0.5rem;
+        font-size: 1.2rem;
+        min-height: 70px;
         background: white;
+        border-radius: 8px;
+        font-weight: 600;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
     #nba-player-challenge .grid-cell.header {
-        font-size: 0.8rem;
+        font-size: 1.1rem;
         font-weight: 700;
-        padding: 1rem 0.3rem;
+        padding: 1.5rem 0.5rem;
         background: #374151;
         color: white;
+        min-height: 70px;
+        border-radius: 8px;
     }
 
     /* MLB Team Grid - Mobile specific */
     #mlb-player-challenge .player-grid-container {
-        overflow-x: auto;
-        background: white;
-        border-radius: 12px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        overflow: visible;
+        background: transparent;
+        border-radius: 0;
+        box-shadow: none;
+        width: 100%;
+        margin: 0 -1rem;
+        padding: 0 1rem;
     }
 
     #mlb-player-challenge .player-grid-header {
-        grid-template-columns: repeat(6, minmax(75px, 1fr));
-        gap: 1px;
-        background: #374151;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 2px;
+        background: transparent;
+        margin-bottom: 2px;
     }
 
     #mlb-player-challenge .player-row {
-        grid-template-columns: repeat(6, minmax(75px, 1fr));
-        gap: 1px;
-        background: #f8fafc;
-        margin-bottom: 1px;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 2px;
+        background: transparent;
+        margin-bottom: 2px;
     }
 
     #mlb-player-challenge .grid-cell {
-        padding: 1rem 0.5rem;
-        font-size: 0.85rem;
-        min-height: 50px;
+        padding: 1.5rem 0.5rem;
+        font-size: 1.2rem;
+        min-height: 70px;
         background: white;
+        border-radius: 8px;
+        font-weight: 600;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
     #mlb-player-challenge .grid-cell.header {
-        font-size: 0.8rem;
+        font-size: 1.1rem;
         font-weight: 700;
-        padding: 1rem 0.3rem;
+        padding: 1.5rem 0.5rem;
         background: #374151;
         color: white;
+        min-height: 70px;
+        border-radius: 8px;
     }
 }
 
@@ -1209,26 +1212,66 @@ footer p {
 
 @media (max-width: 900px) {
     #player-challenge .player-grid-header,
-    #player-challenge .player-row {
-        grid-template-columns: repeat(6, minmax(110px, 1fr));
+    #player-challenge .player-row,
+    #nba-player-challenge .player-grid-header,
+    #nba-player-challenge .player-row,
+    #mlb-player-challenge .player-grid-header,
+    #mlb-player-challenge .player-row {
+        grid-template-columns: repeat(6, 1fr);
+        gap: 2px;
     }
-    #player-challenge .grid-cell {
-        font-size: 1.05rem;
-        padding: 1rem 0.3rem;
+    
+    #player-challenge .grid-cell,
+    #nba-player-challenge .grid-cell,
+    #mlb-player-challenge .grid-cell {
+        font-size: 1.1rem;
+        padding: 1.3rem 0.4rem;
+        min-height: 65px;
+        font-weight: 600;
+    }
+    
+    #player-challenge .grid-cell.header,
+    #nba-player-challenge .grid-cell.header,
+    #mlb-player-challenge .grid-cell.header {
+        font-size: 1rem;
+        padding: 1.3rem 0.4rem;
+        min-height: 65px;
     }
 }
 
 @media (max-width: 600px) {
     #player-challenge .player-grid-header,
-    #player-challenge .player-row {
-        grid-template-columns: repeat(6, minmax(90px, 1fr));
+    #player-challenge .player-row,
+    #nba-player-challenge .player-grid-header,
+    #nba-player-challenge .player-row,
+    #mlb-player-challenge .player-grid-header,
+    #mlb-player-challenge .player-row {
+        grid-template-columns: repeat(6, 1fr);
+        gap: 1px;
     }
-    #player-challenge .grid-cell {
-        font-size: 0.95rem;
-        padding: 0.7rem 0.2rem;
+    
+    #player-challenge .grid-cell,
+    #nba-player-challenge .grid-cell,
+    #mlb-player-challenge .grid-cell {
+        font-size: 1rem;
+        padding: 1.2rem 0.3rem;
+        min-height: 60px;
+        font-weight: 600;
     }
-    #player-challenge .player-grid-container {
-        padding-bottom: 0.5rem;
+    
+    #player-challenge .grid-cell.header,
+    #nba-player-challenge .grid-cell.header,
+    #mlb-player-challenge .grid-cell.header {
+        font-size: 0.9rem;
+        padding: 1.2rem 0.3rem;
+        min-height: 60px;
+    }
+    
+    #player-challenge .player-grid-container,
+    #nba-player-challenge .player-grid-container,
+    #mlb-player-challenge .player-grid-container {
+        margin: 0 -1rem;
+        padding: 0 1rem;
     }
 }
 
