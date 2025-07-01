@@ -6,7 +6,7 @@ class ColorMemoryGame {
         this.score = 0;
         this.isPlaying = false;
         this.isShowingSequence = false;
-        this.gameSpeed = 800; // milliseconds between flashes
+        this.gameSpeed = 400; // milliseconds between flashes
         this.colors = ['red', 'blue', 'green', 'yellow'];
         this.maxScore = parseInt(localStorage.getItem('colorMemoryHighScore')) || 0;
     }
@@ -33,7 +33,7 @@ class ColorMemoryGame {
         this.currentStep = 0;
         this.score = 0;
         this.isPlaying = true;
-        this.gameSpeed = 800;
+        this.gameSpeed = 400;
         
         this.updateDisplay();
         this.hideMessage('color-memory-message');
@@ -118,8 +118,8 @@ class ColorMemoryGame {
             }
 
             // Increase difficulty slightly
-            if (this.gameSpeed > 400) {
-                this.gameSpeed -= 25;
+            if (this.gameSpeed > 200) {
+                this.gameSpeed -= 15;
             }
 
             // Add next color to sequence after delay
