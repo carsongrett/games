@@ -64,6 +64,12 @@
                         <p>Watch the color sequence and repeat it back. How far can you get?</p>
                         <button class="play-btn">Play Now!</button>
                     </div>
+
+                    <div class="game-card" onclick="showSection('weather-challenge')">
+                        <h3>🌡️ Weather Challenge</h3>
+                        <p>Guess the current temperature in cities around the world. Test your weather intuition!</p>
+                        <button class="play-btn">Play Now!</button>
+                    </div>
                 </div>
             </div>
         </section>
@@ -314,9 +320,62 @@
                 </div>
             </div>
         </section>
+
+        <!-- Weather Challenge Section -->
+        <section id="weather-challenge" class="section">
+            <div class="container">
+                <div class="game-header">
+                    <h2>🌡️ Weather Challenge</h2>
+                    <button class="back-btn" onclick="showSection('home')">← Back to Home</button>
+                </div>
+                
+                <div class="game-container">
+                    <div class="game-info">
+                        <p>Guess the current temperature in cities around the world!</p>
+                        <div class="game-notes">
+                            <p><strong>How to Play:</strong> Look at the city name and weather icon, then guess the current temperature.</p>
+                            <p><strong>Scoring:</strong> Exact = 10 pts | ±2°F = 8 pts | ±5°F = 5 pts | ±10°F = 3 pts | ±15°F = 1 pt</p>
+                        </div>
+                        <div class="weather-challenge-stats">
+                            <span>Score: <span id="weather-score">0</span></span>
+                            <span>Round: <span id="weather-round">1</span>/10</span>
+                            <button id="new-weather-btn" onclick="newWeatherGame()">New Game</button>
+                        </div>
+                    </div>
+                    
+                    <div class="weather-container">
+                        <div class="current-weather">
+                            <div class="city-info">
+                                <h3 id="weather-city">Loading...</h3>
+                                <div class="weather-icon-container">
+                                    <img id="weather-icon" src="" alt="" style="width: 80px; height: 80px;">
+                                    <p id="weather-description"></p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="temperature-input">
+                            <label for="temperature-guess">What's the current temperature?</label>
+                            <div class="input-group">
+                                <input type="number" id="temperature-guess" placeholder="Enter temperature" min="-50" max="150">
+                                <span class="temperature-unit">°F</span>
+                                <button id="submit-weather-btn" onclick="submitTemperatureGuess()">Submit</button>
+                            </div>
+                        </div>
+                        
+                        <div id="weather-result" class="weather-result" style="display: none;">
+                            <p id="actual-temperature"></p>
+                            <p id="temperature-difference"></p>
+                            <p id="points-earned"></p>
+                            <button id="next-city-btn" onclick="nextWeatherRound()" style="display: none;">Next City</button>
+                        </div>
+                    </div>
+                    
+                    <div id="weather-message" class="game-message"></div>
+                </div>
+            </div>
+        </section>
     </main>
-
-
 
     <!-- Temporarily hidden Wordle game -->
     <!-- <script src="wordle.js"></script> -->
@@ -325,6 +384,7 @@
     <script src="nba-player-challenge.js"></script>
     <script src="mlb-player-challenge.js"></script>
     <script src="color-memory.js"></script>
+    <script src="weather-challenge.js"></script>
     <script src="main.js"></script>
 </body>
 </html> 
