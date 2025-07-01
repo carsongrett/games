@@ -232,18 +232,29 @@ class MLBTeamChallengeGame {
         const categories = ['League', 'Division', 'Runs/Game', 'Home Runs', 'Stolen Bases', 'Batting Avg'];
         
         let gridHTML = `
-            <div class="mobile-grid-wrapper" style="display: flex; position: relative;">
-                <!-- Fixed left column for categories -->
-                <div class="mobile-categories-column" style="
-                    position: sticky;
-                    left: 0;
-                    z-index: 10;
-                    background-color: #1f2937;
-                    box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
+            <div class="mobile-grid-wrapper" style="
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                position: relative;
+            ">
+                <div class="mobile-grid-content" style="
                     display: flex;
-                    flex-direction: column;
-                    gap: 2px;
-                ">`;
+                    min-width: max-content;
+                    position: relative;
+                ">
+                    <!-- Fixed left column for categories -->
+                    <div class="mobile-categories-column" style="
+                        position: sticky;
+                        left: 0;
+                        z-index: 10;
+                        background-color: #1f2937;
+                        box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
+                        display: flex;
+                        flex-direction: column;
+                        gap: 2px;
+                        flex-shrink: 0;
+                    ">`;
         
         // Add category headers
         categories.forEach((category) => {
@@ -264,17 +275,12 @@ class MLBTeamChallengeGame {
         });
         
         gridHTML += `</div>
-                <!-- Scrollable content area -->
-                <div class="mobile-content-scroll" style="
-                    flex: 1;
-                    overflow-x: auto;
-                    -webkit-overflow-scrolling: touch;
-                    padding-left: 8px;
-                ">
+                    <!-- Scrollable content area -->
                     <div class="mobile-guesses-container" style="
                         display: flex;
                         gap: 8px;
                         min-width: max-content;
+                        padding-left: 8px;
                     ">`;
         
         // Add columns for each guess
@@ -284,6 +290,7 @@ class MLBTeamChallengeGame {
                 flex-direction: column;
                 gap: 2px;
                 min-width: 90px;
+                flex-shrink: 0;
             ">`;
             
             const rowData = [
