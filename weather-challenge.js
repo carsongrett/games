@@ -33,6 +33,31 @@ const cities = [
     { name: 'Vancouver, Canada', lat: 49.2827, lon: -123.1207, country: 'CA' }
 ];
 
+// Test API key function
+async function testApiKey() {
+    try {
+        console.log('Testing API key...');
+        const testUrl = `https://api.openweathermap.org/data/2.5/weather?q=London&appid=${weatherGame.apiKey}&units=imperial`;
+        console.log('Test URL:', testUrl);
+        
+        const response = await fetch(testUrl);
+        console.log('Test response status:', response.status);
+        
+        if (response.ok) {
+            const data = await response.json();
+            console.log('API key test successful:', data);
+            return true;
+        } else {
+            const errorText = await response.text();
+            console.log('API key test failed:', response.status, errorText);
+            return false;
+        }
+    } catch (error) {
+        console.log('API key test error:', error);
+        return false;
+    }
+}
+
 // Initialize game
 function newWeatherGame() {
     weatherGame.score = 0;
@@ -46,7 +71,16 @@ function newWeatherGame() {
     document.getElementById('temperature-guess').disabled = false;
     document.getElementById('submit-weather-btn').disabled = false;
     
-    loadNextCity();
+    // Test API key first
+    testApiKey().then(success => {
+        if (success) {
+            loadNextCity();
+        } else {
+            document.getElementById('weather-city').textContent = 'API Key Error';
+            document.getElementById('weather-message').textContent = 'There seems to be an issue with the weather API. Please check the console for details.';
+            document.getElementById('weather-message').style.display = 'block';
+        }
+    });
 }
 
 // Load weather data for a random city
@@ -61,16 +95,32 @@ async function loadNextCity() {
         document.getElementById('weather-icon').style.display = 'none';
         document.getElementById('weather-description').textContent = '';
         
-        // Fetch weather data
-        const response = await fetch(
-            `https://api.openweathermap.org/data/2.5/weather?lat=${weatherGame.currentCity.lat}&lon=${weatherGame.currentCity.lon}&appid=${weatherGame.apiKey}&units=imperial`
-        );
+        // Try API call with coordinates first
+        let apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${weatherGame.currentCity.lat}&lon=${weatherGame.currentCity.lon}&appid=${weatherGame.apiKey}&units=imperial`;
+        console.log('Primary API URL:', apiUrl);
+        
+        let response = await fetch(apiUrl);
+        
+        // If coordinates fail, try with city name as backup
+        if (!response.ok) {
+            console.log('Coordinates failed, trying city name...');
+            const cityName = weatherGame.currentCity.name.split(',')[0]; // Get just the city name
+            apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(cityName)}&appid=${weatherGame.apiKey}&units=imperial`;
+            console.log('Backup API URL:', apiUrl);
+            response = await fetch(apiUrl);
+        }
+        
+        console.log('Response status:', response.status);
+        console.log('Response ok:', response.ok);
         
         if (!response.ok) {
-            throw new Error('Weather data not available');
+            const errorText = await response.text();
+            console.log('Error response:', errorText);
+            throw new Error(`Weather API error: ${response.status} - ${errorText}`);
         }
         
         const weatherData = await response.json();
+        console.log('Weather data:', weatherData);
         
         // Store current temperature
         weatherGame.currentTemperature = Math.round(weatherData.main.temp);
