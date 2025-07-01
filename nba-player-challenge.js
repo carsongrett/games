@@ -181,7 +181,21 @@ class NBAPlayerChallengeGame {
         this.updateDisplay();
     }
     
+    isMobile() {
+        return window.innerWidth <= 768;
+    }
+
     addGuessToGrid(guessedPlayer) {
+        const grid = document.getElementById('nba-player-grid');
+        
+        if (this.isMobile()) {
+            this.addGuessToMobileGrid(guessedPlayer);
+        } else {
+            this.addGuessToDesktopGrid(guessedPlayer);
+        }
+    }
+
+    addGuessToDesktopGrid(guessedPlayer) {
         const grid = document.getElementById('nba-player-grid');
         
         // Create row data with the 6 columns from the new CSV structure
@@ -205,6 +219,61 @@ class NBAPlayerChallengeGame {
         });
         
         grid.appendChild(row);
+    }
+
+    addGuessToMobileGrid(guessedPlayer) {
+        const grid = document.getElementById('nba-player-grid');
+        
+        // Create mobile grid if it doesn't exist
+        if (!grid.querySelector('.mobile-grid-structure')) {
+            this.createMobileGridStructure();
+        }
+        
+        // Add this guess as a new column
+        const guessIndex = this.guesses.length - 1;
+        const rowData = [
+            { value: guessedPlayer.conference, type: 'conference' },
+            { value: guessedPlayer.team, type: 'team' },
+            { value: guessedPlayer.position, type: 'position' },
+            { value: guessedPlayer.threePPercent ? (guessedPlayer.threePPercent * 100).toFixed(1) + '%' : 'N/A', type: 'threePPercent' },
+            { value: guessedPlayer.points.toFixed(1), type: 'points' },
+            { value: guessedPlayer.rebounds.toFixed(1), type: 'rebounds' }
+        ];
+
+        rowData.forEach((cell, index) => {
+            const row = grid.children[index];
+            const cellElement = document.createElement('div');
+            cellElement.className = `grid-cell mobile-guess-cell ${this.getColorClass(cell.type, guessedPlayer)}`;
+            cellElement.textContent = cell.value;
+            row.appendChild(cellElement);
+        });
+    }
+
+    createMobileGridStructure() {
+        const grid = document.getElementById('nba-player-grid');
+        grid.innerHTML = '';
+        grid.className = 'player-grid mobile-grid-structure';
+        
+        const categories = [
+            'Conference',
+            'Team', 
+            'Position',
+            '3P%',
+            'PTS',
+            'REB'
+        ];
+        
+        categories.forEach(category => {
+            const row = document.createElement('div');
+            row.className = 'mobile-grid-row';
+            
+            const headerCell = document.createElement('div');
+            headerCell.className = 'grid-cell mobile-category-header';
+            headerCell.textContent = category;
+            row.appendChild(headerCell);
+            
+            grid.appendChild(row);
+        });
     }
     
     getColorClass(type, guessedPlayer) {
@@ -242,6 +311,9 @@ class NBAPlayerChallengeGame {
         const grid = document.getElementById('nba-player-grid');
         if (grid) {
             grid.innerHTML = '';
+            if (this.isMobile()) {
+                grid.className = 'player-grid';
+            }
         }
     }
     

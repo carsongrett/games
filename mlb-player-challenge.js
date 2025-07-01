@@ -181,7 +181,21 @@ class MLBTeamChallengeGame {
         this.updateDisplay();
     }
     
+    isMobile() {
+        return window.innerWidth <= 768;
+    }
+
     addGuessToGrid(guessedTeam) {
+        const grid = document.getElementById('mlb-player-grid');
+        
+        if (this.isMobile()) {
+            this.addGuessToMobileGrid(guessedTeam);
+        } else {
+            this.addGuessToDesktopGrid(guessedTeam);
+        }
+    }
+
+    addGuessToDesktopGrid(guessedTeam) {
         const grid = document.getElementById('mlb-player-grid');
         
         // Create row data with the 6 columns from the MLB team stats CSV
@@ -205,6 +219,61 @@ class MLBTeamChallengeGame {
         });
         
         grid.appendChild(row);
+    }
+
+    addGuessToMobileGrid(guessedTeam) {
+        const grid = document.getElementById('mlb-player-grid');
+        
+        // Create mobile grid if it doesn't exist
+        if (!grid.querySelector('.mobile-grid-structure')) {
+            this.createMobileGridStructure();
+        }
+        
+        // Add this guess as a new column
+        const guessIndex = this.guesses.length - 1;
+        const rowData = [
+            { value: guessedTeam.league, type: 'league' },
+            { value: guessedTeam.division, type: 'division' },
+            { value: guessedTeam.runsPerGame.toFixed(2), type: 'runsPerGame' },
+            { value: guessedTeam.homeRuns.toString(), type: 'homeRuns' },
+            { value: guessedTeam.stolenBases.toString(), type: 'stolenBases' },
+            { value: guessedTeam.battingAvg.toFixed(3), type: 'battingAvg' }
+        ];
+
+        rowData.forEach((cell, index) => {
+            const row = grid.children[index];
+            const cellElement = document.createElement('div');
+            cellElement.className = `grid-cell mobile-guess-cell ${this.getColorClass(cell.type, guessedTeam)}`;
+            cellElement.textContent = cell.value;
+            row.appendChild(cellElement);
+        });
+    }
+
+    createMobileGridStructure() {
+        const grid = document.getElementById('mlb-player-grid');
+        grid.innerHTML = '';
+        grid.className = 'player-grid mobile-grid-structure';
+        
+        const categories = [
+            'League',
+            'Division', 
+            'Runs/Game',
+            'Home Runs',
+            'Stolen Bases',
+            'Batting Avg'
+        ];
+        
+        categories.forEach(category => {
+            const row = document.createElement('div');
+            row.className = 'mobile-grid-row';
+            
+            const headerCell = document.createElement('div');
+            headerCell.className = 'grid-cell mobile-category-header';
+            headerCell.textContent = category;
+            row.appendChild(headerCell);
+            
+            grid.appendChild(row);
+        });
     }
     
     getColorClass(type, guessedTeam) {
@@ -233,7 +302,12 @@ class MLBTeamChallengeGame {
     
     clearGrid() {
         const grid = document.getElementById('mlb-player-grid');
-        grid.innerHTML = '';
+        if (grid) {
+            grid.innerHTML = '';
+            if (this.isMobile()) {
+                grid.className = 'player-grid';
+            }
+        }
     }
     
     updateDisplay() {
