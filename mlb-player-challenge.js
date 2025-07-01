@@ -224,13 +224,12 @@ class MLBTeamChallengeGame {
     addGuessToMobileGrid(guessedTeam) {
         const grid = document.getElementById('mlb-player-grid');
         
-        // Create mobile grid if it doesn't exist
-        if (!grid.querySelector('.mobile-grid-structure')) {
+        // Create mobile grid if it doesn't exist or is empty
+        if (!grid.hasChildNodes() || !grid.classList.contains('mobile-grid-structure')) {
             this.createMobileGridStructure();
         }
         
         // Add this guess as a new column
-        const guessIndex = this.guesses.length - 1;
         const rowData = [
             { value: guessedTeam.league, type: 'league' },
             { value: guessedTeam.division, type: 'division' },
@@ -240,12 +239,19 @@ class MLBTeamChallengeGame {
             { value: guessedTeam.battingAvg.toFixed(3), type: 'battingAvg' }
         ];
 
+        console.log('Adding MLB mobile guess:', guessedTeam.name, rowData); // Debug log
+
         rowData.forEach((cell, index) => {
             const row = grid.children[index];
-            const cellElement = document.createElement('div');
-            cellElement.className = `grid-cell mobile-guess-cell ${this.getColorClass(cell.type, guessedTeam)}`;
-            cellElement.textContent = cell.value;
-            row.appendChild(cellElement);
+            if (row) {
+                const cellElement = document.createElement('div');
+                cellElement.className = `grid-cell mobile-guess-cell ${this.getColorClass(cell.type, guessedTeam)}`;
+                cellElement.textContent = cell.value;
+                console.log(`Adding MLB cell ${index}:`, cell.value, 'to row:', row); // Debug log
+                row.appendChild(cellElement);
+            } else {
+                console.error(`MLB Row ${index} not found in mobile grid`);
+            }
         });
     }
 
