@@ -187,7 +187,7 @@ class PlayerChallengeGame {
 
     addGuessToGrid(guessedPlayer) {
         if (this.isMobile()) {
-            this.addGuessToMobileGrid(guessedPlayer);
+            this.replaceMobileGrid(guessedPlayer);
         } else {
             this.addGuessToDesktopGrid(guessedPlayer);
         }
@@ -219,108 +219,82 @@ class PlayerChallengeGame {
         grid.appendChild(row);
     }
 
-    addGuessToMobileGrid(guessedPlayer) {
-        const grid = document.getElementById('player-grid');
+    replaceMobileGrid(guessedPlayer) {
+        const container = document.querySelector('#player-challenge .player-grid-container');
         
-        // Create mobile grid if it doesn't exist or is empty
-        if (!grid.hasChildNodes() || !grid.classList.contains('mobile-grid-structure')) {
-            this.createMobileGridStructure();
-        }
-        
-        // Add this guess as a new column
-        const rowData = [
-            { value: guessedPlayer.conference, type: 'conference' },
-            { value: guessedPlayer.team, type: 'team' },
-            { value: guessedPlayer.position, type: 'position' },
-            { value: guessedPlayer.receivingYards.toString(), type: 'receivingYards' },
-            { value: guessedPlayer.rushingYards.toString(), type: 'rushingYards' },
-            { value: guessedPlayer.totalTDs.toString(), type: 'totalTDs' }
-        ];
-
-        // Add cells to each row
-        rowData.forEach((cell, index) => {
-            const row = grid.children[index];
-            if (row) {
-                const cellElement = document.createElement('div');
-                const colorClass = this.getColorClass(cell.type, guessedPlayer);
-                cellElement.className = `mobile-guess-cell ${colorClass}`;
-                cellElement.textContent = cell.value;
-                
-                // Apply base styles
-                cellElement.style.minWidth = '80px';
-                cellElement.style.maxWidth = '120px';
-                cellElement.style.padding = '1rem 0.5rem';
-                cellElement.style.fontSize = '1.1rem';
-                cellElement.style.borderRadius = '8px';
-                cellElement.style.fontWeight = '600';
-                cellElement.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1)';
-                cellElement.style.display = 'flex';
-                cellElement.style.alignItems = 'center';
-                cellElement.style.justifyContent = 'center';
-                cellElement.style.textAlign = 'center';
-                cellElement.style.flexShrink = '0';
-                
-                // Apply color styles based on correctness
-                if (colorClass === 'correct') {
-                    cellElement.style.backgroundColor = '#22c55e';
-                    cellElement.style.color = 'white';
-                } else if (colorClass === 'close') {
-                    cellElement.style.backgroundColor = '#f59e0b';
-                    cellElement.style.color = 'white';
-                } else {
-                    cellElement.style.backgroundColor = '#6b7280';
-                    cellElement.style.color = 'white';
-                }
-                
-                row.appendChild(cellElement);
-            }
-        });
+        // Completely replace the grid container content
+        container.innerHTML = this.buildCompleteMobileGrid();
     }
 
-    createMobileGridStructure() {
-        const grid = document.getElementById('player-grid');
+    buildCompleteMobileGrid() {
+        const categories = ['Conference', 'Team', 'Position', 'Rec Yds', 'Rush Yds', 'Tot TDs'];
         
-        grid.innerHTML = '';
-        grid.className = 'player-grid mobile-grid-structure';
+        let gridHTML = '<div class="mobile-grid-wrapper" style="overflow-x: auto; -webkit-overflow-scrolling: touch;">';
         
-        const categories = [
-            'Conference',
-            'Team', 
-            'Position',
-            'Rec Yds',
-            'Rush Yds',
-            'Tot TDs'
-        ];
-        
-        categories.forEach((category) => {
-            const row = document.createElement('div');
-            row.className = 'mobile-grid-row';
-            row.style.display = 'flex';
-            row.style.alignItems = 'stretch';
-            row.style.marginBottom = '2px';
-            row.style.gap = '2px';
+        categories.forEach((category, categoryIndex) => {
+            gridHTML += `<div class="mobile-row" style="display: flex; align-items: stretch; margin-bottom: 2px; gap: 2px;">`;
             
-            const headerCell = document.createElement('div');
-            headerCell.className = 'mobile-category-header';
-            headerCell.textContent = category;
-            headerCell.style.minWidth = '100px';
-            headerCell.style.maxWidth = '100px';
-            headerCell.style.padding = '1rem 0.8rem';
-            headerCell.style.fontSize = '1rem';
-            headerCell.style.fontWeight = '700';
-            headerCell.style.backgroundColor = '#374151';
-            headerCell.style.color = 'white';
-            headerCell.style.borderRadius = '8px';
-            headerCell.style.display = 'flex';
-            headerCell.style.alignItems = 'center';
-            headerCell.style.justifyContent = 'center';
-            headerCell.style.textAlign = 'center';
-            headerCell.style.flexShrink = '0';
+            // Category header
+            gridHTML += `<div class="mobile-category" style="
+                min-width: 100px; 
+                max-width: 100px; 
+                padding: 1rem 0.8rem; 
+                font-size: 1rem; 
+                font-weight: 700; 
+                background-color: #374151; 
+                color: white; 
+                border-radius: 8px; 
+                display: flex; 
+                align-items: center; 
+                justify-content: center; 
+                text-align: center; 
+                flex-shrink: 0;
+            ">${category}</div>`;
             
-            row.appendChild(headerCell);
-            grid.appendChild(row);
+            // Add guess cells for this category
+            this.guesses.forEach((guess) => {
+                const rowData = [
+                    { value: guess.conference, type: 'conference' },
+                    { value: guess.team, type: 'team' },
+                    { value: guess.position, type: 'position' },
+                    { value: guess.receivingYards.toString(), type: 'receivingYards' },
+                    { value: guess.rushingYards.toString(), type: 'rushingYards' },
+                    { value: guess.totalTDs.toString(), type: 'totalTDs' }
+                ];
+                
+                const cellData = rowData[categoryIndex];
+                const colorClass = this.getColorClass(cellData.type, guess);
+                
+                let backgroundColor = '#6b7280'; // default incorrect
+                if (colorClass === 'correct') backgroundColor = '#22c55e';
+                else if (colorClass === 'close') backgroundColor = '#f59e0b';
+                
+                gridHTML += `<div style="
+                    min-width: 80px; 
+                    max-width: 120px; 
+                    padding: 1rem 0.5rem; 
+                    font-size: 1.1rem; 
+                    border-radius: 8px; 
+                    font-weight: 600; 
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+                    display: flex; 
+                    align-items: center; 
+                    justify-content: center; 
+                    text-align: center; 
+                    flex-shrink: 0;
+                    background-color: ${backgroundColor};
+                    color: white;
+                ">${cellData.value}</div>`;
+            });
+            
+            gridHTML += '</div>';
         });
+        
+        gridHTML += '</div>';
+        return gridHTML;
     }
+
+
     
     getColorClass(type, guessedPlayer) {
         const getStatComparison = (stat, threshold) => {
