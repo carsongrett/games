@@ -229,15 +229,25 @@ class PlayerChallengeGame {
     buildCompleteMobileGrid() {
         const categories = ['Conference', 'Team', 'Position', 'Rec Yds', 'Rush Yds', 'Tot TDs'];
         
-        let gridHTML = '<div class="mobile-grid-wrapper" style="overflow-x: auto; -webkit-overflow-scrolling: touch;">';
+        let gridHTML = `
+            <div class="mobile-grid-wrapper" style="display: flex; position: relative;">
+                <!-- Fixed left column for categories -->
+                <div class="mobile-categories-column" style="
+                    position: sticky;
+                    left: 0;
+                    z-index: 10;
+                    background-color: #1f2937;
+                    box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
+                    display: flex;
+                    flex-direction: column;
+                    gap: 2px;
+                ">`;
         
-        categories.forEach((category, categoryIndex) => {
-            gridHTML += `<div class="mobile-row" style="display: flex; align-items: stretch; margin-bottom: 2px; gap: 2px;">`;
-            
-            // Category header
+        // Add category headers
+        categories.forEach((category) => {
             gridHTML += `<div class="mobile-category" style="
-                min-width: 100px; 
-                max-width: 100px; 
+                width: 100px; 
+                height: 60px;
                 padding: 1rem 0.8rem; 
                 font-size: 1rem; 
                 font-weight: 700; 
@@ -247,22 +257,43 @@ class PlayerChallengeGame {
                 display: flex; 
                 align-items: center; 
                 justify-content: center; 
-                text-align: center; 
-                flex-shrink: 0;
+                text-align: center;
             ">${category}</div>`;
+        });
+        
+        gridHTML += `</div>
+                <!-- Scrollable content area -->
+                <div class="mobile-content-scroll" style="
+                    flex: 1;
+                    overflow-x: auto;
+                    -webkit-overflow-scrolling: touch;
+                    padding-left: 8px;
+                ">
+                    <div class="mobile-guesses-container" style="
+                        display: flex;
+                        gap: 8px;
+                        min-width: max-content;
+                    ">`;
+        
+        // Add columns for each guess
+        this.guesses.forEach((guess, guessIndex) => {
+            gridHTML += `<div class="mobile-guess-column" style="
+                display: flex;
+                flex-direction: column;
+                gap: 2px;
+                min-width: 90px;
+            ">`;
             
-            // Add guess cells for this category
-            this.guesses.forEach((guess) => {
-                const rowData = [
-                    { value: guess.conference, type: 'conference' },
-                    { value: guess.team, type: 'team' },
-                    { value: guess.position, type: 'position' },
-                    { value: guess.receivingYards.toString(), type: 'receivingYards' },
-                    { value: guess.rushingYards.toString(), type: 'rushingYards' },
-                    { value: guess.totalTDs.toString(), type: 'totalTDs' }
-                ];
-                
-                const cellData = rowData[categoryIndex];
+            const rowData = [
+                { value: guess.conference, type: 'conference' },
+                { value: guess.team, type: 'team' },
+                { value: guess.position, type: 'position' },
+                { value: guess.receivingYards.toString(), type: 'receivingYards' },
+                { value: guess.rushingYards.toString(), type: 'rushingYards' },
+                { value: guess.totalTDs.toString(), type: 'totalTDs' }
+            ];
+            
+            rowData.forEach((cellData) => {
                 const colorClass = this.getColorClass(cellData.type, guess);
                 
                 let backgroundColor = '#6b7280'; // default incorrect
@@ -270,18 +301,17 @@ class PlayerChallengeGame {
                 else if (colorClass === 'close') backgroundColor = '#f59e0b';
                 
                 gridHTML += `<div style="
-                    min-width: 80px; 
-                    max-width: 120px; 
-                    padding: 1rem 0.5rem; 
-                    font-size: 1.1rem; 
+                    width: 90px;
+                    height: 60px;
+                    padding: 0.5rem; 
+                    font-size: 1rem; 
                     border-radius: 8px; 
                     font-weight: 600; 
                     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
                     display: flex; 
                     align-items: center; 
                     justify-content: center; 
-                    text-align: center; 
-                    flex-shrink: 0;
+                    text-align: center;
                     background-color: ${backgroundColor};
                     color: white;
                 ">${cellData.value}</div>`;
@@ -290,7 +320,10 @@ class PlayerChallengeGame {
             gridHTML += '</div>';
         });
         
-        gridHTML += '</div>';
+        gridHTML += `</div>
+                </div>
+            </div>`;
+        
         return gridHTML;
     }
 
