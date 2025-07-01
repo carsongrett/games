@@ -226,6 +226,14 @@ class MLBTeamChallengeGame {
         
         // Completely replace the grid container content
         container.innerHTML = this.buildCompleteMobileGrid();
+        
+        // Auto-scroll to the far right to show the latest guess
+        setTimeout(() => {
+            const mobileWrapper = container.querySelector('.mobile-grid-wrapper');
+            if (mobileWrapper) {
+                mobileWrapper.scrollLeft = mobileWrapper.scrollWidth;
+            }
+        }, 50); // Small delay to ensure DOM is updated
     }
 
     buildCompleteMobileGrid() {
