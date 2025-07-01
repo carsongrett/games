@@ -231,9 +231,14 @@ class NBAPlayerChallengeGame {
         setTimeout(() => {
             const mobileWrapper = container.querySelector('.mobile-grid-wrapper');
             if (mobileWrapper) {
-                mobileWrapper.scrollLeft = mobileWrapper.scrollWidth;
+                // Force scroll to the maximum right position
+                const maxScroll = mobileWrapper.scrollWidth - mobileWrapper.clientWidth;
+                mobileWrapper.scrollTo({
+                    left: maxScroll,
+                    behavior: 'smooth'
+                });
             }
-        }, 50); // Small delay to ensure DOM is updated
+        }, 100); // Increased delay to ensure DOM is fully rendered
     }
 
     buildCompleteMobileGrid() {
