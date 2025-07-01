@@ -190,7 +190,6 @@ class PlayerChallengeGame {
             { value: guessedPlayer.conference, type: 'conference' },
             { value: guessedPlayer.team, type: 'team' },
             { value: guessedPlayer.position, type: 'position' },
-            { value: guessedPlayer.receptions.toString(), type: 'receptions' },
             { value: guessedPlayer.receivingYards.toString(), type: 'receivingYards' },
             { value: guessedPlayer.rushingYards.toString(), type: 'rushingYards' },
             { value: guessedPlayer.totalTDs.toString(), type: 'totalTDs' }
@@ -207,44 +206,6 @@ class PlayerChallengeGame {
         });
         
         grid.appendChild(row);
-        
-        // Add to previous guesses list
-        this.addToPreviousGuesses(guessedPlayer);
-    }
-    
-    addToPreviousGuesses(guessedPlayer) {
-        const previousGuessesList = document.getElementById('previous-guesses-list');
-        if (!previousGuessesList) return;
-        
-        const guessItem = document.createElement('div');
-        guessItem.className = 'previous-guess-item';
-        
-        // Determine overall guess status (if any stat is correct, it's "close")
-        const hasCorrect = ['conference', 'team', 'position'].some(type => 
-            this.getColorClass(type, guessedPlayer) === 'correct'
-        );
-        const hasClose = ['receptions', 'receivingYards', 'rushingYards', 'totalTDs'].some(type => 
-            this.getColorClass(type, guessedPlayer) === 'close'
-        );
-        
-        if (hasCorrect) {
-            guessItem.classList.add('correct');
-        } else if (hasClose) {
-            guessItem.classList.add('close');
-        } else {
-            guessItem.classList.add('incorrect');
-        }
-        
-        guessItem.innerHTML = `
-            <div class="previous-guess-name">${guessedPlayer.name}</div>
-            <div class="previous-guess-details">
-                <span class="previous-guess-team">${guessedPlayer.team}</span>
-                <span class="previous-guess-position">${guessedPlayer.position}</span>
-            </div>
-        `;
-        
-        // Add to the beginning of the list (most recent first)
-        previousGuessesList.insertBefore(guessItem, previousGuessesList.firstChild);
     }
     
     getColorClass(type, guessedPlayer) {
@@ -261,8 +222,6 @@ class PlayerChallengeGame {
                 return guessedPlayer.team === this.targetPlayer.team ? 'correct' : 'incorrect';
             case 'position':
                 return guessedPlayer.position === this.targetPlayer.position ? 'correct' : 'incorrect';
-            case 'receptions':
-                return getStatComparison('receptions', 10); // Within 10 receptions
             case 'receivingYards':
                 return getStatComparison('receivingYards', 100); // Within 100 yards
             case 'rushingYards':
@@ -278,12 +237,6 @@ class PlayerChallengeGame {
         const grid = document.getElementById('player-grid');
         if (grid) {
             grid.innerHTML = '';
-        }
-        
-        // Clear previous guesses list
-        const previousGuessesList = document.getElementById('previous-guesses-list');
-        if (previousGuessesList) {
-            previousGuessesList.innerHTML = '';
         }
     }
     
