@@ -1165,74 +1165,18 @@ footer p {
     margin-bottom: 0;
 }
 
-/* NFL Player Challenge Grid - Clean Desktop Layout */
-#player-challenge .player-grid-container {
-    max-width: 800px;
-    margin: 0 auto;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    overflow: hidden;
-}
-
+/* NFL Player Grid - 6 columns (same style as NBA) */
 #player-challenge .player-grid-header {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
-    background: #374151;
+    gap: 4px;
+    margin-bottom: 4px;
 }
 
 #player-challenge .player-row {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
-    border-bottom: 1px solid #e5e7eb;
-}
-
-#player-challenge .player-row:last-child {
-    border-bottom: none;
-}
-
-#player-challenge .grid-cell {
-    padding: 12px 8px;
-    font-size: 14px;
-    min-height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: white;
-    border-right: 1px solid #e5e7eb;
-    text-align: center;
-}
-
-#player-challenge .grid-cell:last-child {
-    border-right: none;
-}
-
-#player-challenge .grid-cell.header {
-    font-weight: 700;
-    background: #374151;
-    color: white;
-    border-right: 1px solid #4b5563;
-    font-size: 13px;
-}
-
-#player-challenge .grid-cell.header:last-child {
-    border-right: none;
-}
-
-#player-challenge .player-row .grid-cell:first-child {
-    font-weight: 600;
-    color: #1f2937;
-    justify-content: flex-start;
-    padding-left: 12px;
-    text-align: left;
-}
-
-#player-challenge .player-row:hover {
-    background: #f9fafb;
-}
-
-#player-challenge .player-row:hover .grid-cell {
-    background: #f9fafb;
+    gap: 4px;
 }
 
 /* NBA Player Grid - 6 columns */
