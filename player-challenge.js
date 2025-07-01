@@ -182,11 +182,20 @@ class PlayerChallengeGame {
     }
     
     isMobile() {
-        return window.innerWidth <= 768;
+        // Temporarily force mobile mode for testing
+        const isMobileWidth = window.innerWidth <= 768;
+        console.log('isMobile check:', { windowWidth: window.innerWidth, isMobile: isMobileWidth });
+        return isMobileWidth;
     }
 
     addGuessToGrid(guessedPlayer) {
         const grid = document.getElementById('player-grid');
+        console.log('addGuessToGrid called:', {
+            isMobile: this.isMobile(),
+            windowWidth: window.innerWidth,
+            gridExists: !!grid,
+            playerName: guessedPlayer.name
+        });
         
         if (this.isMobile()) {
             this.addGuessToMobileGrid(guessedPlayer);
@@ -257,6 +266,8 @@ class PlayerChallengeGame {
 
     createMobileGridStructure() {
         const grid = document.getElementById('player-grid');
+        console.log('Creating mobile grid structure:', grid);
+        
         grid.innerHTML = '';
         grid.className = 'player-grid mobile-grid-structure';
         
@@ -269,7 +280,7 @@ class PlayerChallengeGame {
             'Tot TDs'
         ];
         
-        categories.forEach(category => {
+        categories.forEach((category, index) => {
             const row = document.createElement('div');
             row.className = 'mobile-grid-row';
             
@@ -279,7 +290,10 @@ class PlayerChallengeGame {
             row.appendChild(headerCell);
             
             grid.appendChild(row);
+            console.log(`Created mobile row ${index}:`, category, row);
         });
+        
+        console.log('Mobile grid structure created. Grid children count:', grid.children.length);
     }
     
     getColorClass(type, guessedPlayer) {
