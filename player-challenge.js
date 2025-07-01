@@ -182,21 +182,10 @@ class PlayerChallengeGame {
     }
     
     isMobile() {
-        // Temporarily force mobile mode for testing
-        const isMobileWidth = window.innerWidth <= 768;
-        console.log('isMobile check:', { windowWidth: window.innerWidth, isMobile: isMobileWidth });
-        return isMobileWidth;
+        return window.innerWidth <= 768;
     }
 
     addGuessToGrid(guessedPlayer) {
-        const grid = document.getElementById('player-grid');
-        console.log('addGuessToGrid called:', {
-            isMobile: this.isMobile(),
-            windowWidth: window.innerWidth,
-            gridExists: !!grid,
-            playerName: guessedPlayer.name
-        });
-        
         if (this.isMobile()) {
             this.addGuessToMobileGrid(guessedPlayer);
         } else {
@@ -248,25 +237,48 @@ class PlayerChallengeGame {
             { value: guessedPlayer.totalTDs.toString(), type: 'totalTDs' }
         ];
 
-        console.log('Adding mobile guess:', guessedPlayer.name, rowData); // Debug log
-
+        // Add cells to each row
         rowData.forEach((cell, index) => {
             const row = grid.children[index];
             if (row) {
                 const cellElement = document.createElement('div');
-                cellElement.className = `grid-cell mobile-guess-cell ${this.getColorClass(cell.type, guessedPlayer)}`;
+                const colorClass = this.getColorClass(cell.type, guessedPlayer);
+                cellElement.className = `mobile-guess-cell ${colorClass}`;
                 cellElement.textContent = cell.value;
-                console.log(`Adding cell ${index}:`, cell.value, 'to row:', row); // Debug log
+                
+                // Apply base styles
+                cellElement.style.minWidth = '80px';
+                cellElement.style.maxWidth = '120px';
+                cellElement.style.padding = '1rem 0.5rem';
+                cellElement.style.fontSize = '1.1rem';
+                cellElement.style.borderRadius = '8px';
+                cellElement.style.fontWeight = '600';
+                cellElement.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1)';
+                cellElement.style.display = 'flex';
+                cellElement.style.alignItems = 'center';
+                cellElement.style.justifyContent = 'center';
+                cellElement.style.textAlign = 'center';
+                cellElement.style.flexShrink = '0';
+                
+                // Apply color styles based on correctness
+                if (colorClass === 'correct') {
+                    cellElement.style.backgroundColor = '#22c55e';
+                    cellElement.style.color = 'white';
+                } else if (colorClass === 'close') {
+                    cellElement.style.backgroundColor = '#f59e0b';
+                    cellElement.style.color = 'white';
+                } else {
+                    cellElement.style.backgroundColor = '#6b7280';
+                    cellElement.style.color = 'white';
+                }
+                
                 row.appendChild(cellElement);
-            } else {
-                console.error(`Row ${index} not found in mobile grid`);
             }
         });
     }
 
     createMobileGridStructure() {
         const grid = document.getElementById('player-grid');
-        console.log('Creating mobile grid structure:', grid);
         
         grid.innerHTML = '';
         grid.className = 'player-grid mobile-grid-structure';
@@ -280,20 +292,34 @@ class PlayerChallengeGame {
             'Tot TDs'
         ];
         
-        categories.forEach((category, index) => {
+        categories.forEach((category) => {
             const row = document.createElement('div');
             row.className = 'mobile-grid-row';
+            row.style.display = 'flex';
+            row.style.alignItems = 'stretch';
+            row.style.marginBottom = '2px';
+            row.style.gap = '2px';
             
             const headerCell = document.createElement('div');
-            headerCell.className = 'grid-cell mobile-category-header';
+            headerCell.className = 'mobile-category-header';
             headerCell.textContent = category;
-            row.appendChild(headerCell);
+            headerCell.style.minWidth = '100px';
+            headerCell.style.maxWidth = '100px';
+            headerCell.style.padding = '1rem 0.8rem';
+            headerCell.style.fontSize = '1rem';
+            headerCell.style.fontWeight = '700';
+            headerCell.style.backgroundColor = '#374151';
+            headerCell.style.color = 'white';
+            headerCell.style.borderRadius = '8px';
+            headerCell.style.display = 'flex';
+            headerCell.style.alignItems = 'center';
+            headerCell.style.justifyContent = 'center';
+            headerCell.style.textAlign = 'center';
+            headerCell.style.flexShrink = '0';
             
+            row.appendChild(headerCell);
             grid.appendChild(row);
-            console.log(`Created mobile row ${index}:`, category, row);
         });
-        
-        console.log('Mobile grid structure created. Grid children count:', grid.children.length);
     }
     
     getColorClass(type, guessedPlayer) {

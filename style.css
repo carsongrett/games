@@ -880,6 +880,15 @@ footer p {
         display: none;
     }
 
+    /* Hide desktop grid structure on mobile */
+    .player-grid-header {
+        display: none !important;
+    }
+
+    .player-row {
+        display: none !important;
+    }
+
     .grid-cell {
         padding: 1.2rem 0.3rem;
         font-size: 1.1rem;

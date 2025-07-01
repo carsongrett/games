@@ -239,18 +239,42 @@ class MLBTeamChallengeGame {
             { value: guessedTeam.battingAvg.toFixed(3), type: 'battingAvg' }
         ];
 
-        console.log('Adding MLB mobile guess:', guessedTeam.name, rowData); // Debug log
-
+        // Add cells to each row
         rowData.forEach((cell, index) => {
             const row = grid.children[index];
             if (row) {
                 const cellElement = document.createElement('div');
-                cellElement.className = `grid-cell mobile-guess-cell ${this.getColorClass(cell.type, guessedTeam)}`;
+                const colorClass = this.getColorClass(cell.type, guessedTeam);
+                cellElement.className = `mobile-guess-cell ${colorClass}`;
                 cellElement.textContent = cell.value;
-                console.log(`Adding MLB cell ${index}:`, cell.value, 'to row:', row); // Debug log
+                
+                // Apply base styles
+                cellElement.style.minWidth = '80px';
+                cellElement.style.maxWidth = '120px';
+                cellElement.style.padding = '1rem 0.5rem';
+                cellElement.style.fontSize = '1.1rem';
+                cellElement.style.borderRadius = '8px';
+                cellElement.style.fontWeight = '600';
+                cellElement.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1)';
+                cellElement.style.display = 'flex';
+                cellElement.style.alignItems = 'center';
+                cellElement.style.justifyContent = 'center';
+                cellElement.style.textAlign = 'center';
+                cellElement.style.flexShrink = '0';
+                
+                // Apply color styles based on correctness
+                if (colorClass === 'correct') {
+                    cellElement.style.backgroundColor = '#22c55e';
+                    cellElement.style.color = 'white';
+                } else if (colorClass === 'close') {
+                    cellElement.style.backgroundColor = '#f59e0b';
+                    cellElement.style.color = 'white';
+                } else {
+                    cellElement.style.backgroundColor = '#6b7280';
+                    cellElement.style.color = 'white';
+                }
+                
                 row.appendChild(cellElement);
-            } else {
-                console.error(`MLB Row ${index} not found in mobile grid`);
             }
         });
     }
