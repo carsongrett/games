@@ -448,18 +448,7 @@ header {
     display: block;
 }
 
-/* Footer */
-footer {
-    background: white;
-    border-top: 1px solid #e5e7eb;
-    padding: 2rem 0;
-    margin-top: 3rem;
-}
 
-footer p {
-    text-align: center;
-    color: #6b7280;
-}
 
 /* NFL Player Challenge Styles */
 .player-challenge-stats {
