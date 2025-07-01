@@ -58,6 +58,12 @@
                         <p>Guess MLB teams using their league, division, runs per game, and home runs</p>
                         <button class="play-btn">Play Now!</button>
                     </div>
+
+                    <div class="game-card" onclick="showSection('color-memory')">
+                        <h3>🌈 Color Memory</h3>
+                        <p>Watch the color sequence and repeat it back. How far can you get?</p>
+                        <button class="play-btn">Play Now!</button>
+                    </div>
                 </div>
             </div>
         </section>
@@ -272,6 +278,42 @@
                 </div>
             </div>
         </section>
+
+        <!-- Color Memory Game Section -->
+        <section id="color-memory" class="section">
+            <div class="container">
+                <div class="game-header">
+                    <h2>🌈 Color Memory</h2>
+                    <button class="back-btn" onclick="showSection('home')">← Back to Home</button>
+                </div>
+                
+                <div class="game-container">
+                    <div class="game-info">
+                        <p>Watch the color sequence carefully, then repeat it by clicking the colors in the same order!</p>
+                        <div class="game-notes">
+                            <p><strong>How to Play:</strong> Watch as colors light up in sequence, then click them in the exact same order.</p>
+                            <p><strong>Scoring:</strong> Each completed sequence earns 1 point. The game gets faster as you progress!</p>
+                        </div>
+                        <div class="color-memory-stats">
+                            <span>Level: <span id="color-memory-score">0</span></span>
+                            <span>High Score: <span id="color-memory-high-score">0</span></span>
+                            <button id="new-color-memory-btn" onclick="newColorMemoryGame()">Start Game</button>
+                        </div>
+                    </div>
+                    
+                    <div class="color-memory-container">
+                        <div class="color-grid">
+                            <button id="color-red" class="color-button red"></button>
+                            <button id="color-blue" class="color-button blue"></button>
+                            <button id="color-green" class="color-button green"></button>
+                            <button id="color-yellow" class="color-button yellow"></button>
+                        </div>
+                    </div>
+                    
+                    <div id="color-memory-message" class="game-message"></div>
+                </div>
+            </div>
+        </section>
     </main>
 
 
@@ -282,6 +324,7 @@
     <script src="player-challenge.js"></script>
     <script src="nba-player-challenge.js"></script>
     <script src="mlb-player-challenge.js"></script>
+    <script src="color-memory.js"></script>
     <script src="main.js"></script>
 </body>
 </html> 
