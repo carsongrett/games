@@ -536,8 +536,106 @@ footer p {
     cursor: not-allowed;
 }
 
-.player-grid-container {
+/* Game Layout - Previous Guesses + Grid */
+.game-layout {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 2rem;
     margin-top: 2rem;
+    align-items: start;
+}
+
+.previous-guesses-container {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    border: 2px solid #e5e7eb;
+    position: sticky;
+    top: 120px;
+}
+
+.previous-guesses-container h4 {
+    color: #1f2937;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    text-align: center;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.previous-guesses-list {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.previous-guess-item {
+    background: #f8fafc;
+    border-radius: 8px;
+    padding: 0.75rem;
+    margin-bottom: 0.75rem;
+    border-left: 4px solid #6b7280;
+    transition: all 0.2s ease;
+}
+
+.previous-guess-item:hover {
+    background: #f1f5f9;
+    transform: translateX(2px);
+}
+
+.previous-guess-name {
+    font-weight: 600;
+    color: #1f2937;
+    font-size: 0.95rem;
+    margin-bottom: 0.25rem;
+}
+
+.previous-guess-details {
+    font-size: 0.85rem;
+    color: #6b7280;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.previous-guess-team {
+    font-weight: 500;
+    color: #374151;
+}
+
+.previous-guess-position {
+    background: #e5e7eb;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.previous-guess-item.correct {
+    border-left-color: #10b981;
+    background: #f0fdf4;
+}
+
+.previous-guess-item.correct:hover {
+    background: #ecfdf5;
+}
+
+.previous-guess-item.close {
+    border-left-color: #f59e0b;
+    background: #fffbeb;
+}
+
+.previous-guess-item.close:hover {
+    background: #fef3c7;
+}
+
+.previous-guess-item.incorrect {
+    border-left-color: #6b7280;
+    background: #f8fafc;
+}
+
+.player-grid-container {
     width: 100%;
     position: relative;
 }
@@ -545,10 +643,14 @@ footer p {
 .mobile-scroll-hint {
     display: none;
     text-align: center;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     color: #6b7280;
-    margin-bottom: 0.5rem;
-    font-style: italic;
+    margin-bottom: 1rem;
+    font-weight: 500;
+    background: #f3f4f6;
+    padding: 0.75rem;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
 }
 
 .player-grid {
@@ -839,12 +941,104 @@ footer p {
         touch-action: manipulation;
     }
 
-    /* NFL Player Grid - Mobile specific */
+    /* NFL Player Layout - Mobile specific */
+    #player-challenge .game-layout {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        margin-top: 1.5rem;
+    }
+
+    #player-challenge .previous-guesses-container {
+        position: static;
+        order: 2;
+        margin-top: 1rem;
+        padding: 1rem;
+    }
+
+    #player-challenge .previous-guesses-container h4 {
+        font-size: 1rem;
+        margin-bottom: 0.75rem;
+    }
+
+    #player-challenge .previous-guesses-list {
+        max-height: 200px;
+        display: flex;
+        flex-direction: row;
+        gap: 0.75rem;
+        overflow-x: auto;
+        padding-bottom: 0.5rem;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+    }
+
+    #player-challenge .previous-guesses-list::-webkit-scrollbar {
+        height: 4px;
+    }
+
+    #player-challenge .previous-guesses-list::-webkit-scrollbar-track {
+        background: #f1f5f9;
+        border-radius: 2px;
+    }
+
+    #player-challenge .previous-guesses-list::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 2px;
+    }
+
+    #player-challenge .previous-guesses-list::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
+    }
+
+    #player-challenge .previous-guess-item {
+        min-width: 140px;
+        flex-shrink: 0;
+        margin-bottom: 0;
+        padding: 0.5rem;
+    }
+
+    #player-challenge .previous-guess-name {
+        font-size: 0.85rem;
+        margin-bottom: 0.2rem;
+    }
+
+    #player-challenge .previous-guess-details {
+        font-size: 0.75rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+    }
+
+    #player-challenge .previous-guess-position {
+        font-size: 0.7rem;
+        padding: 0.15rem 0.4rem;
+    }
+
     #player-challenge .player-grid-container {
+        order: 1;
         overflow-x: auto;
         background: white;
         border-radius: 12px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+    }
+
+    #player-challenge .player-grid-container::-webkit-scrollbar {
+        height: 6px;
+    }
+
+    #player-challenge .player-grid-container::-webkit-scrollbar-track {
+        background: #f1f5f9;
+        border-radius: 3px;
+    }
+
+    #player-challenge .player-grid-container::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 3px;
+    }
+
+    #player-challenge .player-grid-container::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
     }
 
     #player-challenge .player-grid-header {
