@@ -1042,13 +1042,13 @@ footer p {
     }
 
     #player-challenge .player-grid-header {
-        grid-template-columns: repeat(7, minmax(70px, 1fr));
+        grid-template-columns: repeat(6, minmax(70px, 1fr));
         gap: 1px;
         background: #374151;
     }
 
     #player-challenge .player-row {
-        grid-template-columns: repeat(7, minmax(70px, 1fr));
+        grid-template-columns: repeat(6, minmax(70px, 1fr));
         gap: 1px;
         background: #f8fafc;
         margin-bottom: 1px;
@@ -1165,17 +1165,17 @@ footer p {
     margin-bottom: 0;
 }
 
-/* NFL Player Grid - 7 columns */
+/* NFL Player Grid - 6 columns (updated) */
 #player-challenge .player-grid-header {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     gap: 4px;
     margin-bottom: 4px;
 }
 
 #player-challenge .player-row {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     gap: 4px;
 }
 
