@@ -11,6 +11,7 @@ const routes = {
     '/nba-player-challenge': 'nba-player-challenge',
     '/mlb-team-challenge': 'mlb-player-challenge',
     '/mlb-batter-guessing': 'mlb-batter-guessing',
+    '/mlb-standings-challenge': 'mlb-standings-challenge',
     '/color-memory': 'color-memory',
     '/rent-guessing': 'rent-guessing',
     '/flight-guessing': 'flight-guessing'
@@ -28,6 +29,7 @@ const sectionToRoute = {
     'nba-player-challenge': '/nba-player-challenge',
     'mlb-player-challenge': '/mlb-team-challenge',
     'mlb-batter-guessing': '/mlb-batter-guessing',
+    'mlb-standings-challenge': '/mlb-standings-challenge',
     'color-memory': '/color-memory',
     'rent-guessing': '/rent-guessing',
     'flight-guessing': '/flight-guessing'
@@ -40,6 +42,7 @@ const gameCategories = {
     'nba-player-challenge': 'sports',
     'mlb-player-challenge': 'sports',
     'mlb-batter-guessing': 'sports',
+    'mlb-standings-challenge': 'sports',
     'color-memory': 'other',
     'weather-challenge': 'other',
     'rent-guessing': 'other',
@@ -58,6 +61,7 @@ const gameTitles = {
     'nba-player-challenge': 'NBA Player Challenge',
     'mlb-player-challenge': 'MLB Team Challenge',
     'mlb-batter-guessing': 'MLB Batter Challenge',
+    'mlb-standings-challenge': 'MLB Standings Challenge',
     'color-memory': 'Color Memory',
     'rent-guessing': 'Rent Guessing',
     'flight-guessing': 'Flight Time Challenge'
@@ -198,6 +202,8 @@ function showSection(sectionName, pushToHistory = true) {
         initializeFlightChallenge();
     } else if (sectionName === 'mlb-batter-guessing' && typeof initializeMLBBatterGame === 'function') {
         initializeMLBBatterGame();
+    } else if (sectionName === 'mlb-standings-challenge' && typeof initializeMLBStandingsGame === 'function') {
+        initializeMLBStandingsGame();
     }
 }
 

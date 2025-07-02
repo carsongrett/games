@@ -2782,6 +2782,333 @@ header {
     }
 }
 
+/* MLB Standings Challenge Styles */
+.mlb-standings-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.leagues-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.league-section {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 20px;
+    border: 2px solid #e9ecef;
+}
+
+.league-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.league-header h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #495057;
+    margin: 0;
+    padding: 10px;
+    background: #007bff;
+    color: white;
+    border-radius: 8px;
+}
+
+.standings-table {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.standings-header {
+    display: grid;
+    grid-template-columns: 60px 1fr 80px;
+    background: #343a40;
+    color: white;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.standings-header > div {
+    padding: 12px 8px;
+    text-align: center;
+}
+
+.standings-row {
+    display: grid;
+    grid-template-columns: 60px 1fr 80px;
+    border-bottom: 1px solid #e9ecef;
+    transition: background-color 0.2s ease;
+}
+
+.standings-row:hover {
+    background: #f8f9fa;
+}
+
+.standings-row.revealed {
+    background: #d4edda;
+}
+
+.standings-row.guessed-wrong {
+    background: #f8d7da;
+}
+
+.standings-row > div {
+    padding: 12px 8px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.rank-col {
+    font-weight: 700;
+    color: #495057;
+}
+
+.team-col {
+    text-align: left;
+    justify-content: flex-start;
+}
+
+.record-col {
+    font-weight: 600;
+    color: #6c757d;
+}
+
+.hidden-team-btn {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+    width: 100%;
+    min-height: 36px;
+}
+
+.hidden-team-btn:hover {
+    background: #0056b3;
+}
+
+.revealed-team {
+    font-weight: 600;
+    color: #155724;
+}
+
+.incorrect-guess {
+    margin-right: 5px;
+}
+
+.team-selector-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    border-radius: 12px;
+    padding: 0;
+    max-width: 500px;
+    width: 90%;
+    max-height: 80vh;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.modal-header {
+    background: #007bff;
+    color: white;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h4 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.close-modal {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.2s ease;
+}
+
+.close-modal:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+.modal-body {
+    padding: 30px;
+}
+
+.team-dropdown {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #ced4da;
+    border-radius: 8px;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    background: white;
+}
+
+.team-dropdown:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
+}
+
+.modal-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: flex-end;
+}
+
+.modal-actions button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+}
+
+#submit-guess-btn {
+    background: #28a745;
+    color: white;
+}
+
+#submit-guess-btn:hover:not(:disabled) {
+    background: #218838;
+}
+
+#submit-guess-btn:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+}
+
+.cancel-btn {
+    background: #6c757d;
+    color: white;
+}
+
+.cancel-btn:hover {
+    background: #5a6268;
+}
+
+.mlb-standings-stats {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 15px;
+}
+
+.mlb-standings-stats span {
+    font-weight: 600;
+    color: #495057;
+    background: #f8f9fa;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid #dee2e6;
+}
+
+.mlb-standings-stats button {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.mlb-standings-stats button:hover {
+    background: #0056b3;
+}
+
+@media (max-width: 768px) {
+    .leagues-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .league-section {
+        padding: 15px;
+    }
+    
+    .standings-header,
+    .standings-row {
+        grid-template-columns: 50px 1fr 70px;
+    }
+    
+    .standings-header > div,
+    .standings-row > div {
+        padding: 10px 5px;
+        font-size: 0.85rem;
+    }
+    
+    .hidden-team-btn {
+        font-size: 0.75rem;
+        padding: 6px 8px;
+        min-height: 32px;
+    }
+    
+    .modal-content {
+        width: 95%;
+        max-height: 90vh;
+    }
+    
+    .modal-header,
+    .modal-body {
+        padding: 20px;
+    }
+    
+    .modal-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .modal-actions button {
+        width: 100%;
+    }
+    
+    .mlb-standings-stats {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
 
 
  

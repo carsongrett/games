@@ -141,7 +141,7 @@ class MLBBatterGame {
             }
             
             statsDisplay.innerHTML = `
-                <p>A player from the <strong>${teamHint}</strong> had these stats over the last week:${nameHint}</p>
+                <p>A player from <strong>${teamHint}</strong> had these stats over the last week:${nameHint}</p>
                 <div class="stats-grid">
                     <div class="stat-item">
                         <span class="stat-value">${doubles}</span>
