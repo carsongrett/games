@@ -316,7 +316,7 @@ class MLBStandingsGame {
                         ).join('')}
                     </select>
                     <div class="modal-actions">
-                        <button id="submit-guess-btn" onclick="console.log('Button clicked!'); submitTeamGuess(${teamId})" disabled>Submit Guess</button>
+                        <button id="submit-guess-btn" disabled>Submit Guess</button>
                         <button onclick="closeTeamSelector()" class="cancel-btn">Cancel</button>
                     </div>
                 </div>
@@ -336,25 +336,44 @@ class MLBStandingsGame {
                 // Function to update button state
                 const updateButtonState = () => {
                     const hasSelection = selector.value && selector.value !== "";
-                    submitBtn.disabled = !hasSelection;
                     
-                    // Force a visual update
+                    // Explicitly set/remove disabled attribute
                     if (hasSelection) {
+                        submitBtn.removeAttribute('disabled');
+                        submitBtn.disabled = false;
                         submitBtn.style.backgroundColor = '#28a745';
                         submitBtn.style.cursor = 'pointer';
                         submitBtn.style.opacity = '1';
                     } else {
+                        submitBtn.setAttribute('disabled', 'true');
+                        submitBtn.disabled = true;
                         submitBtn.style.backgroundColor = '#6c757d';
                         submitBtn.style.cursor = 'not-allowed';
                         submitBtn.style.opacity = '0.6';
                     }
                     
-                    console.log('🔄 Button state updated - Selection:', selector.value, 'Disabled:', submitBtn.disabled, 'HasSelection:', hasSelection);
+                    console.log('🔄 Button state updated - Selection:', selector.value, 'Disabled:', submitBtn.disabled, 'HasSelection:', hasSelection, 'DOM disabled attr:', submitBtn.getAttribute('disabled'));
                 };
                 
                 // Enable submit button when selection is made
                 selector.addEventListener('change', updateButtonState);
                 selector.addEventListener('input', updateButtonState);
+                
+                // Add click event listener to submit button
+                submitBtn.addEventListener('click', function(e) {
+                    console.log('🎯 Submit button clicked directly!');
+                    console.log('Button disabled state:', submitBtn.disabled);
+                    console.log('Button disabled attribute:', submitBtn.getAttribute('disabled'));
+                    
+                    if (!submitBtn.disabled) {
+                        console.log('✅ Button is enabled, submitting guess');
+                        submitTeamGuess(teamId);
+                    } else {
+                        console.log('❌ Button is disabled, not submitting');
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }
+                });
                 
                 // Initial check
                 updateButtonState();
