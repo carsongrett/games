@@ -61,25 +61,34 @@
 
                     <div class="game-card" onclick="navigateToRoute('/color-memory')">
                         <h3>🌈 Color Memory</h3>
-                        <p>Watch the color sequence and repeat it back. How far can you get?</p>
+                        <p>Memorize and repeat color sequences</p>
                         <button class="play-btn">Play Now!</button>
                     </div>
 
                     <div class="game-card" onclick="navigateToRoute('/weather')">
                         <h3>🌡️ Weather Challenge</h3>
-                        <p>Guess the current temperature in cities around the world. Test your weather intuition!</p>
+                        <p>Guess current temperatures worldwide</p>
                         <button class="play-btn">Play Now!</button>
                     </div>
 
                     <div class="game-card" onclick="navigateToRoute('/rent-guessing')">
-                        <h3>🏠 Rent Guessing</h3>
-                        <p>Guess monthly rent prices for apartments across different U.S. cities and bedroom counts!</p>
+                        <h3>�� Rent Guessing</h3>
+                        <p>Guess monthly rent for U.S. apartments</p>
+                        <div class="game-notes">
+                            <p><strong>Goal:</strong> Get within $50 of actual rent in 3 guesses across 5 locations</p>
+                            <p><strong>Scoring:</strong> Higher/lower hints on first 2 guesses, proximity points if not exact on guess 3</p>
+                        </div>
+                        <div class="rent-challenge-stats">
+                            <span>Round: <span id="rent-round">1</span>/5</span>
+                            <span>Guesses: <span id="rent-guess-count">0/3</span></span>
+                            <button id="new-rent-btn" onclick="newRentGame()">New Game</button>
+                        </div>
                         <button class="play-btn">Play Now!</button>
                     </div>
 
                     <div class="game-card" onclick="navigateToRoute('/flight-guessing')">
                         <h3>✈️ Flight Time Challenge</h3>
-                        <p>Guess flight durations between U.S. cities! See the route on the map and estimate travel time.</p>
+                        <p>Guess flight durations between cities</p>
                         <button class="play-btn">Play Now!</button>
                     </div>
                 </div>
@@ -307,10 +316,10 @@
                 
                 <div class="game-container">
                     <div class="game-info">
-                        <p>Watch the color sequence carefully, then repeat it by clicking the colors in the same order!</p>
+                        <p>Memorize and repeat color sequences</p>
                         <div class="game-notes">
-                            <p><strong>How to Play:</strong> Watch as colors light up in sequence, then click them in the exact same order.</p>
-                            <p><strong>Scoring:</strong> Each completed sequence earns 1 point. The game gets faster as you progress!</p>
+                            <p><strong>Goal:</strong> Watch colors light up, then click them in the same order</p>
+                            <p><strong>Scoring:</strong> 1 point per completed sequence</p>
                         </div>
                         <div class="color-memory-stats">
                             <span>Level: <span id="color-memory-score">0</span></span>
@@ -343,9 +352,9 @@
                 
                 <div class="game-container">
                     <div class="game-info">
-                        <p>Guess the current temperature in cities around the world!</p>
+                        <p>Guess current temperatures worldwide</p>
                         <div class="game-notes">
-                            <p><strong>How to Play:</strong> Look at the city name and weather icon, then guess the current temperature in 5 unique cities.</p>
+                            <p><strong>Goal:</strong> Guess temperature in 5 cities</p>
                             <p><strong>Scoring:</strong> Exact = 10 pts | ±2°F = 8 pts | ±5°F = 5 pts | ±10°F = 3 pts | ±15°F = 1 pt</p>
                         </div>
                         <div class="weather-challenge-stats">
@@ -398,13 +407,15 @@
                 
                 <div class="game-container">
                     <div class="game-info">
-                        <p>Guess monthly rent prices for apartments across different U.S. cities!</p>
+                        <p>Guess monthly rent for U.S. apartments</p>
                         <div class="game-notes">
-                            <p><strong>How to Play:</strong> Look at the city and bedroom count, then guess the monthly rent for that location.</p>
-                            <p><strong>Scoring:</strong> You have 5 guesses to get within 5% of the actual rent. Get feedback with "Higher" or "Lower" after each guess!</p>
+                            <p><strong>Goal:</strong> Get within $50 of actual rent in 3 guesses across 5 locations</p>
+                            <p><strong>Scoring:</strong> Higher/lower hints on first 2 guesses, proximity points if not exact on guess 3</p>
                         </div>
                         <div class="rent-challenge-stats">
-                            <span>Guesses: <span id="rent-guess-count">0/5</span></span>
+                            <span>Round: <span id="rent-round">1</span>/5</span>
+                            <span>Guesses: <span id="rent-guess-count">0/3</span></span>
+                            <span>Score: <span id="rent-total-score">0</span></span>
                             <button id="new-rent-btn" onclick="newRentGame()">New Game</button>
                         </div>
                     </div>
@@ -451,10 +462,10 @@
                 
                 <div class="game-container">
                     <div class="game-info">
-                        <p>Guess the flight duration between U.S. cities!</p>
+                        <p>Guess flight durations between cities</p>
                         <div class="game-notes">
-                            <p><strong>How to Play:</strong> Look at the origin and destination cities and distance, then guess the flight time in hours and minutes.</p>
-                            <p><strong>Scoring:</strong> Score points based on how close your guess is! Perfect = 100pts, within 5min = 90pts, within 10min = 80pts, etc.</p>
+                            <p><strong>Goal:</strong> Estimate flight time using distance and city information</p>
+                            <p><strong>Scoring:</strong> Perfect = 100pts, within 5min = 90pts, within 10min = 80pts</p>
                         </div>
                         <div class="flight-challenge-stats">
                             <span id="flight-round-info">Round 1/5</span>

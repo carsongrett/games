@@ -275,13 +275,13 @@ function endWeatherGame() {
     let message = `Game Over! Final Score: ${weatherGame.score}/${weatherGame.totalRounds * 10} points\n\n`;
     
     if (weatherGame.score >= 40) {
-        message += "🌟 Excellent! You're a weather expert!";
+        message += "🌟 Wow. Great score.";
     } else if (weatherGame.score >= 30) {
-        message += "🌤️ Great job! You have good weather intuition!";
+        message += "🌤️ Good score. You can do better.";
     } else if (weatherGame.score >= 20) {
-        message += "☁️ Not bad! Keep practicing your weather guessing!";
+        message += "☁️ Not bad. You can do better.";
     } else {
-        message += "🌧️ Weather is tricky! Try again to improve your score!";
+        message += "🌧️ Not good. Try again to improve your score";
     }
     
     document.getElementById('weather-message').textContent = message;

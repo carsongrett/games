@@ -200,6 +200,13 @@ header {
 }
 
 .game-info {
+    margin-bottom: 2rem;
+}
+
+.game-info > p {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #1f2937;
     text-align: center;
     margin-bottom: 1.5rem;
 }
@@ -1364,28 +1371,25 @@ header {
     }
 }
 
-.game-info p {
-    margin-bottom: 1rem;
-    color: #6b7280;
-}
-
 .game-notes {
-    background-color: #f3f4f6;
-    border-left: 4px solid #2563eb;
-    padding: 0.75rem;
-    margin: 0.5rem 0;
-    border-radius: 4px;
+    margin: 1rem 0;
+    padding: 1.25rem;
+    background-color: #f1f5f9;
+    border-radius: 8px;
+    border-left: 4px solid #3b82f6;
 }
 
 .game-notes p {
-    margin: 0.25rem 0;
-    font-size: 0.85rem;
+    margin: 0.75rem 0;
+    font-size: 1.1rem;
+    font-weight: 500;
     color: #374151;
-    line-height: 1.4;
+    line-height: 1.6;
 }
 
-.game-notes p:last-child {
-    margin-bottom: 0;
+.game-notes strong {
+    font-weight: 700;
+    color: #1f2937;
 }
 
 /* NFL Player Grid - 6 columns (same style as NBA) */

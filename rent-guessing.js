@@ -1,9 +1,12 @@
-// Rent Guessing Game
+// Rent Guessing Game - 5 Rounds with 3 Guesses Each
 let rentGame = {
     currentEntry: null,
     currentRent: 0,
     guessCount: 0,
-    maxGuesses: 5,
+    maxGuesses: 3,
+    currentRound: 1,
+    maxRounds: 5,
+    totalScore: 0,
     gameActive: false,
     usedEntries: [],
     availableEntries: []
@@ -303,6 +306,8 @@ function initializeRentGuessing() {
 function newRentGame() {
     rentGame.gameActive = true;
     rentGame.guessCount = 0;
+    rentGame.currentRound = 1;
+    rentGame.totalScore = 0;
     rentGame.usedEntries = [];
     rentGame.availableEntries = [...rentData];
     
@@ -333,16 +338,25 @@ function loadNewRentChallenge() {
     rentGame.usedEntries.push(rentGame.currentEntry);
     rentGame.availableEntries.splice(randomIndex, 1);
     
+    // Reset round state
+    rentGame.guessCount = 0;
+    
     // Update display
     document.getElementById('rent-region').textContent = rentGame.currentEntry.region;
     document.getElementById('rent-bedrooms').textContent = `${rentGame.currentEntry.bedrooms} bedroom${rentGame.currentEntry.bedrooms === 1 ? '' : 's'}`;
+    
+    // Clear previous round feedback
+    document.getElementById('rent-feedback').style.display = 'none';
+    document.getElementById('rent-result').style.display = 'none';
+    document.getElementById('rent-guess-input').disabled = false;
+    document.getElementById('submit-rent-guess').disabled = false;
+    document.getElementById('rent-guess-input').value = '';
+    
     updateRentGameDisplay();
     
     // Focus input
     document.getElementById('rent-guess-input').focus();
 }
-
-
 
 // Submit rent guess
 function submitRentGuess() {
@@ -360,22 +374,43 @@ function submitRentGuess() {
     rentGame.guessCount++;
     
     const difference = Math.abs(guess - rentGame.currentRent);
-    const tolerance = Math.max(50, rentGame.currentRent * 0.05); // 5% tolerance or $50, whichever is higher
+    const isWithin50 = difference <= 50;
     
-    // Check if guess is close enough to be considered correct
-    if (difference <= tolerance) {
+    // Check if guess is within $50 (correct)
+    if (isWithin50) {
         // Correct guess!
-        endRentGame(true, guess);
+        const points = calculatePoints(difference, rentGame.guessCount);
+        rentGame.totalScore += points;
+        endRentRound(true, guess, points);
     } else if (rentGame.guessCount >= rentGame.maxGuesses) {
-        // Out of guesses
-        endRentGame(false, guess);
+        // Out of guesses - calculate proximity points
+        const points = calculateProximityPoints(difference);
+        rentGame.totalScore += points;
+        endRentRound(false, guess, points);
     } else {
-        // Show higher/lower feedback
+        // Show higher/lower feedback for first 2 guesses
         const feedback = guess < rentGame.currentRent ? 'Higher!' : 'Lower!';
         showRentFeedback(feedback, guess);
     }
     
     updateRentGameDisplay();
+}
+
+// Calculate points for correct guesses
+function calculatePoints(difference, guessNumber) {
+    if (difference === 0) return 100; // Perfect guess
+    if (difference <= 25) return guessNumber === 1 ? 90 : guessNumber === 2 ? 80 : 70;
+    if (difference <= 50) return guessNumber === 1 ? 70 : guessNumber === 2 ? 60 : 50;
+    return 0;
+}
+
+// Calculate proximity points for third guess when not within $50
+function calculateProximityPoints(difference) {
+    if (difference <= 100) return 30;
+    if (difference <= 200) return 20;
+    if (difference <= 400) return 10;
+    if (difference <= 600) return 5;
+    return 0;
 }
 
 // Show feedback
@@ -389,11 +424,9 @@ function showRentFeedback(feedback, guess) {
     document.getElementById('rent-guess-input').focus();
 }
 
-// End game
-function endRentGame(won, finalGuess) {
-    rentGame.gameActive = false;
-    
-    // Hide feedback and input
+// End round
+function endRentRound(won, finalGuess, points) {
+    // Hide feedback and input for this round
     document.getElementById('rent-feedback').style.display = 'none';
     document.getElementById('rent-guess-input').disabled = true;
     document.getElementById('submit-rent-guess').disabled = true;
@@ -401,22 +434,78 @@ function endRentGame(won, finalGuess) {
     // Show result
     const resultDiv = document.getElementById('rent-result');
     const actualRent = rentGame.currentRent;
+    const difference = Math.abs(finalGuess - actualRent);
     
+    let resultMessage = '';
     if (won) {
-        document.getElementById('rent-result-text').innerHTML = `
-            <strong>🎉 Correct!</strong><br>
+        resultMessage = `
+            <strong>✅ Correct!</strong><br>
             Your guess: $${finalGuess.toLocaleString()}<br>
             Actual rent: $${actualRent.toLocaleString()}<br>
-            You got it in ${rentGame.guessCount} guess${rentGame.guessCount === 1 ? '' : 'es'}!
+            Points earned: ${points}<br>
+            Guesses used: ${rentGame.guessCount}
         `;
     } else {
-        document.getElementById('rent-result-text').innerHTML = `
-            <strong>😅 Close, but not quite!</strong><br>
+        resultMessage = `
+            <strong>❌ Round Complete</strong><br>
             Your final guess: $${finalGuess.toLocaleString()}<br>
             Actual rent: $${actualRent.toLocaleString()}<br>
-            Better luck next time!
+            Difference: $${difference.toLocaleString()}<br>
+            Points earned: ${points}
         `;
     }
+    
+    document.getElementById('rent-result-text').innerHTML = resultMessage;
+    resultDiv.style.display = 'block';
+    
+    // Check if game is complete
+    if (rentGame.currentRound >= rentGame.maxRounds) {
+        // Game complete
+        setTimeout(() => {
+            endRentGame();
+        }, 3000);
+    } else {
+        // Show next round button
+        setTimeout(() => {
+            nextRentRound();
+        }, 3000);
+    }
+}
+
+// Move to next round
+function nextRentRound() {
+    rentGame.currentRound++;
+    if (rentGame.currentRound <= rentGame.maxRounds) {
+        loadNewRentChallenge();
+    } else {
+        endRentGame();
+    }
+}
+
+// End entire game
+function endRentGame() {
+    rentGame.gameActive = false;
+    
+    // Show final results
+    const resultDiv = document.getElementById('rent-result');
+    const averageScore = Math.round(rentGame.totalScore / rentGame.maxRounds);
+    
+    let gameMessage = '';
+    if (rentGame.totalScore >= 400) {
+        gameMessage = `🏆 Excellent! Total Score: ${rentGame.totalScore}/500`;
+    } else if (rentGame.totalScore >= 300) {
+        gameMessage = `🎯 Great job! Total Score: ${rentGame.totalScore}/500`;
+    } else if (rentGame.totalScore >= 200) {
+        gameMessage = `👍 Good work! Total Score: ${rentGame.totalScore}/500`;
+    } else {
+        gameMessage = `📈 Keep practicing! Total Score: ${rentGame.totalScore}/500`;
+    }
+    
+    document.getElementById('rent-result-text').innerHTML = `
+        <strong>🎮 Game Complete!</strong><br>
+        ${gameMessage}<br>
+        Average per round: ${averageScore} points
+    `;
     
     resultDiv.style.display = 'block';
     document.getElementById('play-again-btn').style.display = 'inline-block';
@@ -425,6 +514,12 @@ function endRentGame(won, finalGuess) {
 // Update game display
 function updateRentGameDisplay() {
     document.getElementById('rent-guess-count').textContent = `${rentGame.guessCount}/${rentGame.maxGuesses}`;
+    if (document.getElementById('rent-round')) {
+        document.getElementById('rent-round').textContent = `${rentGame.currentRound}`;
+    }
+    if (document.getElementById('rent-total-score')) {
+        document.getElementById('rent-total-score').textContent = rentGame.totalScore;
+    }
 }
 
 // Handle Enter key in rent input
