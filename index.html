@@ -114,12 +114,6 @@
                         <p>Guess flight durations between cities</p>
                         <button class="play-btn">Play Now!</button>
                     </div>
-
-                    <div class="game-card" onclick="navigateToRoute('/tower-defense')">
-                        <h3>🏰 Tower Defense</h3>
-                        <p>Build towers to defend your base from incoming enemies</p>
-                        <button class="play-btn">Play Now!</button>
-                    </div>
                 </div>
             </div>
         </section>
@@ -563,66 +557,7 @@
             </div>
         </section>
 
-        <!-- Tower Defense Game Section -->
-        <section id="tower-defense" class="section">
-            <div class="container">
-                <div class="game-header">
-                    <h2>🏰 Tower Defense</h2>
-                    <button class="back-btn" onclick="navigateToRoute('/')">← Back to Home</button>
-                </div>
-                
-                <div class="game-container">
-                    <div class="game-info">
-                        <p>Build towers to defend your base from incoming enemies</p>
-                        <div class="game-notes">
-                            <p><strong>Goal:</strong> Survive 5 turns by strategically placing towers</p>
-                            <p><strong>Mechanics:</strong> Towers cost 20 gold, deal 10 damage, attack closest enemies in range</p>
-                        </div>
-                        <div class="tower-defense-stats">
-                            <span>Gold: <span id="td-gold">50</span></span>
-                            <span>Base Health: <span id="td-base-health">100</span></span>
-                            <span>Turn: <span id="td-current-turn">1</span>/5</span>
-                            <button id="td-restart" onclick="restartTowerDefense()" style="display: none;">New Game</button>
-                        </div>
-                    </div>
-                    
-                    <div class="tower-defense-container">
-                        <div class="health-bar-container">
-                            <div class="health-bar-label">Base Health</div>
-                            <div class="health-bar-track">
-                                <div id="td-health-bar" class="health-bar healthy"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="td-grid-container">
-                            <div class="td-grid">
-                                <div id="td-cell-0" class="td-cell base-cell"></div>
-                                <div id="td-cell-1" class="td-cell path-cell"></div>
-                                <div id="td-cell-2" class="td-cell path-cell"></div>
-                                <div id="td-cell-3" class="td-cell path-cell"></div>
-                                <div id="td-cell-4" class="td-cell path-cell"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="tower-controls">
-                            <h4>Build Towers:</h4>
-                            <div class="tower-buttons">
-                                <button id="td-build-1" onclick="buildTower(1)">Build Tower (20g)</button>
-                                <button id="td-build-2" onclick="buildTower(2)">Build Tower (20g)</button>
-                                <button id="td-build-3" onclick="buildTower(3)">Build Tower (20g)</button>
-                                <button id="td-build-4" onclick="buildTower(4)">Build Tower (20g)</button>
-                            </div>
-                        </div>
-                        
-                        <div class="game-controls">
-                            <button id="td-next-turn" onclick="nextTurn()" class="next-turn-btn">Next Turn (1/5)</button>
-                        </div>
-                    </div>
-                    
-                    <div id="td-message" class="game-message"></div>
-                </div>
-            </div>
-        </section>
+
     </main>
 
     <!-- Temporarily hidden Wordle game -->
@@ -635,7 +570,6 @@
     <script src="weather-challenge.js"></script>
     <script src="rent-guessing.js"></script>
     <script src="flight-guessing.js"></script>
-    <script src="tower-defense.js"></script>
     <script src="main.js"></script>
 </body>
 </html> 
