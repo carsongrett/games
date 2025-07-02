@@ -9,7 +9,8 @@ class MLBStandingsGame {
         this.gameOver = false;
         this.teamsRevealed = 0;
         this.totalTeams = 30;
-        this.currentSeason = new Date().getFullYear();
+        // Use 2025 as requested (will fall back to sample data if no current standings)
+        this.currentSeason = 2025;
     }
 
     async initialize() {
@@ -20,25 +21,34 @@ class MLBStandingsGame {
 
     async loadStandingsData() {
         try {
-            // Use current year for season
+            // Try to fetch current season standings
             const apiUrl = `https://statsapi.mlb.com/api/v1/standings?leagueId=103,104&season=${this.currentSeason}&standingsTypes=regularSeason`;
+            console.log(`Fetching standings from: ${apiUrl}`);
             
             const response = await fetch(apiUrl);
             if (!response.ok) {
-                throw new Error(`API request failed: ${response.status}`);
+                throw new Error(`API request failed: ${response.status} - ${response.statusText}`);
             }
             
             const data = await response.json();
+            console.log('API Response:', data);
             
             // Parse the standings data
             this.parseStandingsData(data);
             
-            console.log(`Loaded ${this.alStandings.length} AL teams and ${this.nlStandings.length} NL teams`);
+            if (this.alStandings.length > 0 && this.nlStandings.length > 0) {
+                console.log(`Successfully loaded ${this.alStandings.length} AL teams and ${this.nlStandings.length} NL teams for ${this.currentSeason} season`);
+                this.showMessage(`Loaded ${this.currentSeason} MLB standings successfully!`, 'success');
+                setTimeout(() => this.hideMessage(), 2000);
+            } else {
+                throw new Error('No valid team data found in API response');
+            }
             
         } catch (error) {
             console.error('Error loading standings data:', error);
-            this.showMessage('Unable to load current standings. Using sample data for demo.', 'error');
+            this.showMessage(`Unable to load ${this.currentSeason} standings (season may not have started). Using sample data for demo.`, 'error');
             this.loadSampleData();
+            setTimeout(() => this.hideMessage(), 3000);
         }
     }
 
@@ -86,41 +96,42 @@ class MLBStandingsGame {
     }
 
     loadSampleData() {
-        // Sample data for demonstration if API fails
+        console.log('Loading sample data...');
+        // Sample data using realistic MLB team IDs
         this.alStandings = [
-            { id: 1, name: "Baltimore Orioles", wins: 95, losses: 67, leagueRank: 1, league: "American League", revealed: false, guessed: false },
-            { id: 2, name: "Houston Astros", wins: 90, losses: 72, leagueRank: 2, league: "American League", revealed: false, guessed: false },
-            { id: 3, name: "Tampa Bay Rays", wins: 88, losses: 74, leagueRank: 3, league: "American League", revealed: false, guessed: false },
-            { id: 4, name: "Toronto Blue Jays", wins: 85, losses: 77, leagueRank: 4, league: "American League", revealed: false, guessed: false },
-            { id: 5, name: "New York Yankees", wins: 82, losses: 80, leagueRank: 5, league: "American League", revealed: false, guessed: false },
-            { id: 6, name: "Seattle Mariners", wins: 80, losses: 82, leagueRank: 6, league: "American League", revealed: false, guessed: false },
-            { id: 7, name: "Boston Red Sox", wins: 78, losses: 84, leagueRank: 7, league: "American League", revealed: false, guessed: false },
-            { id: 8, name: "Minnesota Twins", wins: 76, losses: 86, leagueRank: 8, league: "American League", revealed: false, guessed: false },
-            { id: 9, name: "Los Angeles Angels", wins: 73, losses: 89, leagueRank: 9, league: "American League", revealed: false, guessed: false },
-            { id: 10, name: "Texas Rangers", wins: 71, losses: 91, leagueRank: 10, league: "American League", revealed: false, guessed: false },
-            { id: 11, name: "Cleveland Guardians", wins: 69, losses: 93, leagueRank: 11, league: "American League", revealed: false, guessed: false },
-            { id: 12, name: "Chicago White Sox", wins: 67, losses: 95, leagueRank: 12, league: "American League", revealed: false, guessed: false },
-            { id: 13, name: "Detroit Tigers", wins: 65, losses: 97, leagueRank: 13, league: "American League", revealed: false, guessed: false },
-            { id: 14, name: "Kansas City Royals", wins: 63, losses: 99, leagueRank: 14, league: "American League", revealed: false, guessed: false },
-            { id: 15, name: "Oakland Athletics", wins: 60, losses: 102, leagueRank: 15, league: "American League", revealed: false, guessed: false }
+            { id: 110, name: "Baltimore Orioles", wins: 101, losses: 61, leagueRank: 1, league: "American League", revealed: false, guessed: false },
+            { id: 117, name: "Houston Astros", wins: 90, losses: 72, leagueRank: 2, league: "American League", revealed: false, guessed: false },
+            { id: 139, name: "Tampa Bay Rays", wins: 99, losses: 63, leagueRank: 3, league: "American League", revealed: false, guessed: false },
+            { id: 141, name: "Toronto Blue Jays", wins: 89, losses: 73, leagueRank: 4, league: "American League", revealed: false, guessed: false },
+            { id: 147, name: "New York Yankees", wins: 82, losses: 80, leagueRank: 5, league: "American League", revealed: false, guessed: false },
+            { id: 136, name: "Seattle Mariners", wins: 88, losses: 74, leagueRank: 6, league: "American League", revealed: false, guessed: false },
+            { id: 111, name: "Boston Red Sox", wins: 78, losses: 84, leagueRank: 7, league: "American League", revealed: false, guessed: false },
+            { id: 142, name: "Minnesota Twins", wins: 87, losses: 75, leagueRank: 8, league: "American League", revealed: false, guessed: false },
+            { id: 108, name: "Los Angeles Angels", wins: 73, losses: 89, leagueRank: 9, league: "American League", revealed: false, guessed: false },
+            { id: 140, name: "Texas Rangers", wins: 90, losses: 72, leagueRank: 10, league: "American League", revealed: false, guessed: false },
+            { id: 114, name: "Cleveland Guardians", wins: 76, losses: 86, leagueRank: 11, league: "American League", revealed: false, guessed: false },
+            { id: 145, name: "Chicago White Sox", wins: 61, losses: 101, leagueRank: 12, league: "American League", revealed: false, guessed: false },
+            { id: 116, name: "Detroit Tigers", wins: 78, losses: 84, leagueRank: 13, league: "American League", revealed: false, guessed: false },
+            { id: 118, name: "Kansas City Royals", wins: 56, losses: 106, leagueRank: 14, league: "American League", revealed: false, guessed: false },
+            { id: 133, name: "Oakland Athletics", wins: 50, losses: 112, leagueRank: 15, league: "American League", revealed: false, guessed: false }
         ];
 
         this.nlStandings = [
-            { id: 16, name: "Atlanta Braves", wins: 104, losses: 58, leagueRank: 1, league: "National League", revealed: false, guessed: false },
-            { id: 17, name: "Los Angeles Dodgers", wins: 100, losses: 62, leagueRank: 2, league: "National League", revealed: false, guessed: false },
-            { id: 18, name: "Philadelphia Phillies", wins: 90, losses: 72, leagueRank: 3, league: "National League", revealed: false, guessed: false },
-            { id: 19, name: "Milwaukee Brewers", wins: 88, losses: 74, leagueRank: 4, league: "National League", revealed: false, guessed: false },
-            { id: 20, name: "Arizona Diamondbacks", wins: 84, losses: 78, leagueRank: 5, league: "National League", revealed: false, guessed: false },
-            { id: 21, name: "Miami Marlins", wins: 84, losses: 78, leagueRank: 6, league: "National League", revealed: false, guessed: false },
-            { id: 22, name: "San Francisco Giants", wins: 79, losses: 83, leagueRank: 7, league: "National League", revealed: false, guessed: false },
-            { id: 23, name: "Cincinnati Reds", wins: 82, losses: 80, leagueRank: 8, league: "National League", revealed: false, guessed: false },
-            { id: 24, name: "Chicago Cubs", wins: 83, losses: 79, leagueRank: 9, league: "National League", revealed: false, guessed: false },
-            { id: 25, name: "New York Mets", wins: 75, losses: 87, leagueRank: 10, league: "National League", revealed: false, guessed: false },
-            { id: 26, name: "San Diego Padres", wins: 82, losses: 80, leagueRank: 11, league: "National League", revealed: false, guessed: false },
-            { id: 27, name: "St. Louis Cardinals", wins: 71, losses: 91, leagueRank: 12, league: "National League", revealed: false, guessed: false },
-            { id: 28, name: "Pittsburgh Pirates", wins: 76, losses: 86, leagueRank: 13, league: "National League", revealed: false, guessed: false },
-            { id: 29, name: "Washington Nationals", wins: 71, losses: 91, leagueRank: 14, league: "National League", revealed: false, guessed: false },
-            { id: 30, name: "Colorado Rockies", wins: 59, losses: 103, leagueRank: 15, league: "National League", revealed: false, guessed: false }
+            { id: 144, name: "Atlanta Braves", wins: 104, losses: 58, leagueRank: 1, league: "National League", revealed: false, guessed: false },
+            { id: 119, name: "Los Angeles Dodgers", wins: 100, losses: 62, leagueRank: 2, league: "National League", revealed: false, guessed: false },
+            { id: 143, name: "Philadelphia Phillies", wins: 90, losses: 72, leagueRank: 3, league: "National League", revealed: false, guessed: false },
+            { id: 158, name: "Milwaukee Brewers", wins: 88, losses: 74, leagueRank: 4, league: "National League", revealed: false, guessed: false },
+            { id: 109, name: "Arizona Diamondbacks", wins: 84, losses: 78, leagueRank: 5, league: "National League", revealed: false, guessed: false },
+            { id: 146, name: "Miami Marlins", wins: 84, losses: 78, leagueRank: 6, league: "National League", revealed: false, guessed: false },
+            { id: 137, name: "San Francisco Giants", wins: 79, losses: 83, leagueRank: 7, league: "National League", revealed: false, guessed: false },
+            { id: 113, name: "Cincinnati Reds", wins: 82, losses: 80, leagueRank: 8, league: "National League", revealed: false, guessed: false },
+            { id: 112, name: "Chicago Cubs", wins: 83, losses: 79, leagueRank: 9, league: "National League", revealed: false, guessed: false },
+            { id: 121, name: "New York Mets", wins: 75, losses: 87, leagueRank: 10, league: "National League", revealed: false, guessed: false },
+            { id: 135, name: "San Diego Padres", wins: 82, losses: 80, leagueRank: 11, league: "National League", revealed: false, guessed: false },
+            { id: 138, name: "St. Louis Cardinals", wins: 71, losses: 91, leagueRank: 12, league: "National League", revealed: false, guessed: false },
+            { id: 134, name: "Pittsburgh Pirates", wins: 76, losses: 86, leagueRank: 13, league: "National League", revealed: false, guessed: false },
+            { id: 120, name: "Washington Nationals", wins: 71, losses: 91, leagueRank: 14, league: "National League", revealed: false, guessed: false },
+            { id: 115, name: "Colorado Rockies", wins: 59, losses: 103, leagueRank: 15, league: "National League", revealed: false, guessed: false }
         ];
 
         this.allTeams = [...this.alStandings, ...this.nlStandings];
@@ -221,7 +232,7 @@ class MLBStandingsGame {
                         ).join('')}
                     </select>
                     <div class="modal-actions">
-                        <button onclick="submitTeamGuess(${teamId})" id="submit-guess-btn" disabled>Submit Guess</button>
+                        <button id="submit-guess-btn" disabled>Submit Guess</button>
                         <button onclick="closeTeamSelector()" class="cancel-btn">Cancel</button>
                     </div>
                 </div>
@@ -230,27 +241,58 @@ class MLBStandingsGame {
 
         document.body.appendChild(modal);
 
-        // Enable submit button when selection is made
-        const selector = document.getElementById('team-selector');
-        selector.addEventListener('change', function() {
+        // Wait for DOM to be ready, then setup event listeners
+        setTimeout(() => {
+            const selector = document.getElementById('team-selector');
             const submitBtn = document.getElementById('submit-guess-btn');
-            submitBtn.disabled = !this.value;
-        });
+            
+            if (selector && submitBtn) {
+                // Enable submit button when selection is made
+                selector.addEventListener('change', function() {
+                    submitBtn.disabled = !this.value;
+                    console.log('Selection changed:', this.value, 'Button disabled:', submitBtn.disabled);
+                });
 
-        // Focus on dropdown
-        selector.focus();
+                // Also enable on input event for better responsiveness
+                selector.addEventListener('input', function() {
+                    submitBtn.disabled = !this.value;
+                });
+
+                // Add click event listener for submit button
+                submitBtn.addEventListener('click', () => {
+                    console.log('Submit button clicked');
+                    this.submitTeamGuess(teamId);
+                });
+
+                // Focus on dropdown
+                selector.focus();
+            }
+        }, 100);
     }
 
     submitTeamGuess(actualTeamId) {
+        console.log('submitTeamGuess called with actualTeamId:', actualTeamId);
+        
         const selector = document.getElementById('team-selector');
         const guessedTeamId = parseInt(selector.value);
+        
+        console.log('Selected value:', selector.value, 'Parsed as:', guessedTeamId);
 
-        if (!guessedTeamId) return;
+        if (!guessedTeamId) {
+            console.log('No team selected, returning');
+            return;
+        }
 
         const actualTeam = this.allTeams.find(t => t.id === actualTeamId);
         const guessedTeam = this.allTeams.find(t => t.id === guessedTeamId);
+        
+        console.log('Actual team:', actualTeam);
+        console.log('Guessed team:', guessedTeam);
 
-        if (!actualTeam || !guessedTeam) return;
+        if (!actualTeam || !guessedTeam) {
+            console.log('Team not found, returning');
+            return;
+        }
 
         actualTeam.guessed = true;
 
