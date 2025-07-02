@@ -128,8 +128,8 @@ function nextRound() {
 }
 
 function updateDisplay() {
-    document.getElementById('flight-origin').textContent = `${currentFlight.origin.city}, ${currentFlight.origin.state}`;
-    document.getElementById('flight-destination').textContent = `${currentFlight.destination.city}, ${currentFlight.destination.state}`;
+    document.getElementById('flight-origin').textContent = `${currentFlight.origin.airport} - ${currentFlight.origin.city}, ${currentFlight.origin.state}`;
+    document.getElementById('flight-destination').textContent = `${currentFlight.destination.airport} - ${currentFlight.destination.city}, ${currentFlight.destination.state}`;
     document.getElementById('flight-distance').textContent = `${currentFlight.distance} miles`;
     document.getElementById('flight-round-info').textContent = `Round ${currentRound}/${totalRounds}`;
     document.getElementById('flight-score').textContent = `Score: ${totalScore}`;
