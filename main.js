@@ -7,7 +7,8 @@ const routes = {
     '/nfl-player-challenge': 'player-challenge',
     '/nba-player-challenge': 'nba-player-challenge',
     '/mlb-team-challenge': 'mlb-player-challenge',
-    '/color-memory': 'color-memory'
+    '/color-memory': 'color-memory',
+    '/rent-guessing': 'rent-guessing'
 };
 
 // Reverse mapping for generating URLs
@@ -18,7 +19,8 @@ const sectionToRoute = {
     'player-challenge': '/nfl-player-challenge',
     'nba-player-challenge': '/nba-player-challenge',
     'mlb-player-challenge': '/mlb-team-challenge',
-    'color-memory': '/color-memory'
+    'color-memory': '/color-memory',
+    'rent-guessing': '/rent-guessing'
 };
 
 // Game titles for page titles
@@ -29,7 +31,8 @@ const gameTitles = {
     'player-challenge': 'NFL Player Challenge - Guess the Player',
     'nba-player-challenge': 'NBA Player Challenge - Guess the Player',
     'mlb-player-challenge': 'MLB Team Challenge - Guess the Team',
-    'color-memory': 'Color Memory - Memory Sequence Game'
+    'color-memory': 'Color Memory - Memory Sequence Game',
+    'rent-guessing': 'Rent Guessing - Guess US Apartment Rents'
 };
 
 // Main navigation and utility functions
@@ -109,6 +112,8 @@ function showSection(sectionName, pushToHistory = true) {
         initializePlayerChallenge();
     } else if (sectionName === 'weather-challenge' && typeof initializeWeatherChallenge === 'function') {
         initializeWeatherChallenge();
+    } else if (sectionName === 'rent-guessing' && typeof initializeRentGuessing === 'function') {
+        initializeRentGuessing();
     }
 }
 

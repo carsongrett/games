@@ -70,6 +70,12 @@
                         <p>Guess the current temperature in cities around the world. Test your weather intuition!</p>
                         <button class="play-btn">Play Now!</button>
                     </div>
+
+                    <div class="game-card" onclick="navigateToRoute('/rent-guessing')">
+                        <h3>🏠 Rent Guessing</h3>
+                        <p>Guess monthly rent prices for apartments across different U.S. cities and bedroom counts!</p>
+                        <button class="play-btn">Play Now!</button>
+                    </div>
                 </div>
             </div>
         </section>
@@ -375,6 +381,214 @@
                 </div>
             </div>
         </section>
+
+        <!-- Rent Guessing Game Section -->
+        <section id="rent-guessing" class="section">
+            <div class="container">
+                <div class="game-header">
+                    <h2>🏠 Rent Guessing</h2>
+                    <button class="back-btn" onclick="navigateToRoute('/')">← Back to Home</button>
+                </div>
+                
+                <div class="game-container">
+                    <div class="game-info">
+                        <p>Guess monthly rent prices for apartments across different U.S. cities!</p>
+                        <div class="game-notes">
+                            <p><strong>How to Play:</strong> Look at the city and bedroom count, then guess the monthly rent. The highlighted state shows you the location.</p>
+                            <p><strong>Scoring:</strong> You have 5 guesses to get within 5% of the actual rent. Get feedback with "Higher" or "Lower" after each guess!</p>
+                        </div>
+                        <div class="rent-challenge-stats">
+                            <span>Guesses: <span id="rent-guess-count">0/5</span></span>
+                            <button id="new-rent-btn" onclick="newRentGame()">New Game</button>
+                        </div>
+                    </div>
+                    
+                    <div class="rent-container">
+                        <div class="rent-location-info">
+                            <h3 id="rent-region">Loading...</h3>
+                            <p id="rent-bedrooms">Loading...</p>
+                        </div>
+                        
+                        <div class="us-map-container" id="us-map-container">
+                            <svg viewBox="0 0 1000 600" class="us-map">
+                              <!-- Alaska -->
+                              <path id="AK" d="M158 458l7-36 5-8 12-23 15-17 21-17 20-12 18-10 17-5 17-3 17-1 17 1 17 3 15 5 15 7 13 9 11 11 9 13 7 15 5 17 3 17 1 17-1 17-3 17-5 15-7 13-9 11-11 9-13 7-15 5-17 3-17 1-17-1-17-3-15-5-13-7-11-9-9-11-7-13-5-15-3-17-1-17z" fill="#d1d5db" stroke="#fff" stroke-width="1"/>
+                              
+                              <!-- Hawaii -->
+                              <circle id="HI" cx="230" cy="410" r="8" fill="#d1d5db" stroke="#fff" stroke-width="1"/>
+                              
+                              <!-- Washington -->
+                              <path id="WA" d="M158 56l132 0 0 74-132 0z" fill="#d1d5db" stroke="#fff" stroke-width="1"/>
+                              
+                              <!-- Oregon -->
+                              <path id="OR" d="M158 130l132 0 0 56-132 0z" fill="#d1d5db" stroke="#fff" stroke-width="1"/>
+                              
+                              <!-- California -->
+                              <path id="CA" d="M158 186l68 0 8 58 8 58 8 58-84 0z" fill="#d1d5db" stroke="#fff" stroke-width="1"/>
+                              
+                              <!-- Nevada -->
+                              <path id="NV" d="M242 186l48 0 0 134-40 0z" fill="#d1d5db" stroke="#fff" stroke-width="1"/>
+                              
+                              <!-- Idaho -->
+                              <path id="ID" d="M290 56l52 0 0 130-52 0z" fill="#d1d5db" stroke="#fff" stroke-width="1"/>
+                              
+                              <!-- Montana -->
+                              <path id="MT" d="M342 56l136 0 0 74-136 0z" fill="#d1d5db" stroke="#fff" stroke-width="1"/>
+                              
+                              <!-- Wyoming -->
+                              <path id="WY" d="M342 130l136 0 0 56-136 0z" fill="#d1d5db" stroke="#fff" stroke-width="1"/>
+                              
+                              <!-- Utah -->
+                              <path id="UT" d="M290 186l52 0 0 78-52 0z" fill="#d1d5db" stroke="#fff" stroke-width="1"/>
+                              
+                              <!-- Colorado -->
+                              <path id="CO" d="M342 186l136 0 0 78-136 0z" fill="#d1d5db" stroke="#fff" stroke-width="1"/>
+                              
+                              <!-- Arizona -->
+                              <path id="AZ" d="M290 264l52 0 0 78-52 0z" fill="#d1d5db" stroke="#fff" stroke-width="1"/>
+                              
+                              <!-- New Mexico -->
+                              <path id="NM" d="M342 264l68 0 0 78-68 0z" fill="#d1d5db" stroke="#fff" stroke-width="1"/>
+                              
+                              <!-- North Dakota -->
+                              <path id="ND" d="M478 56l88 0 0 74-88 0z" fill="#d1d5db" stroke="#fff" stroke-width="1"/>
+                              
+                              <!-- South Dakota -->
+                              <path id="SD" d="M478 130l88 0 0 56-88 0z" fill="#d1d5db" stroke="#fff" stroke-width="1"/>
+                              
+                              <!-- Nebraska -->
+                              <path id="NE" d="M478 186l88 0 0 56-88 0z" fill="#d1d5db" stroke="#fff" stroke-width="1"/>
+                              
+                              <!-- Kansas -->
+                              <path id="KS" d="M478 242l88 0 0 44-88 0z" fill="#d1d5db" stroke="#fff" stroke-width="1"/>
+                              
+                              <!-- Oklahoma -->
+                              <path id="OK" d="M478 286l88 0 12 0 0 34-100 0z" fill="#d1d5db" stroke="#fff" stroke-width="1"/>
+                              
+                              <!-- Texas -->
+                              <path id="TX" d="M410 320l68 0 12 0 34 0 0 68-26 0-20 34-28 0-24-20-16-28z" fill="#d1d5db" stroke="#fff" stroke-width="1"/>
+                              
+                              <!-- Minnesota -->
+                              <path id="MN" d="M566 56l66 0 0 96-66 0z" fill="#d1d5db" stroke="#fff" stroke-width="1"/>
+                              
+                              <!-- Iowa -->
+                              <path id="IA" d="M566 186l66 0 0 56-66 0z" fill="#d1d5db" stroke="#fff" stroke-width="1"/>
+                              
+                              <!-- Missouri -->
+                              <path id="MO" d="M566 242l66 0 0 56-66 0z" fill="#d1d5db" stroke="#fff" stroke-width="1"/>
+                              
+                              <!-- Arkansas -->
+                              <path id="AR" d="M566 298l66 0 0 44-66 0z" fill="#d1d5db" stroke="#fff" stroke-width="1"/>
+                              
+                              <!-- Louisiana -->
+                              <path id="LA" d="M566 342l66 0 0 46-66 0z" fill="#d1d5db" stroke="#fff" stroke-width="1"/>
+                              
+                              <!-- Wisconsin -->
+                              <path id="WI" d="M632 56l44 0 0 96-44 0z" fill="#d1d5db" stroke="#fff" stroke-width="1"/>
+                              
+                              <!-- Illinois -->
+                              <path id="IL" d="M632 152l44 0 0 90-44 0z" fill="#d1d5db" stroke="#fff" stroke-width="1"/>
+                              
+                              <!-- Mississippi -->
+                              <path id="MS" d="M632 298l44 0 0 90-44 0z" fill="#d1d5db" stroke="#fff" stroke-width="1"/>
+                              
+                              <!-- Alabama -->
+                              <path id="AL" d="M676 298l44 0 0 90-44 0z" fill="#d1d5db" stroke="#fff" stroke-width="1"/>
+                              
+                              <!-- Tennessee -->
+                              <path id="TN" d="M676 242l88 0 0 56-88 0z" fill="#d1d5db" stroke="#fff" stroke-width="1"/>
+                              
+                              <!-- Kentucky -->
+                              <path id="KY" d="M676 186l88 0 0 56-88 0z" fill="#d1d5db" stroke="#fff" stroke-width="1"/>
+                              
+                              <!-- Indiana -->
+                              <path id="IN" d="M676 152l44 0 0 90-44 0z" fill="#d1d5db" stroke="#fff" stroke-width="1"/>
+                              
+                              <!-- Michigan -->
+                              <path id="MI" d="M720 56l44 0 0 96-44 0z" fill="#d1d5db" stroke="#fff" stroke-width="1"/>
+                              
+                              <!-- Ohio -->
+                              <path id="OH" d="M720 152l44 0 0 90-44 0z" fill="#d1d5db" stroke="#fff" stroke-width="1"/>
+                              
+                              <!-- Georgia -->
+                              <path id="GA" d="M720 298l44 0 0 90-44 0z" fill="#d1d5db" stroke="#fff" stroke-width="1"/>
+                              
+                              <!-- Florida -->
+                              <path id="FL" d="M720 388l44 0 34 0 0 44-78 0z" fill="#d1d5db" stroke="#fff" stroke-width="1"/>
+                              
+                              <!-- South Carolina -->
+                              <path id="SC" d="M764 298l44 0 0 46-44 0z" fill="#d1d5db" stroke="#fff" stroke-width="1"/>
+                              
+                              <!-- North Carolina -->
+                              <path id="NC" d="M764 242l66 0 0 56-66 0z" fill="#d1d5db" stroke="#fff" stroke-width="1"/>
+                              
+                              <!-- Virginia -->
+                              <path id="VA" d="M764 186l66 0 0 56-66 0z" fill="#d1d5db" stroke="#fff" stroke-width="1"/>
+                              
+                              <!-- West Virginia -->
+                              <path id="WV" d="M764 152l44 0 0 34-44 0z" fill="#d1d5db" stroke="#fff" stroke-width="1"/>
+                              
+                              <!-- Pennsylvania -->
+                              <path id="PA" d="M764 96l66 0 0 56-66 0z" fill="#d1d5db" stroke="#fff" stroke-width="1"/>
+                              
+                              <!-- Maryland -->
+                              <path id="MD" d="M808 152l22 0 0 22-22 0z" fill="#d1d5db" stroke="#fff" stroke-width="1"/>
+                              
+                              <!-- Delaware -->
+                              <path id="DE" d="M830 152l12 0 0 34-12 0z" fill="#d1d5db" stroke="#fff" stroke-width="1"/>
+                              
+                              <!-- New Jersey -->
+                              <path id="NJ" d="M830 96l22 0 0 56-22 0z" fill="#d1d5db" stroke="#fff" stroke-width="1"/>
+                              
+                              <!-- New York -->
+                              <path id="NY" d="M830 56l66 0 0 74-66 0z" fill="#d1d5db" stroke="#fff" stroke-width="1"/>
+                              
+                              <!-- Connecticut -->
+                              <path id="CT" d="M852 96l22 0 0 22-22 0z" fill="#d1d5db" stroke="#fff" stroke-width="1"/>
+                              
+                              <!-- Rhode Island -->
+                              <path id="RI" d="M874 96l11 0 0 22-11 0z" fill="#d1d5db" stroke="#fff" stroke-width="1"/>
+                              
+                              <!-- Massachusetts -->
+                              <path id="MA" d="M885 96l44 0 0 22-44 0z" fill="#d1d5db" stroke="#fff" stroke-width="1"/>
+                              
+                              <!-- Vermont -->
+                              <path id="VT" d="M896 56l22 0 0 40-22 0z" fill="#d1d5db" stroke="#fff" stroke-width="1"/>
+                              
+                              <!-- New Hampshire -->
+                              <path id="NH" d="M918 56l22 0 0 40-22 0z" fill="#d1d5db" stroke="#fff" stroke-width="1"/>
+                              
+                              <!-- Maine -->
+                              <path id="ME" d="M940 56l34 0 0 62-34 0z" fill="#d1d5db" stroke="#fff" stroke-width="1"/>
+                              
+                              <!-- Washington DC -->
+                              <circle id="DC" cx="819" cy="163" r="4" fill="#d1d5db" stroke="#fff" stroke-width="1"/>
+                            </svg>
+                        </div>
+                        
+                        <div class="rent-input">
+                            <label for="rent-guess-input">What's the monthly rent?</label>
+                            <div class="input-group">
+                                <span class="currency-symbol">$</span>
+                                <input type="number" id="rent-guess-input" placeholder="Enter rent amount" min="500" max="10000">
+                                <button id="submit-rent-guess" onclick="submitRentGuess()">Submit</button>
+                            </div>
+                        </div>
+                        
+                        <div id="rent-feedback" class="rent-feedback" style="display: none;">
+                            <p id="rent-feedback-text"></p>
+                        </div>
+                        
+                        <div id="rent-result" class="rent-result" style="display: none;">
+                            <p id="rent-result-text"></p>
+                            <button id="play-again-btn" onclick="newRentGame()" style="display: none;">Play Again</button>
+                        </div>
+                    </div>
+                    
+                    <div id="rent-message" class="game-message"></div>
+                </div>
+            </div>
+        </section>
     </main>
 
     <!-- Temporarily hidden Wordle game -->
@@ -385,6 +599,7 @@
     <script src="mlb-player-challenge.js"></script>
     <script src="color-memory.js"></script>
     <script src="weather-challenge.js"></script>
+    <script src="rent-guessing.js"></script>
     <script src="main.js"></script>
 </body>
 </html> 
