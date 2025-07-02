@@ -1,14 +1,67 @@
+// URL routing configuration
+const routes = {
+    '/': 'home',
+    '/home': 'home',
+    '/weather': 'weather-challenge',
+    '/nfl-trivia': 'nfl-trivia',
+    '/nfl-player-challenge': 'player-challenge',
+    '/nba-player-challenge': 'nba-player-challenge',
+    '/mlb-team-challenge': 'mlb-player-challenge',
+    '/color-memory': 'color-memory'
+};
+
+// Reverse mapping for generating URLs
+const sectionToRoute = {
+    'home': '/',
+    'weather-challenge': '/weather',
+    'nfl-trivia': '/nfl-trivia',
+    'player-challenge': '/nfl-player-challenge',
+    'nba-player-challenge': '/nba-player-challenge',
+    'mlb-player-challenge': '/mlb-team-challenge',
+    'color-memory': '/color-memory'
+};
+
+// Game titles for page titles
+const gameTitles = {
+    'home': 'Games - Sports & Fun Challenges',
+    'weather-challenge': 'Weather Challenge - Guess City Temperatures',
+    'nfl-trivia': 'NFL Trivia - Test Your Football Knowledge',
+    'player-challenge': 'NFL Player Challenge - Guess the Player',
+    'nba-player-challenge': 'NBA Player Challenge - Guess the Player',
+    'mlb-player-challenge': 'MLB Team Challenge - Guess the Team',
+    'color-memory': 'Color Memory - Memory Sequence Game'
+};
+
 // Main navigation and utility functions
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize the site
-    showSection('home');
+    // Add browser navigation handlers
+    window.addEventListener('popstate', handleBrowserNavigation);
+    
+    // Initialize the site based on current URL
+    handleBrowserNavigation();
     
     // Add keyboard event listeners for games
     document.addEventListener('keydown', handleGlobalKeydown);
 });
 
+// Handle browser back/forward navigation
+function handleBrowserNavigation() {
+    const path = window.location.pathname;
+    const basePath = path.replace('/games', '') || '/';
+    const sectionName = routes[basePath] || 'home';
+    showSection(sectionName, false); // false = don't push to history
+}
+
+// Navigate to a specific route
+function navigateToRoute(route) {
+    const sectionName = routes[route] || 'home';
+    const fullPath = '/games' + route;
+    window.history.pushState({ route }, '', fullPath);
+    showSection(sectionName, false);
+}
+
 // Section management
-function showSection(sectionName) {
+function showSection(sectionName, pushToHistory = true) {
     // Hide all sections
     const sections = document.querySelectorAll('.section');
     sections.forEach(section => {
@@ -27,10 +80,24 @@ function showSection(sectionName) {
         targetSection.classList.add('active');
     }
     
-    // Update active nav button
-    const activeButton = document.querySelector(`.nav-btn[onclick="showSection('${sectionName}')"]`);
-    if (activeButton) {
-        activeButton.classList.add('active');
+    // Update page title
+    if (gameTitles[sectionName]) {
+        document.title = gameTitles[sectionName];
+    }
+    
+    // Update browser URL if needed
+    if (pushToHistory && sectionToRoute[sectionName]) {
+        const route = sectionToRoute[sectionName];
+        const fullPath = '/games' + route;
+        window.history.pushState({ route }, '', fullPath);
+    }
+    
+    // Update active nav button (for home button)
+    if (sectionName === 'home') {
+        const homeButton = document.querySelector('.nav-btn[data-section="home"]');
+        if (homeButton) {
+            homeButton.classList.add('active');
+        }
     }
     
     // Initialize games when their sections are shown
@@ -59,7 +126,7 @@ function handleGlobalKeydown(event) {
     
     // Handle escape key to go back to home
     if (event.key === 'Escape' && sectionId !== 'home') {
-        showSection('home');
+        navigateToRoute('/');
     }
 }
 
