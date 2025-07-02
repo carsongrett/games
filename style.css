@@ -2541,6 +2541,242 @@ header {
     }
 }
 
+/* MLB Batter Challenge Styles */
+.mlb-batter-container {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.batter-stats-display {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 25px;
+    margin-bottom: 25px;
+    border: 2px solid #e9ecef;
+    min-height: 200px;
+}
+
+.batter-stats-display p {
+    text-align: center;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    color: #495057;
+}
+
+.team-hidden {
+    color: #007bff;
+    background: #e3f2fd;
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.stat-item {
+    background: white;
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+    border: 1px solid #dee2e6;
+    transition: transform 0.2s ease;
+}
+
+.stat-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.stat-value {
+    display: block;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #007bff;
+    margin-bottom: 5px;
+}
+
+.stat-label {
+    display: block;
+    font-size: 0.9rem;
+    color: #6c757d;
+    font-weight: 500;
+}
+
+.player-reveal {
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 15px;
+}
+
+.player-reveal h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.correct-reveal {
+    background: #d4edda;
+    border: 2px solid #c3e6cb;
+}
+
+.correct-reveal h3 {
+    color: #155724;
+}
+
+.incorrect-reveal {
+    background: #f8d7da;
+    border: 2px solid #f5c6cb;
+}
+
+.incorrect-reveal h3 {
+    color: #721c24;
+}
+
+.mlb-batter-input {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 2px solid #e9ecef;
+}
+
+.mlb-batter-input label {
+    display: block;
+    margin-bottom: 15px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #495057;
+}
+
+.mlb-batter-input .input-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.mlb-batter-input input {
+    flex: 1;
+    padding: 12px 15px;
+    border: 2px solid #ced4da;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.mlb-batter-input input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
+}
+
+.mlb-batter-input input:disabled {
+    background: #e9ecef;
+    color: #6c757d;
+}
+
+.mlb-batter-input button {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.mlb-batter-input button:hover:not(:disabled) {
+    background: #218838;
+}
+
+.mlb-batter-input button:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+}
+
+.mlb-batter-controls {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.mlb-batter-controls button {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    margin: 0 10px;
+}
+
+.mlb-batter-controls button:hover {
+    background: #0056b3;
+}
+
+.mlb-batter-stats {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 15px;
+}
+
+.mlb-batter-stats span {
+    font-weight: 600;
+    color: #495057;
+    background: #f8f9fa;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid #dee2e6;
+}
+
+.mlb-batter-stats button {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.mlb-batter-stats button:hover {
+    background: #0056b3;
+}
+
+@media (max-width: 768px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+    
+    .mlb-batter-input .input-group {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .mlb-batter-input input {
+        width: 100%;
+    }
+    
+    .mlb-batter-stats {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .batter-stats-display {
+        padding: 20px;
+    }
+}
+
 
 
  
