@@ -40,6 +40,8 @@ function showSection(sectionName) {
         initializeNFLTrivia();
     } else if (sectionName === 'player-challenge' && typeof initializePlayerChallenge === 'function') {
         initializePlayerChallenge();
+    } else if (sectionName === 'weather-challenge' && typeof initializeWeatherChallenge === 'function') {
+        initializeWeatherChallenge();
     }
 }
 
