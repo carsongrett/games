@@ -316,7 +316,7 @@ class MLBStandingsGame {
                         ).join('')}
                     </select>
                     <div class="modal-actions">
-                        <button id="submit-guess-btn" onclick="submitTeamGuess(${teamId})" disabled>Submit Guess</button>
+                        <button id="submit-guess-btn" onclick="console.log('Button clicked!'); submitTeamGuess(${teamId})" disabled>Submit Guess</button>
                         <button onclick="closeTeamSelector()" class="cancel-btn">Cancel</button>
                     </div>
                 </div>
@@ -331,21 +331,40 @@ class MLBStandingsGame {
             const submitBtn = document.getElementById('submit-guess-btn');
             
             if (selector && submitBtn) {
+                console.log('Setting up event listeners for modal');
+                
+                // Function to update button state
+                const updateButtonState = () => {
+                    const hasSelection = selector.value && selector.value !== "";
+                    submitBtn.disabled = !hasSelection;
+                    
+                    // Force a visual update
+                    if (hasSelection) {
+                        submitBtn.style.backgroundColor = '#28a745';
+                        submitBtn.style.cursor = 'pointer';
+                        submitBtn.style.opacity = '1';
+                    } else {
+                        submitBtn.style.backgroundColor = '#6c757d';
+                        submitBtn.style.cursor = 'not-allowed';
+                        submitBtn.style.opacity = '0.6';
+                    }
+                    
+                    console.log('🔄 Button state updated - Selection:', selector.value, 'Disabled:', submitBtn.disabled, 'HasSelection:', hasSelection);
+                };
+                
                 // Enable submit button when selection is made
-                selector.addEventListener('change', function() {
-                    submitBtn.disabled = !this.value;
-                    console.log('Selection changed:', this.value, 'Button disabled:', submitBtn.disabled);
-                });
-
-                // Also enable on input event for better responsiveness
-                selector.addEventListener('input', function() {
-                    submitBtn.disabled = !this.value;
-                });
+                selector.addEventListener('change', updateButtonState);
+                selector.addEventListener('input', updateButtonState);
+                
+                // Initial check
+                updateButtonState();
 
                 // Focus on dropdown
                 selector.focus();
+            } else {
+                console.error('Could not find selector or submit button elements');
             }
-        }, 100);
+        }, 50);
     }
 
     submitTeamGuess(actualTeamId) {
@@ -502,12 +521,23 @@ function openTeamSelector(teamId, leagueId, rank) {
 }
 
 function submitTeamGuess(teamId) {
-    console.log('Global submitTeamGuess called with teamId:', teamId);
+    console.log('🎯 Global submitTeamGuess called with teamId:', teamId);
+    
+    // Check if button is actually disabled
+    const submitBtn = document.getElementById('submit-guess-btn');
+    if (submitBtn) {
+        console.log('Submit button disabled state:', submitBtn.disabled);
+        if (submitBtn.disabled) {
+            console.log('❌ Button is disabled, not submitting');
+            return;
+        }
+    }
+    
     if (mlbStandingsGame) {
-        console.log('Calling game instance submitTeamGuess method');
+        console.log('✅ Calling game instance submitTeamGuess method');
         mlbStandingsGame.submitTeamGuess(teamId);
     } else {
-        console.error('mlbStandingsGame instance not found!');
+        console.error('❌ mlbStandingsGame instance not found!');
     }
 }
 
