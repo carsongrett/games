@@ -4,8 +4,8 @@ class MLBStandingsGame {
         this.alStandings = [];
         this.nlStandings = [];
         this.allTeams = [];
-        this.lives = 10;
-        this.maxLives = 10;
+        this.lives = 15;
+        this.maxLives = 15;
         this.gameOver = false;
         this.teamsRevealed = 0;
         this.totalTeams = 30;
@@ -169,6 +169,22 @@ class MLBStandingsGame {
             console.log(`Successfully parsed ${this.alStandings.length} AL teams and ${this.nlStandings.length} NL teams`);
             console.log('AL Teams:', this.alStandings.map(t => `${t.leagueRank}. ${t.name} (${t.wins}-${t.losses})`));
             console.log('NL Teams:', this.nlStandings.map(t => `${t.leagueRank}. ${t.name} (${t.wins}-${t.losses})`));
+            
+            // Check for missing teams
+            if (this.alStandings.length !== 15) {
+                console.warn(`⚠️ Missing AL teams! Expected 15, got ${this.alStandings.length}`);
+                const foundALTeams = this.alStandings.map(t => t.name);
+                const expectedALTeams = Object.keys(this.teamLeagueMap).filter(name => this.teamLeagueMap[name] === 'AL');
+                const missingAL = expectedALTeams.filter(name => !foundALTeams.includes(name));
+                console.warn('Missing AL teams:', missingAL);
+            }
+            if (this.nlStandings.length !== 15) {
+                console.warn(`⚠️ Missing NL teams! Expected 15, got ${this.nlStandings.length}`);
+                const foundNLTeams = this.nlStandings.map(t => t.name);
+                const expectedNLTeams = Object.keys(this.teamLeagueMap).filter(name => this.teamLeagueMap[name] === 'NL');
+                const missingNL = expectedNLTeams.filter(name => !foundNLTeams.includes(name));
+                console.warn('Missing NL teams:', missingNL);
+            }
         }
 
         // If we don't have the expected number of teams, use sample data (MLB has exactly 15 teams per league)
@@ -326,9 +342,9 @@ class MLBStandingsGame {
                     <button id="inline-submit-${teamId}" disabled style="padding: 8px 16px; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer;">
                         Submit
                     </button>
-                    <button onclick="location.reload()" style="padding: 8px 16px; background: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer;">
-                        Cancel
-                    </button>
+                                         <button id="inline-cancel-${teamId}" style="padding: 8px 16px; background: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                         Cancel
+                     </button>
                 </div>
             </div>
         `;
@@ -336,8 +352,9 @@ class MLBStandingsGame {
         // Setup the inline form immediately
         const selector = document.getElementById(`inline-team-selector-${teamId}`);
         const submitBtn = document.getElementById(`inline-submit-${teamId}`);
+        const cancelBtn = document.getElementById(`inline-cancel-${teamId}`);
         
-        if (selector && submitBtn) {
+        if (selector && submitBtn && cancelBtn) {
             console.log('✅ Inline elements found, setting up handlers');
             
             // Simple function to enable/disable submit button
@@ -373,6 +390,14 @@ class MLBStandingsGame {
                 } else {
                     alert('Please select a team first!');
                 }
+            });
+            
+            // Handle cancel button - just re-render to restore original state
+            cancelBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('🚫 Cancel button clicked, restoring original state');
+                gameInstance.renderStandings();
             });
             
             // Initial state
