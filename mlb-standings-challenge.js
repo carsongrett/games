@@ -22,75 +22,116 @@ class MLBStandingsGame {
     async loadStandingsData() {
         try {
             // Try to fetch current season standings
-            const apiUrl = `https://statsapi.mlb.com/api/v1/standings?leagueId=103,104&season=${this.currentSeason}&standingsTypes=regularSeason`;
+            let apiUrl = `https://statsapi.mlb.com/api/v1/standings?leagueId=103,104&season=${this.currentSeason}&standingsTypes=regularSeason`;
             console.log(`Fetching standings from: ${apiUrl}`);
             
-            const response = await fetch(apiUrl);
+            let response = await fetch(apiUrl);
             if (!response.ok) {
                 throw new Error(`API request failed: ${response.status} - ${response.statusText}`);
             }
             
-            const data = await response.json();
+            let data = await response.json();
             console.log('API Response:', data);
             
             // Parse the standings data
             this.parseStandingsData(data);
             
-            if (this.alStandings.length > 0 && this.nlStandings.length > 0) {
+            // Check if we got meaningful data (not all 0-0 records indicating season hasn't started)
+            const hasGamesPlayed = this.allTeams.some(team => team.wins > 0 || team.losses > 0);
+            
+            if (this.alStandings.length > 0 && this.nlStandings.length > 0 && hasGamesPlayed) {
                 console.log(`Successfully loaded ${this.alStandings.length} AL teams and ${this.nlStandings.length} NL teams for ${this.currentSeason} season`);
                 this.showMessage(`Loaded ${this.currentSeason} MLB standings successfully!`, 'success');
                 setTimeout(() => this.hideMessage(), 2000);
+            } else if (!hasGamesPlayed && this.currentSeason >= 2025) {
+                // Try previous season if current season hasn't started
+                console.log(`${this.currentSeason} season hasn't started, trying 2024...`);
+                apiUrl = `https://statsapi.mlb.com/api/v1/standings?leagueId=103,104&season=2024&standingsTypes=regularSeason`;
+                console.log(`Fetching 2024 standings from: ${apiUrl}`);
+                
+                response = await fetch(apiUrl);
+                if (!response.ok) {
+                    throw new Error(`2024 API request failed: ${response.status} - ${response.statusText}`);
+                }
+                
+                data = await response.json();
+                this.parseStandingsData(data);
+                
+                if (this.alStandings.length > 0 && this.nlStandings.length > 0) {
+                    console.log(`Successfully loaded 2024 standings as fallback`);
+                    this.showMessage(`Loaded 2024 MLB standings (${this.currentSeason} season hasn't started yet)`, 'success');
+                    setTimeout(() => this.hideMessage(), 3000);
+                } else {
+                    throw new Error('No valid team data found in 2024 API response');
+                }
             } else {
                 throw new Error('No valid team data found in API response');
             }
             
         } catch (error) {
             console.error('Error loading standings data:', error);
-            this.showMessage(`Unable to load ${this.currentSeason} standings (season may not have started). Using sample data for demo.`, 'error');
+            this.showMessage(`Unable to load standings data from API. Using sample data for demo.`, 'error');
             this.loadSampleData();
             setTimeout(() => this.hideMessage(), 3000);
         }
     }
 
     parseStandingsData(data) {
+        console.log('Parsing API data:', data);
         this.alStandings = [];
         this.nlStandings = [];
         this.allTeams = [];
 
         if (data.records && data.records.length > 0) {
+            let allTeamsTemp = [];
+            
             data.records.forEach(division => {
                 if (division.teamRecords) {
                     division.teamRecords.forEach(team => {
                         const teamData = {
                             id: team.team.id,
                             name: team.team.name,
-                            wins: team.wins,
-                            losses: team.losses,
-                            leagueRank: team.leagueRank,
+                            wins: team.wins || 0,
+                            losses: team.losses || 0,
+                            winningPercentage: team.winningPercentage || '0.000',
+                            leagueId: team.team.league?.id,
                             league: team.team.league?.name || 'Unknown',
                             revealed: false,
                             guessed: false
                         };
 
-                        this.allTeams.push(teamData);
-
-                        // Sort into AL and NL based on league
-                        if (teamData.league.includes('American')) {
-                            this.alStandings.push(teamData);
-                        } else if (teamData.league.includes('National')) {
-                            this.nlStandings.push(teamData);
-                        }
+                        allTeamsTemp.push(teamData);
+                        console.log('Found team:', teamData.name, 'League:', teamData.leagueId, 'Record:', teamData.wins + '-' + teamData.losses);
                     });
                 }
             });
 
-            // Sort by league rank
-            this.alStandings.sort((a, b) => a.leagueRank - b.leagueRank);
-            this.nlStandings.sort((a, b) => a.leagueRank - b.leagueRank);
+            // Separate by league ID and sort by winning percentage
+            const alTeams = allTeamsTemp.filter(team => team.leagueId === 103);
+            const nlTeams = allTeamsTemp.filter(team => team.leagueId === 104);
+            
+            // Sort by winning percentage (descending)
+            alTeams.sort((a, b) => parseFloat(b.winningPercentage) - parseFloat(a.winningPercentage));
+            nlTeams.sort((a, b) => parseFloat(b.winningPercentage) - parseFloat(a.winningPercentage));
+            
+            // Assign league ranks
+            alTeams.forEach((team, index) => {
+                team.leagueRank = index + 1;
+            });
+            nlTeams.forEach((team, index) => {
+                team.leagueRank = index + 1;
+            });
+
+            this.alStandings = alTeams;
+            this.nlStandings = nlTeams;
+            this.allTeams = [...this.alStandings, ...this.nlStandings];
+            
+            console.log(`Successfully parsed ${this.alStandings.length} AL teams and ${this.nlStandings.length} NL teams`);
         }
 
         // If we don't have enough teams, use sample data
         if (this.alStandings.length < 10 || this.nlStandings.length < 10) {
+            console.log('Not enough teams found, loading sample data');
             this.loadSampleData();
         }
     }
@@ -241,6 +282,9 @@ class MLBStandingsGame {
 
         document.body.appendChild(modal);
 
+        // Store reference to game instance for event listeners
+        const gameInstance = this;
+        
         // Wait for DOM to be ready, then setup event listeners
         setTimeout(() => {
             const selector = document.getElementById('team-selector');
@@ -260,8 +304,8 @@ class MLBStandingsGame {
 
                 // Add click event listener for submit button
                 submitBtn.addEventListener('click', () => {
-                    console.log('Submit button clicked');
-                    this.submitTeamGuess(teamId);
+                    console.log('Submit button clicked, calling submitTeamGuess with teamId:', teamId);
+                    gameInstance.submitTeamGuess(teamId);
                 });
 
                 // Focus on dropdown
