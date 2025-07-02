@@ -127,12 +127,16 @@ class MLBStandingsGame {
             this.allTeams = [...this.alStandings, ...this.nlStandings];
             
             console.log(`Successfully parsed ${this.alStandings.length} AL teams and ${this.nlStandings.length} NL teams`);
+            console.log('AL Teams:', this.alStandings.map(t => `${t.leagueRank}. ${t.name} (${t.wins}-${t.losses})`));
+            console.log('NL Teams:', this.nlStandings.map(t => `${t.leagueRank}. ${t.name} (${t.wins}-${t.losses})`));
         }
 
-        // If we don't have enough teams, use sample data
-        if (this.alStandings.length < 10 || this.nlStandings.length < 10) {
-            console.log('Not enough teams found, loading sample data');
+        // If we don't have enough teams, use sample data (MLB has 15 teams per league)
+        if (this.alStandings.length < 12 || this.nlStandings.length < 12) {
+            console.log(`Not enough teams found (AL: ${this.alStandings.length}, NL: ${this.nlStandings.length}), loading sample data`);
             this.loadSampleData();
+        } else {
+            console.log(`Successfully using API data: ${this.alStandings.length} AL teams, ${this.nlStandings.length} NL teams`);
         }
     }
 
@@ -273,7 +277,7 @@ class MLBStandingsGame {
                         ).join('')}
                     </select>
                     <div class="modal-actions">
-                        <button id="submit-guess-btn" disabled>Submit Guess</button>
+                        <button id="submit-guess-btn" onclick="submitTeamGuess(${teamId})" disabled>Submit Guess</button>
                         <button onclick="closeTeamSelector()" class="cancel-btn">Cancel</button>
                     </div>
                 </div>
@@ -282,9 +286,6 @@ class MLBStandingsGame {
 
         document.body.appendChild(modal);
 
-        // Store reference to game instance for event listeners
-        const gameInstance = this;
-        
         // Wait for DOM to be ready, then setup event listeners
         setTimeout(() => {
             const selector = document.getElementById('team-selector');
@@ -300,12 +301,6 @@ class MLBStandingsGame {
                 // Also enable on input event for better responsiveness
                 selector.addEventListener('input', function() {
                     submitBtn.disabled = !this.value;
-                });
-
-                // Add click event listener for submit button
-                submitBtn.addEventListener('click', () => {
-                    console.log('Submit button clicked, calling submitTeamGuess with teamId:', teamId);
-                    gameInstance.submitTeamGuess(teamId);
                 });
 
                 // Focus on dropdown
@@ -468,8 +463,12 @@ function openTeamSelector(teamId, leagueId, rank) {
 }
 
 function submitTeamGuess(teamId) {
+    console.log('Global submitTeamGuess called with teamId:', teamId);
     if (mlbStandingsGame) {
+        console.log('Calling game instance submitTeamGuess method');
         mlbStandingsGame.submitTeamGuess(teamId);
+    } else {
+        console.error('mlbStandingsGame instance not found!');
     }
 }
 
