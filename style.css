@@ -2020,4 +2020,281 @@ header {
     }
 }
 
+/* Flight Guessing Game Styles */
+.flight-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1rem 0;
+}
+
+.flight-route-info {
+    background: #f8fafc;
+    border-radius: 8px;
+    padding: 1.5rem;
+    border: 1px solid #e2e8f0;
+}
+
+.route-display {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.route-point {
+    flex: 1;
+    text-align: center;
+}
+
+.route-label {
+    display: block;
+    font-size: 0.875rem;
+    color: #64748b;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.city-name {
+    display: block;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.route-arrow {
+    font-size: 2rem;
+    color: #3b82f6;
+}
+
+.flight-map-container {
+    background: white;
+    border-radius: 8px;
+    padding: 1rem;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+#flight-map {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+}
+
+#flight-map path, #flight-map circle {
+    transition: all 0.3s ease;
+}
+
+#flight-map path:hover, #flight-map circle:hover {
+    stroke-width: 2;
+}
+
+.flight-input {
+    background: #f8fafc;
+    border-radius: 8px;
+    padding: 1.5rem;
+    border: 1px solid #e2e8f0;
+}
+
+.flight-input label {
+    display: block;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 1rem;
+}
+
+.time-input-group {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+
+.time-input-field {
+    flex: 1;
+    min-width: 120px;
+}
+
+.time-input-field input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 1rem;
+    text-align: center;
+    background: white;
+    transition: all 0.3s ease;
+}
+
+.time-input-field input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.time-label {
+    display: block;
+    text-align: center;
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin-top: 0.5rem;
+    font-weight: 500;
+}
+
+.feedback {
+    text-align: center;
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-top: 0.5rem;
+    min-height: 1.25rem;
+}
+
+#flight-submit-btn {
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+#flight-submit-btn:hover:not(:disabled) {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+}
+
+#flight-submit-btn:disabled {
+    background: #9ca3af;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.flight-result {
+    background: #f0f9ff;
+    border: 1px solid #bae6fd;
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-align: center;
+}
+
+#flight-result-text {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+#flight-play-again-btn {
+    background: #059669;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#flight-play-again-btn:hover {
+    background: #047857;
+    transform: translateY(-1px);
+}
+
+.flight-challenge-stats {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 1rem;
+    background: #f8fafc;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.flight-challenge-stats span {
+    font-weight: 600;
+    color: #374151;
+}
+
+#new-flight-btn {
+    background: #059669;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#new-flight-btn:hover {
+    background: #047857;
+    transform: translateY(-1px);
+}
+
+/* Mobile Responsive Styles for Flight Game */
+@media (max-width: 768px) {
+    .flight-container {
+        gap: 1rem;
+    }
+    
+    .flight-route-info {
+        padding: 1rem;
+    }
+    
+    .route-display {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .route-arrow {
+        font-size: 1.5rem;
+        transform: rotate(90deg);
+    }
+    
+    .flight-map-container {
+        padding: 0.5rem;
+    }
+    
+    .flight-input {
+        padding: 1rem;
+    }
+    
+    .time-input-group {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .time-input-field {
+        min-width: auto;
+    }
+    
+    #flight-submit-btn {
+        width: 100%;
+        margin-top: 0.5rem;
+    }
+    
+    .flight-challenge-stats {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.75rem;
+    }
+    
+    #new-flight-btn {
+        width: 100%;
+    }
+    
+    .flight-result {
+        padding: 1rem;
+    }
+    
+    #flight-play-again-btn {
+        width: 100%;
+    }
+}
+
  

@@ -8,7 +8,8 @@ const routes = {
     '/nba-player-challenge': 'nba-player-challenge',
     '/mlb-team-challenge': 'mlb-player-challenge',
     '/color-memory': 'color-memory',
-    '/rent-guessing': 'rent-guessing'
+    '/rent-guessing': 'rent-guessing',
+    '/flight-guessing': 'flight-guessing'
 };
 
 // Reverse mapping for generating URLs
@@ -20,7 +21,8 @@ const sectionToRoute = {
     'nba-player-challenge': '/nba-player-challenge',
     'mlb-player-challenge': '/mlb-team-challenge',
     'color-memory': '/color-memory',
-    'rent-guessing': '/rent-guessing'
+    'rent-guessing': '/rent-guessing',
+    'flight-guessing': '/flight-guessing'
 };
 
 // Game titles for page titles
@@ -32,7 +34,8 @@ const gameTitles = {
     'nba-player-challenge': 'NBA Player Challenge - Guess the Player',
     'mlb-player-challenge': 'MLB Team Challenge - Guess the Team',
     'color-memory': 'Color Memory - Memory Sequence Game',
-    'rent-guessing': 'Rent Guessing - Guess US Apartment Rents'
+    'rent-guessing': 'Rent Guessing - Guess US Apartment Rents',
+    'flight-guessing': 'Flight Time Challenge - Guess Flight Durations'
 };
 
 // Main navigation and utility functions
@@ -114,6 +117,8 @@ function showSection(sectionName, pushToHistory = true) {
         initializeWeatherChallenge();
     } else if (sectionName === 'rent-guessing' && typeof initializeRentGuessing === 'function') {
         initializeRentGuessing();
+    } else if (sectionName === 'flight-guessing' && typeof initializeFlightChallenge === 'function') {
+        initializeFlightChallenge();
     }
 }
 
