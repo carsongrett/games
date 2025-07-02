@@ -5,8 +5,8 @@ class MLBBatterGame {
         this.currentPlayer = null;
         this.currentRound = 1;
         this.maxRounds = 5;
-        this.guessesRemaining = 3;
-        this.maxGuesses = 3;
+        this.guessesRemaining = 4;
+        this.maxGuesses = 4;
         this.totalCorrect = 0;
         this.gameOver = false;
         this.roundComplete = false;
@@ -121,8 +121,27 @@ class MLBBatterGame {
             const battingAvg = parseFloat(this.currentPlayer.BA || 0).toFixed(3);
             const games = this.currentPlayer.G || '0';
             
+            // Determine what hints to show based on guesses made
+            let teamHint = '';
+            let nameHint = '';
+            const guessesMade = this.maxGuesses - this.guessesRemaining;
+            
+            if (guessesMade >= 1) {
+                // After 1st incorrect guess: show team name
+                teamHint = this.currentPlayer.Tm || 'Unknown';
+            } else {
+                teamHint = '<span class="team-hidden">[Team Hidden]</span>';
+            }
+            
+            if (guessesMade >= 3) {
+                // After 3rd incorrect guess: show first letter of first name
+                const firstName = this.currentPlayer.Name.split(' ')[0];
+                const firstLetter = firstName.charAt(0).toUpperCase();
+                nameHint = `<br><strong>Hint:</strong> First name starts with "${firstLetter}"`;
+            }
+            
             statsDisplay.innerHTML = `
-                <p>A player from the <strong class="team-hidden">[Team Hidden]</strong> had these stats over the last week:</p>
+                <p>A player from the <strong>${teamHint}</strong> had these stats over the last week:${nameHint}</p>
                 <div class="stats-grid">
                     <div class="stat-item">
                         <span class="stat-value">${doubles}</span>
@@ -213,7 +232,8 @@ class MLBBatterGame {
         this.showPlayerReveal(true);
         this.disableInput();
         
-        const pointsEarned = this.maxGuesses - (this.maxGuesses - this.guessesRemaining - 1);
+        const guessesMade = this.maxGuesses - this.guessesRemaining;
+        const pointsEarned = this.maxGuesses - guessesMade;
         this.showMessage(`Correct! That was ${this.currentPlayer.Name} from the ${this.currentPlayer.Tm}! (+${pointsEarned} points)`, 'success');
     }
 
@@ -224,7 +244,20 @@ class MLBBatterGame {
             this.disableInput();
             this.showMessage(`Incorrect! The player was ${this.currentPlayer.Name} from the ${this.currentPlayer.Tm}.`, 'error');
         } else {
-            this.showMessage(`Incorrect! ${this.guessesRemaining} guess${this.guessesRemaining === 1 ? '' : 'es'} remaining.`, 'error');
+            // Update display to show new hints after incorrect guess
+            this.displayPlayerStats();
+            
+            let message = `Incorrect! ${this.guessesRemaining} guess${this.guessesRemaining === 1 ? '' : 'es'} remaining.`;
+            
+            // Add hint messages
+            const guessesMade = this.maxGuesses - this.guessesRemaining;
+            if (guessesMade === 1) {
+                message += ` Team revealed!`;
+            } else if (guessesMade === 3) {
+                message += ` First letter hint added!`;
+            }
+            
+            this.showMessage(message, 'error');
         }
     }
 
