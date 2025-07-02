@@ -11,6 +11,40 @@ class MLBStandingsGame {
         this.totalTeams = 30;
         // Use 2025 as requested (will fall back to sample data if no current standings)
         this.currentSeason = 2025;
+        
+        // Team name to league mapping since API league info might be undefined
+        this.teamLeagueMap = {
+            "Arizona Diamondbacks": "NL",
+            "Atlanta Braves": "NL", 
+            "Baltimore Orioles": "AL",
+            "Boston Red Sox": "AL",
+            "Chicago Cubs": "NL",
+            "Chicago White Sox": "AL",
+            "Cincinnati Reds": "NL",
+            "Cleveland Guardians": "AL",
+            "Colorado Rockies": "NL",
+            "Detroit Tigers": "AL",
+            "Houston Astros": "AL",
+            "Kansas City Royals": "AL",
+            "Los Angeles Angels": "AL",
+            "Los Angeles Dodgers": "NL",
+            "Miami Marlins": "NL",
+            "Milwaukee Brewers": "NL",
+            "Minnesota Twins": "AL",
+            "New York Mets": "NL",
+            "New York Yankees": "AL",
+            "Oakland Athletics": "AL",
+            "Philadelphia Phillies": "NL",
+            "Pittsburgh Pirates": "NL",
+            "San Diego Padres": "NL",
+            "San Francisco Giants": "NL",
+            "Seattle Mariners": "AL",
+            "St. Louis Cardinals": "NL",
+            "Tampa Bay Rays": "AL",
+            "Texas Rangers": "AL",
+            "Toronto Blue Jays": "AL",
+            "Washington Nationals": "NL"
+        };
     }
 
     async initialize() {
@@ -85,30 +119,35 @@ class MLBStandingsGame {
         if (data.records && data.records.length > 0) {
             let allTeamsTemp = [];
             
-            data.records.forEach(division => {
+                            data.records.forEach(division => {
                 if (division.teamRecords) {
                     division.teamRecords.forEach(team => {
+                        // Use our team league mapping instead of API league info
+                        const leagueAbbr = this.teamLeagueMap[team.team.name] || 'Unknown';
+                        const leagueFull = leagueAbbr === 'AL' ? 'American League' : leagueAbbr === 'NL' ? 'National League' : 'Unknown';
+                        
                         const teamData = {
                             id: team.team.id,
                             name: team.team.name,
                             wins: team.wins || 0,
                             losses: team.losses || 0,
                             winningPercentage: team.winningPercentage || '0.000',
-                            leagueId: team.team.league?.id,
-                            league: team.team.league?.name || 'Unknown',
+                            leagueId: leagueAbbr === 'AL' ? 103 : leagueAbbr === 'NL' ? 104 : null,
+                            league: leagueFull,
+                            leagueAbbr: leagueAbbr,
                             revealed: false,
                             guessed: false
                         };
 
                         allTeamsTemp.push(teamData);
-                        console.log('Found team:', teamData.name, 'League:', teamData.leagueId, 'Record:', teamData.wins + '-' + teamData.losses);
+                        console.log('Found team:', teamData.name, 'League:', teamData.leagueAbbr, 'Record:', teamData.wins + '-' + teamData.losses);
                     });
                 }
             });
 
-            // Separate by league ID and sort by winning percentage
-            const alTeams = allTeamsTemp.filter(team => team.leagueId === 103);
-            const nlTeams = allTeamsTemp.filter(team => team.leagueId === 104);
+            // Separate by league abbreviation and sort by winning percentage
+            const alTeams = allTeamsTemp.filter(team => team.leagueAbbr === 'AL');
+            const nlTeams = allTeamsTemp.filter(team => team.leagueAbbr === 'NL');
             
             // Sort by winning percentage (descending)
             alTeams.sort((a, b) => parseFloat(b.winningPercentage) - parseFloat(a.winningPercentage));
@@ -131,12 +170,12 @@ class MLBStandingsGame {
             console.log('NL Teams:', this.nlStandings.map(t => `${t.leagueRank}. ${t.name} (${t.wins}-${t.losses})`));
         }
 
-        // If we don't have enough teams, use sample data (MLB has 15 teams per league)
-        if (this.alStandings.length < 12 || this.nlStandings.length < 12) {
+        // If we don't have the expected number of teams, use sample data (MLB has exactly 15 teams per league)
+        if (this.alStandings.length < 14 || this.nlStandings.length < 14) {
             console.log(`Not enough teams found (AL: ${this.alStandings.length}, NL: ${this.nlStandings.length}), loading sample data`);
             this.loadSampleData();
         } else {
-            console.log(`Successfully using API data: ${this.alStandings.length} AL teams, ${this.nlStandings.length} NL teams`);
+            console.log(`✅ Successfully using API data: ${this.alStandings.length} AL teams, ${this.nlStandings.length} NL teams`);
         }
     }
 
