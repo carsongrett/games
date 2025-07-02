@@ -2850,8 +2850,12 @@ header {
     background: #f8f9fa;
 }
 
-.standings-row.revealed {
+.standings-row.revealed-correct {
     background: #d4edda;
+}
+
+.standings-row.revealed-incorrect {
+    background: #f8d7da;
 }
 
 .standings-row.guessed-wrong {
@@ -2902,6 +2906,14 @@ header {
 .revealed-team {
     font-weight: 600;
     color: #155724;
+}
+
+.revealed-team.correct-guess {
+    color: #155724;
+}
+
+.revealed-team.incorrect-guess {
+    color: #721c24;
 }
 
 .incorrect-guess {

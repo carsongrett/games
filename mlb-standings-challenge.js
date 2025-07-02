@@ -136,7 +136,8 @@ class MLBStandingsGame {
                             league: leagueFull,
                             leagueAbbr: leagueAbbr,
                             revealed: false,
-                            guessed: false
+                            guessed: false,
+                            correctGuess: null
                         };
 
                         allTeamsTemp.push(teamData);
@@ -183,7 +184,7 @@ class MLBStandingsGame {
         console.log('Loading sample data...');
         // Sample data using realistic MLB team IDs
         this.alStandings = [
-            { id: 110, name: "Baltimore Orioles", wins: 101, losses: 61, leagueRank: 1, league: "American League", revealed: false, guessed: false },
+            { id: 110, name: "Baltimore Orioles", wins: 101, losses: 61, leagueRank: 1, league: "American League", revealed: false, guessed: false, correctGuess: null },
             { id: 117, name: "Houston Astros", wins: 90, losses: 72, leagueRank: 2, league: "American League", revealed: false, guessed: false },
             { id: 139, name: "Tampa Bay Rays", wins: 99, losses: 63, leagueRank: 3, league: "American League", revealed: false, guessed: false },
             { id: 141, name: "Toronto Blue Jays", wins: 89, losses: 73, leagueRank: 4, league: "American League", revealed: false, guessed: false },
@@ -230,6 +231,7 @@ class MLBStandingsGame {
         this.allTeams.forEach(team => {
             team.revealed = false;
             team.guessed = false;
+            team.correctGuess = null;
         });
 
         this.renderStandings();
@@ -260,14 +262,22 @@ class MLBStandingsGame {
 
         standings.forEach(team => {
             const teamDisplay = team.revealed ? 
-                `<span class="revealed-team">${team.name}</span>` : 
+                `<span class="revealed-team ${team.correctGuess ? 'correct-guess' : 'incorrect-guess'}">${team.name}</span>` : 
                 `<button class="hidden-team-btn" onclick="openTeamSelector(${team.id}, '${leagueId}', ${team.leagueRank})">
                     ${team.guessed ? '<span class="incorrect-guess">❌</span>' : ''}
                     Click to guess
                 </button>`;
 
+            // Determine row class based on reveal status and correctness
+            let rowClass = 'standings-row';
+            if (team.revealed) {
+                rowClass += team.correctGuess ? ' revealed-correct' : ' revealed-incorrect';
+            } else if (team.guessed && !team.revealed) {
+                rowClass += ' guessed-wrong';
+            }
+
             html += `
-                <div class="standings-row ${team.revealed ? 'revealed' : ''} ${team.guessed && !team.revealed ? 'guessed-wrong' : ''}">
+                <div class="${rowClass}">
                     <div class="rank-col">${team.leagueRank}</div>
                     <div class="team-col">${teamDisplay}</div>
                     <div class="record-col">${team.wins}-${team.losses}</div>
@@ -394,6 +404,7 @@ class MLBStandingsGame {
         if (actualTeamId === guessedTeamId) {
             // Correct guess
             actualTeam.revealed = true;
+            actualTeam.correctGuess = true;
             this.teamsRevealed++;
             this.showMessage(`🎉 Correct! ${actualTeam.name} is in ${actualTeam.leagueRank}${this.getOrdinalSuffix(actualTeam.leagueRank)} place!`, 'success');
             
@@ -405,6 +416,7 @@ class MLBStandingsGame {
         } else {
             // Incorrect guess
             actualTeam.revealed = true;
+            actualTeam.correctGuess = false;
             this.teamsRevealed++;
             this.lives--;
             this.showMessage(`❌ Incorrect! You guessed ${guessedTeam.name}, but ${actualTeam.name} is in ${actualTeam.leagueRank}${this.getOrdinalSuffix(actualTeam.leagueRank)} place. Lives remaining: ${this.lives}`, 'error');
