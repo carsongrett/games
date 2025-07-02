@@ -2067,26 +2067,24 @@ header {
     color: #3b82f6;
 }
 
-.flight-map-container {
-    background: white;
-    border-radius: 8px;
-    padding: 1rem;
-    border: 1px solid #e2e8f0;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+.flight-distance-info {
+    text-align: center;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e2e8f0;
 }
 
-#flight-map {
-    width: 100%;
-    height: auto;
-    max-height: 400px;
+.distance-label {
+    font-size: 0.875rem;
+    color: #64748b;
+    font-weight: 500;
+    margin-right: 0.5rem;
 }
 
-#flight-map path, #flight-map circle {
-    transition: all 0.3s ease;
-}
-
-#flight-map path:hover, #flight-map circle:hover {
-    stroke-width: 2;
+.distance-value {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #1e293b;
 }
 
 .flight-input {
@@ -2142,12 +2140,35 @@ header {
     font-weight: 500;
 }
 
-.feedback {
+.flight-round-result {
+    background: #f0f9ff;
+    border: 1px solid #bae6fd;
+    border-radius: 8px;
+    padding: 1.5rem;
     text-align: center;
-    font-size: 0.875rem;
-    font-weight: 500;
-    margin-top: 0.5rem;
-    min-height: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+#flight-round-result-text {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+#flight-next-round-btn {
+    background: #0ea5e9;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#flight-next-round-btn:hover {
+    background: #0284c7;
+    transform: translateY(-1px);
 }
 
 #flight-submit-btn {
@@ -2256,8 +2277,9 @@ header {
         transform: rotate(90deg);
     }
     
-    .flight-map-container {
-        padding: 0.5rem;
+    .flight-distance-info {
+        margin-top: 0.75rem;
+        padding-top: 0.75rem;
     }
     
     .flight-input {
@@ -2288,10 +2310,15 @@ header {
         width: 100%;
     }
     
+    .flight-round-result {
+        padding: 1rem;
+    }
+    
     .flight-result {
         padding: 1rem;
     }
     
+    #flight-next-round-btn,
     #flight-play-again-btn {
         width: 100%;
     }

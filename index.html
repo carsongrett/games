@@ -453,11 +453,12 @@
                     <div class="game-info">
                         <p>Guess the flight duration between U.S. cities!</p>
                         <div class="game-notes">
-                            <p><strong>How to Play:</strong> Look at the origin and destination cities on the map, then guess the flight time in hours and minutes.</p>
-                            <p><strong>Scoring:</strong> You have 5 guesses to get the exact flight time. Get feedback with "Higher" or "Lower" for both hours and minutes!</p>
+                            <p><strong>How to Play:</strong> Look at the origin and destination cities and distance, then guess the flight time in hours and minutes.</p>
+                            <p><strong>Scoring:</strong> Score points based on how close your guess is! Perfect = 100pts, within 5min = 90pts, within 10min = 80pts, etc.</p>
                         </div>
                         <div class="flight-challenge-stats">
-                            <span id="flight-guess-count">Guess 1/5</span>
+                            <span id="flight-round-info">Round 1/5</span>
+                            <span id="flight-score">Score: 0</span>
                             <button id="new-flight-btn" onclick="newGame()">New Game</button>
                         </div>
                     </div>
@@ -475,67 +476,10 @@
                                     <span id="flight-destination" class="city-name">Loading...</span>
                                 </div>
                             </div>
-                        </div>
-                        
-                        <div class="flight-map-container">
-                            <svg id="flight-map" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
-                                <!-- Simplified US Map -->
-                                <!-- Alaska -->
-                                <path data-state="AK" d="M80 350 L40 380 L60 420 L120 420 L140 380 L120 350 Z" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
-                                <!-- Hawaii -->
-                                <circle data-state="HI" cx="200" cy="420" r="15" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
-                                
-                                <!-- Continental US States -->
-                                <path data-state="WA" d="M50 40 L120 40 L120 100 L50 100 Z" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
-                                <path data-state="OR" d="M50 100 L120 100 L120 160 L50 160 Z" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
-                                <path data-state="CA" d="M50 160 L120 160 L120 280 L50 280 Z" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
-                                <path data-state="NV" d="M120 160 L180 160 L180 280 L120 280 Z" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
-                                <path data-state="ID" d="M120 40 L180 40 L180 160 L120 160 Z" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
-                                <path data-state="UT" d="M180 160 L240 160 L240 280 L180 280 Z" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
-                                <path data-state="AZ" d="M180 280 L240 280 L240 340 L180 340 Z" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
-                                <path data-state="MT" d="M180 40 L280 40 L280 120 L180 120 Z" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
-                                <path data-state="WY" d="M180 120 L280 120 L280 200 L180 200 Z" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
-                                <path data-state="CO" d="M180 200 L280 200 L280 280 L180 280 Z" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
-                                <path data-state="NM" d="M180 280 L280 280 L280 340 L180 340 Z" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
-                                <path data-state="ND" d="M280 40 L340 40 L340 120 L280 120 Z" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
-                                <path data-state="SD" d="M280 120 L340 120 L340 200 L280 200 Z" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
-                                <path data-state="NE" d="M280 200 L380 200 L380 260 L280 260 Z" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
-                                <path data-state="KS" d="M280 260 L380 260 L380 320 L280 320 Z" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
-                                <path data-state="OK" d="M280 320 L420 320 L420 360 L280 360 Z" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
-                                <path data-state="TX" d="M280 360 L420 360 L420 420 L280 420 Z" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
-                                <path data-state="MN" d="M340 40 L400 40 L400 140 L340 140 Z" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
-                                <path data-state="IA" d="M340 140 L400 140 L400 200 L340 200 Z" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
-                                <path data-state="MO" d="M380 200 L440 200 L440 300 L380 300 Z" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
-                                <path data-state="AR" d="M420 300 L480 300 L480 360 L420 360 Z" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
-                                <path data-state="LA" d="M420 360 L480 360 L480 420 L420 420 Z" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
-                                <path data-state="WI" d="M400 40 L460 40 L460 140 L400 140 Z" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
-                                <path data-state="IL" d="M400 140 L460 140 L460 240 L400 240 Z" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
-                                <path data-state="MS" d="M460 300 L500 300 L500 400 L460 400 Z" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
-                                <path data-state="AL" d="M500 300 L540 300 L540 400 L500 400 Z" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
-                                <path data-state="TN" d="M460 240 L540 240 L540 300 L460 300 Z" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
-                                <path data-state="KY" d="M460 200 L540 200 L540 240 L460 240 Z" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
-                                <path data-state="IN" d="M460 140 L500 140 L500 200 L460 200 Z" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
-                                <path data-state="MI" d="M460 40 L520 40 L520 140 L460 140 Z" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
-                                <path data-state="OH" d="M500 140 L550 140 L550 220 L500 220 Z" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
-                                <path data-state="WV" d="M540 200 L580 200 L580 260 L540 260 Z" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
-                                <path data-state="VA" d="M540 260 L590 260 L590 320 L540 320 Z" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
-                                <path data-state="NC" d="M540 320 L590 320 L590 370 L540 370 Z" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
-                                <path data-state="SC" d="M540 370 L580 370 L580 400 L540 400 Z" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
-                                <path data-state="GA" d="M540 400 L580 400 L580 450 L540 450 Z" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
-                                <path data-state="FL" d="M580 400 L620 400 L620 480 L580 480 Z" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
-                                <path data-state="PA" d="M550 140 L590 140 L590 200 L550 200 Z" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
-                                <path data-state="NY" d="M550 80 L590 80 L590 140 L550 140 Z" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
-                                <path data-state="VT" d="M590 60 L610 60 L610 100 L590 100 Z" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
-                                <path data-state="NH" d="M590 100 L610 100 L610 140 L590 140 Z" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
-                                <path data-state="ME" d="M610 40 L640 40 L640 140 L610 140 Z" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
-                                <path data-state="MA" d="M590 140 L630 140 L630 170 L590 170 Z" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
-                                <path data-state="RI" d="M630 140 L640 140 L640 160 L630 160 Z" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
-                                <path data-state="CT" d="M590 170 L620 170 L620 190 L590 190 Z" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
-                                <path data-state="NJ" d="M590 190 L610 190 L610 220 L590 220 Z" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
-                                <path data-state="DE" d="M590 220 L600 220 L600 240 L590 240 Z" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
-                                <path data-state="MD" d="M590 240 L610 240 L610 260 L590 260 Z" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
-                                <path data-state="DC" d="M600 250 L605 250 L605 255 L600 255 Z" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
-                            </svg>
+                            <div class="flight-distance-info">
+                                <span class="distance-label">Distance:</span>
+                                <span id="flight-distance" class="distance-value">Loading...</span>
+                            </div>
                         </div>
                         
                         <div class="flight-input">
@@ -544,15 +488,18 @@
                                 <div class="time-input-field">
                                     <input type="number" id="flight-hours" placeholder="0" min="0" max="12">
                                     <span class="time-label">hours</span>
-                                    <div id="flight-hours-feedback" class="feedback"></div>
                                 </div>
                                 <div class="time-input-field">
                                     <input type="number" id="flight-minutes" placeholder="0" min="0" max="59">
                                     <span class="time-label">minutes</span>
-                                    <div id="flight-minutes-feedback" class="feedback"></div>
                                 </div>
                                 <button id="flight-submit-btn" onclick="submitGuess()">Submit</button>
                             </div>
+                        </div>
+                        
+                        <div id="flight-round-result" class="flight-round-result" style="display: none;">
+                            <div id="flight-round-result-text"></div>
+                            <button id="flight-next-round-btn" onclick="goToNextRound()" style="display: none;">Next Round</button>
                         </div>
                         
                         <div id="flight-final-result" class="flight-result" style="display: none;">

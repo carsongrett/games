@@ -1,7 +1,8 @@
 // Flight Guessing Game
 let currentFlight = null;
-let guessCount = 0;
-let maxGuesses = 5;
+let currentRound = 0;
+let totalRounds = 5;
+let totalScore = 0;
 let gameActive = false;
 
 // Flight data from CSV
@@ -99,25 +100,39 @@ function initializeFlightChallenge() {
 }
 
 function newGame() {
-    currentFlight = flightData[Math.floor(Math.random() * flightData.length)];
-    guessCount = 0;
+    currentRound = 0;
+    totalScore = 0;
     gameActive = true;
+    
+    document.getElementById('flight-play-again-btn').style.display = 'none';
+    document.getElementById('flight-final-result').style.display = 'none';
+    
+    nextRound();
+}
+
+function nextRound() {
+    if (currentRound >= totalRounds) {
+        endGame();
+        return;
+    }
+    
+    currentRound++;
+    currentFlight = flightData[Math.floor(Math.random() * flightData.length)];
     
     updateDisplay();
     clearFeedback();
     resetInputs();
     
     document.getElementById('flight-submit-btn').disabled = false;
-    document.getElementById('flight-play-again-btn').style.display = 'none';
-    document.getElementById('flight-final-result').style.display = 'none';
-    
-    highlightStatesAndDrawPath();
+    document.getElementById('flight-round-result').style.display = 'none';
 }
 
 function updateDisplay() {
     document.getElementById('flight-origin').textContent = `${currentFlight.origin.city}, ${currentFlight.origin.state}`;
     document.getElementById('flight-destination').textContent = `${currentFlight.destination.city}, ${currentFlight.destination.state}`;
-    document.getElementById('flight-guess-count').textContent = `Guess ${guessCount + 1}/${maxGuesses}`;
+    document.getElementById('flight-distance').textContent = `${currentFlight.distance} miles`;
+    document.getElementById('flight-round-info').textContent = `Round ${currentRound}/${totalRounds}`;
+    document.getElementById('flight-score').textContent = `Score: ${totalScore}`;
 }
 
 function resetInputs() {
@@ -126,43 +141,7 @@ function resetInputs() {
 }
 
 function clearFeedback() {
-    document.getElementById('flight-hours-feedback').textContent = '';
-    document.getElementById('flight-minutes-feedback').textContent = '';
-}
-
-function highlightStatesAndDrawPath() {
-    const svg = document.getElementById('flight-map');
-    if (!svg) return;
-    
-    // Clear previous highlights
-    const paths = svg.querySelectorAll('path');
-    paths.forEach(path => {
-        path.style.fill = '#e6e6e6';
-        path.style.stroke = '#999';
-    });
-    
-    // Remove existing elements
-    const existingPath = svg.querySelector('#flight-path');
-    const existingMarkers = svg.querySelectorAll('.city-marker');
-    if (existingPath) existingPath.remove();
-    existingMarkers.forEach(marker => marker.remove());
-    
-    // Highlight states
-    const originState = currentFlight.origin.state;
-    const destState = currentFlight.destination.state;
-    
-    const originPath = svg.querySelector(`[data-state="${originState}"]`);
-    const destPath = svg.querySelector(`[data-state="${destState}"]`);
-    
-    if (originPath) {
-        originPath.style.fill = '#4CAF50';
-        originPath.style.stroke = '#2E7D32';
-    }
-    
-    if (destPath && destState !== originState) {
-        destPath.style.fill = '#2196F3';
-        destPath.style.stroke = '#1565C0';
-    }
+    document.getElementById('flight-round-result').style.display = 'none';
 }
 
 function submitGuess() {
@@ -176,75 +155,99 @@ function submitGuess() {
         return;
     }
     
-    guessCount++;
-    
     const actualHours = currentFlight.hours;
     const actualMinutes = currentFlight.minutes;
     
-    // Provide feedback for hours
-    const hoursFeedback = document.getElementById('flight-hours-feedback');
-    if (hoursGuess === actualHours) {
-        hoursFeedback.textContent = '✓ Correct!';
-        hoursFeedback.style.color = '#4CAF50';
-    } else if (hoursGuess < actualHours) {
-        hoursFeedback.textContent = '↑ Too low';
-        hoursFeedback.style.color = '#f44336';
+    // Convert both times to total minutes for easier comparison
+    const guessedTotalMinutes = hoursGuess * 60 + minutesGuess;
+    const actualTotalMinutes = actualHours * 60 + actualMinutes;
+    const timeDifference = Math.abs(guessedTotalMinutes - actualTotalMinutes);
+    
+    // Calculate score based on accuracy (100 points max, decreasing with error)
+    let roundScore = 0;
+    if (timeDifference === 0) {
+        roundScore = 100; // Perfect score
+    } else if (timeDifference <= 5) {
+        roundScore = 90; // Within 5 minutes
+    } else if (timeDifference <= 10) {
+        roundScore = 80; // Within 10 minutes
+    } else if (timeDifference <= 15) {
+        roundScore = 70; // Within 15 minutes
+    } else if (timeDifference <= 30) {
+        roundScore = 60; // Within 30 minutes
+    } else if (timeDifference <= 45) {
+        roundScore = 40; // Within 45 minutes
+    } else if (timeDifference <= 60) {
+        roundScore = 20; // Within 1 hour
+    } else if (timeDifference <= 90) {
+        roundScore = 10; // Within 1.5 hours
+    }
+    // 0 points if more than 1.5 hours off
+    
+    totalScore += roundScore;
+    
+    // Show round result
+    const resultDiv = document.getElementById('flight-round-result');
+    const resultText = document.getElementById('flight-round-result-text');
+    
+    resultText.innerHTML = `
+        <strong>Your guess:</strong> ${hoursGuess}h ${minutesGuess}m<br>
+        <strong>Actual time:</strong> ${actualHours}h ${actualMinutes}m<br>
+        <strong>Difference:</strong> ${timeDifference} minutes<br>
+        <strong>Round score:</strong> ${roundScore}/100 points
+    `;
+    
+    resultDiv.style.display = 'block';
+    document.getElementById('flight-submit-btn').disabled = true;
+    
+    // Show next round button or end game
+    if (currentRound < totalRounds) {
+        document.getElementById('flight-next-round-btn').style.display = 'inline-block';
     } else {
-        hoursFeedback.textContent = '↓ Too high';
-        hoursFeedback.style.color = '#f44336';
-    }
-    
-    // Provide feedback for minutes
-    const minutesFeedback = document.getElementById('flight-minutes-feedback');
-    if (minutesGuess === actualMinutes) {
-        minutesFeedback.textContent = '✓ Correct!';
-        minutesFeedback.style.color = '#4CAF50';
-    } else if (minutesGuess < actualMinutes) {
-        minutesFeedback.textContent = '↑ Too low';
-        minutesFeedback.style.color = '#f44336';
-    } else {
-        minutesFeedback.textContent = '↓ Too high';
-        minutesFeedback.style.color = '#f44336';
-    }
-    
-    // Check if both are correct
-    if (hoursGuess === actualHours && minutesGuess === actualMinutes) {
-        endGame(true);
-        return;
-    }
-    
-    // Check if out of guesses
-    if (guessCount >= maxGuesses) {
-        endGame(false);
-        return;
+        setTimeout(() => {
+            endGame();
+        }, 3000);
     }
     
     updateDisplay();
-    resetInputs();
 }
 
-function endGame(won) {
+function goToNextRound() {
+    document.getElementById('flight-next-round-btn').style.display = 'none';
+    nextRound();
+}
+
+function endGame() {
     gameActive = false;
-    document.getElementById('flight-submit-btn').disabled = true;
     
     const resultDiv = document.getElementById('flight-final-result');
     const resultText = document.getElementById('flight-result-text');
     
-    if (won) {
-        resultText.innerHTML = `
-            <span style="color: #4CAF50;">🎉 Congratulations!</span><br>
-            You guessed the correct flight time: <strong>${currentFlight.hours}h ${currentFlight.minutes}m</strong><br>
-            Distance: <strong>${currentFlight.distance} miles</strong><br>
-            Guesses used: <strong>${guessCount}/${maxGuesses}</strong>
-        `;
+    // Calculate final score percentage
+    const maxPossibleScore = totalRounds * 100;
+    const scorePercentage = Math.round((totalScore / maxPossibleScore) * 100);
+    
+    let performanceMessage = '';
+    if (scorePercentage >= 90) {
+        performanceMessage = '🎉 Outstanding! You\'re a flight time expert!';
+    } else if (scorePercentage >= 80) {
+        performanceMessage = '🛩️ Excellent! Great knowledge of flight times!';
+    } else if (scorePercentage >= 70) {
+        performanceMessage = '✈️ Good job! You have solid flight intuition!';
+    } else if (scorePercentage >= 60) {
+        performanceMessage = '🗺️ Not bad! Keep practicing your geography!';
     } else {
-        resultText.innerHTML = `
-            <span style="color: #f44336;">Better luck next time!</span><br>
-            The correct flight time was: <strong>${currentFlight.hours}h ${currentFlight.minutes}m</strong><br>
-            Distance: <strong>${currentFlight.distance} miles</strong><br>
-            You used all <strong>${maxGuesses}</strong> guesses.
-        `;
+        performanceMessage = '🧭 Room for improvement! Try again to get better!';
     }
+    
+    resultText.innerHTML = `
+        <h3>Game Complete!</h3>
+        <p>${performanceMessage}</p>
+        <div style="margin: 1rem 0; font-size: 1.2rem;">
+            <strong>Final Score: ${totalScore}/${maxPossibleScore} points (${scorePercentage}%)</strong>
+        </div>
+        <p style="color: #666;">You completed ${totalRounds} rounds of flight time challenges.</p>
+    `;
     
     resultDiv.style.display = 'block';
     document.getElementById('flight-play-again-btn').style.display = 'inline-block';
