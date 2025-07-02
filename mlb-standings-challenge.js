@@ -290,114 +290,91 @@ class MLBStandingsGame {
     }
 
     showTeamSelector(teamId, leagueId, rank) {
-        const existingModal = document.getElementById('team-selector-modal');
-        if (existingModal) {
-            existingModal.remove();
+        console.log('🎮 Starting simple team selection for team ID:', teamId);
+        
+        // Find the button that was clicked and replace it with inline selection
+        const clickedButton = document.querySelector(`button[onclick*="${teamId}"]`);
+        if (!clickedButton) {
+            console.error('Could not find clicked button');
+            return;
         }
-
-        const modal = document.createElement('div');
-        modal.id = 'team-selector-modal';
-        modal.className = 'team-selector-modal';
 
         // Sort teams alphabetically for the dropdown
         const sortedTeams = [...this.allTeams].sort((a, b) => a.name.localeCompare(b.name));
 
-        modal.innerHTML = `
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4>Select Team for ${leagueId.toUpperCase()} Rank #${rank}</h4>
-                    <button class="close-modal" onclick="closeTeamSelector()">×</button>
-                </div>
-                <div class="modal-body">
-                    <select id="team-selector" class="team-dropdown">
-                        <option value="">Choose a team...</option>
-                        ${sortedTeams.map(team => 
-                            `<option value="${team.id}">${team.name}</option>`
-                        ).join('')}
-                    </select>
-                    <div class="modal-actions">
-                        <button id="submit-guess-btn" disabled>Submit Guess</button>
-                        <button onclick="closeTeamSelector()" class="cancel-btn">Cancel</button>
-                    </div>
+        // Replace the button with an inline form
+        clickedButton.parentElement.innerHTML = `
+            <div style="display: flex; flex-direction: column; gap: 10px; padding: 10px; background: #f8f9fa; border-radius: 8px;">
+                <strong>Select team for ${leagueId.toUpperCase()} Rank #${rank}:</strong>
+                <select id="inline-team-selector-${teamId}" style="padding: 8px; border-radius: 4px; border: 1px solid #ccc;">
+                    <option value="">Choose a team...</option>
+                    ${sortedTeams.map(team => 
+                        `<option value="${team.id}">${team.name}</option>`
+                    ).join('')}
+                </select>
+                <div style="display: flex; gap: 10px;">
+                    <button id="inline-submit-${teamId}" disabled style="padding: 8px 16px; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                        Submit
+                    </button>
+                    <button onclick="location.reload()" style="padding: 8px 16px; background: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                        Cancel
+                    </button>
                 </div>
             </div>
         `;
 
-        document.body.appendChild(modal);
-
-        // Wait for DOM to be ready, then setup event listeners
-        setTimeout(() => {
-            const selector = document.getElementById('team-selector');
-            const submitBtn = document.getElementById('submit-guess-btn');
+        // Setup the inline form immediately
+        const selector = document.getElementById(`inline-team-selector-${teamId}`);
+        const submitBtn = document.getElementById(`inline-submit-${teamId}`);
+        
+        if (selector && submitBtn) {
+            console.log('✅ Inline elements found, setting up handlers');
             
-            if (selector && submitBtn) {
-                console.log('Setting up event listeners for modal');
+            // Simple function to enable/disable submit button
+            const updateButton = () => {
+                if (selector.value) {
+                    submitBtn.disabled = false;
+                    submitBtn.style.backgroundColor = '#28a745';
+                    submitBtn.style.opacity = '1';
+                    console.log('🟢 Button ENABLED - Selection:', selector.value);
+                } else {
+                    submitBtn.disabled = true;
+                    submitBtn.style.backgroundColor = '#ccc';
+                    submitBtn.style.opacity = '0.6';
+                    console.log('🔴 Button DISABLED');
+                }
+            };
+            
+            // Listen for selection changes
+            selector.addEventListener('change', updateButton);
+            
+            // Handle submit with simple approach - store reference to game instance
+            const gameInstance = this;
+            submitBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
                 
-                // Function to update button state
-                const updateButtonState = () => {
-                    const hasSelection = selector.value && selector.value !== "";
-                    
-                    // Explicitly set/remove disabled attribute
-                    if (hasSelection) {
-                        submitBtn.removeAttribute('disabled');
-                        submitBtn.disabled = false;
-                        submitBtn.style.backgroundColor = '#28a745';
-                        submitBtn.style.cursor = 'pointer';
-                        submitBtn.style.opacity = '1';
-                    } else {
-                        submitBtn.setAttribute('disabled', 'true');
-                        submitBtn.disabled = true;
-                        submitBtn.style.backgroundColor = '#6c757d';
-                        submitBtn.style.cursor = 'not-allowed';
-                        submitBtn.style.opacity = '0.6';
-                    }
-                    
-                    console.log('🔄 Button state updated - Selection:', selector.value, 'Disabled:', submitBtn.disabled, 'HasSelection:', hasSelection, 'DOM disabled attr:', submitBtn.getAttribute('disabled'));
-                };
+                console.log('🚀 INLINE SUBMIT CLICKED!');
+                console.log('Selected team ID:', selector.value);
                 
-                // Enable submit button when selection is made
-                selector.addEventListener('change', updateButtonState);
-                selector.addEventListener('input', updateButtonState);
-                
-                // Add click event listener to submit button
-                submitBtn.addEventListener('click', function(e) {
-                    console.log('🎯 Submit button clicked directly!');
-                    console.log('Button disabled state:', submitBtn.disabled);
-                    console.log('Button disabled attribute:', submitBtn.getAttribute('disabled'));
-                    
-                    if (!submitBtn.disabled) {
-                        console.log('✅ Button is enabled, submitting guess');
-                        submitTeamGuess(teamId);
-                    } else {
-                        console.log('❌ Button is disabled, not submitting');
-                        e.preventDefault();
-                        e.stopPropagation();
-                    }
-                });
-                
-                // Initial check
-                updateButtonState();
-
-                // Focus on dropdown
-                selector.focus();
-            } else {
-                console.error('Could not find selector or submit button elements');
-            }
-        }, 50);
+                if (selector.value) {
+                    // Call the submission method directly on the game instance
+                    gameInstance.handleTeamGuess(teamId, parseInt(selector.value));
+                } else {
+                    alert('Please select a team first!');
+                }
+            });
+            
+            // Initial state
+            updateButton();
+            selector.focus();
+        } else {
+            console.error('❌ Could not find inline elements');
+        }
     }
 
-    submitTeamGuess(actualTeamId) {
-        console.log('submitTeamGuess called with actualTeamId:', actualTeamId);
-        
-        const selector = document.getElementById('team-selector');
-        const guessedTeamId = parseInt(selector.value);
-        
-        console.log('Selected value:', selector.value, 'Parsed as:', guessedTeamId);
-
-        if (!guessedTeamId) {
-            console.log('No team selected, returning');
-            return;
-        }
+    handleTeamGuess(actualTeamId, guessedTeamId) {
+        console.log('🎯 handleTeamGuess called - Actual:', actualTeamId, 'Guessed:', guessedTeamId);
 
         const actualTeam = this.allTeams.find(t => t.id === actualTeamId);
         const guessedTeam = this.allTeams.find(t => t.id === guessedTeamId);
@@ -406,7 +383,9 @@ class MLBStandingsGame {
         console.log('Guessed team:', guessedTeam);
 
         if (!actualTeam || !guessedTeam) {
-            console.log('Team not found, returning');
+            console.error('Team not found!');
+            alert('Error: Team not found. Please try again.');
+            location.reload();
             return;
         }
 
@@ -416,7 +395,7 @@ class MLBStandingsGame {
             // Correct guess
             actualTeam.revealed = true;
             this.teamsRevealed++;
-            this.showMessage(`Correct! ${actualTeam.name} is in ${actualTeam.leagueRank}${this.getOrdinalSuffix(actualTeam.leagueRank)} place!`, 'success');
+            this.showMessage(`🎉 Correct! ${actualTeam.name} is in ${actualTeam.leagueRank}${this.getOrdinalSuffix(actualTeam.leagueRank)} place!`, 'success');
             
             // Check for win condition
             if (this.teamsRevealed >= this.totalTeams) {
@@ -428,7 +407,7 @@ class MLBStandingsGame {
             actualTeam.revealed = true;
             this.teamsRevealed++;
             this.lives--;
-            this.showMessage(`Incorrect! You guessed ${guessedTeam.name}, but ${actualTeam.name} is in ${actualTeam.leagueRank}${this.getOrdinalSuffix(actualTeam.leagueRank)} place. Lives remaining: ${this.lives}`, 'error');
+            this.showMessage(`❌ Incorrect! You guessed ${guessedTeam.name}, but ${actualTeam.name} is in ${actualTeam.leagueRank}${this.getOrdinalSuffix(actualTeam.leagueRank)} place. Lives remaining: ${this.lives}`, 'error');
             
             // Check for lose condition
             if (this.lives <= 0) {
@@ -437,9 +416,18 @@ class MLBStandingsGame {
             }
         }
 
-        this.closeTeamSelector();
+        // Re-render the standings
         this.renderStandings();
         this.updateDisplay();
+        
+        // Auto-hide message after 3 seconds
+        setTimeout(() => this.hideMessage(), 3000);
+    }
+
+    // Keep the old method for compatibility with global functions
+    submitTeamGuess(actualTeamId) {
+        console.log('⚠️ Old submitTeamGuess called - this should not happen with new system');
+        return;
     }
 
     getOrdinalSuffix(number) {
@@ -459,10 +447,8 @@ class MLBStandingsGame {
     }
 
     closeTeamSelector() {
-        const modal = document.getElementById('team-selector-modal');
-        if (modal) {
-            modal.remove();
-        }
+        // No longer needed with inline selection system
+        console.log('🗑️ closeTeamSelector called - not needed with new inline system');
     }
 
     endGame(won) {
