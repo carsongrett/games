@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Hunt</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .game-container {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #4a5568;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .game-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .target-number {
+            font-size: 2em;
+            color: #e53e3e;
+            margin-bottom: 20px;
+            padding: 10px;
+            background: #fed7d7;
+            border-radius: 10px;
+            border: 3px solid #e53e3e;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+            max-width: 320px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .grid-item {
+            background: #4299e1;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.5em;
+            font-weight: bold;
+            width: 70px;
+            height: 70px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .grid-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+            background: #3182ce;
+        }
+
+        .grid-item.selected {
+            background: #f56565;
+            transform: scale(1.1);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+        }
+
+        .grid-item:active {
+            transform: translateY(0);
+        }
+
+        .message {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .message.correct {
+            color: #38a169;
+            animation: bounce 0.6s ease;
+        }
+
+        .message.incorrect {
+            color: #e53e3e;
+            animation: shake 0.6s ease;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 60%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            80% { transform: translateY(-5px); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .score {
+            color: #38a169;
+        }
+
+        .timer {
+            color: #e53e3e;
+        }
+
+        .timer.warning {
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.3; }
+        }
+
+        .game-over {
+            background: #fed7d7;
+            border: 3px solid #e53e3e;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .restart-btn {
+            background: #4299e1;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background 0.3s ease;
+        }
+
+        .restart-btn:hover {
+            background: #3182ce;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>🔢 Math Hunt</h1>
+        
+        <div class="game-info">
+            <div class="score">Score: <span id="score">0</span></div>
+            <div class="timer" id="timer">Time: 90s</div>
+        </div>
+
+        <div class="target-number" id="target">
+            Target: <span id="targetNumber">24</span>
+        </div>
+
+        <div class="grid" id="grid"></div>
+
+        <div class="message" id="message">Find two numbers that multiply to make the target!</div>
+
+        <div id="gameOver" class="game-over" style="display: none;">
+            <h2>Game Over!</h2>
+            <p>Final Score: <span id="finalScore">0</span></p>
+            <button class="restart-btn" onclick="startNewGame()">Play Again</button>
+        </div>
+    </div>
+
+    <script>
+        let grid = [];
+        let selectedNumbers = [];
+        let targetNumber = 0;
+        let score = 0;
+        let timeLeft = 90;
+        let gameTimer;
+        let gameActive = true;
+
+        function generateRandomNumber() {
+            return Math.floor(Math.random() * 12) + 1;
+        }
+
+        function createGrid() {
+            grid = [];
+            for (let i = 0; i < 16; i++) {
+                grid.push(generateRandomNumber());
+            }
+        }
+
+        function selectRandomPair() {
+            const index1 = Math.floor(Math.random() * 16);
+            let index2;
+            do {
+                index2 = Math.floor(Math.random() * 16);
+            } while (index2 === index1);
+            
+            targetNumber = grid[index1] * grid[index2];
+            document.getElementById('targetNumber').textContent = targetNumber;
+        }
+
+        function renderGrid() {
+            const gridElement = document.getElementById('grid');
+            gridElement.innerHTML = '';
+            
+            grid.forEach((number, index) => {
+                const button = document.createElement('button');
+                button.className = 'grid-item';
+                button.textContent = number;
+                button.onclick = () => selectNumber(index);
+                gridElement.appendChild(button);
+            });
+        }
+
+        function selectNumber(index) {
+            if (!gameActive) return;
+            
+            const button = document.querySelectorAll('.grid-item')[index];
+            
+            if (selectedNumbers.length < 2 && !selectedNumbers.includes(index)) {
+                selectedNumbers.push(index);
+                button.classList.add('selected');
+                
+                if (selectedNumbers.length === 2) {
+                    checkAnswer();
+                }
+            }
+        }
+
+        function checkAnswer() {
+            const num1 = grid[selectedNumbers[0]];
+            const num2 = grid[selectedNumbers[1]];
+            const product = num1 * num2;
+            
+            const messageElement = document.getElementById('message');
+            
+            if (product === targetNumber) {
+                messageElement.textContent = 'Correct! 🎉';
+                messageElement.className = 'message correct';
+                score++;
+                document.getElementById('score').textContent = score;
+                
+                setTimeout(() => {
+                    newRound();
+                }, 1500);
+            } else {
+                messageElement.textContent = 'Try again! 🤔';
+                messageElement.className = 'message incorrect';
+                
+                setTimeout(() => {
+                    clearSelection();
+                    messageElement.textContent = 'Find two numbers that multiply to make the target!';
+                    messageElement.className = 'message';
+                }, 1500);
+            }
+        }
+
+        function clearSelection() {
+            selectedNumbers = [];
+            document.querySelectorAll('.grid-item').forEach(button => {
+                button.classList.remove('selected');
+            });
+        }
+
+        function newRound() {
+            clearSelection();
+            createGrid();
+            selectRandomPair();
+            renderGrid();
+            
+            const messageElement = document.getElementById('message');
+            messageElement.textContent = 'Find two numbers that multiply to make the target!';
+            messageElement.className = 'message';
+        }
+
+        function startTimer() {
+            const timerElement = document.getElementById('timer');
+            
+            gameTimer = setInterval(() => {
+                timeLeft--;
+                timerElement.textContent = `Time: ${timeLeft}s`;
+                
+                if (timeLeft <= 10) {
+                    timerElement.classList.add('warning');
+                }
+                
+                if (timeLeft <= 0) {
+                    endGame();
+                }
+            }, 1000);
+        }
+
+        function endGame() {
+            gameActive = false;
+            clearInterval(gameTimer);
+            
+            document.getElementById('finalScore').textContent = score;
+            document.getElementById('gameOver').style.display = 'block';
+            
+            // Disable all grid buttons
+            document.querySelectorAll('.grid-item').forEach(button => {
+                button.style.pointerEvents = 'none';
+                button.style.opacity = '0.5';
+            });
+        }
+
+        function startNewGame() {
+            gameActive = true;
+            score = 0;
+            timeLeft = 90;
+            selectedNumbers = [];
+            
+            document.getElementById('score').textContent = score;
+            document.getElementById('timer').textContent = `Time: ${timeLeft}s`;
+            document.getElementById('timer').classList.remove('warning');
+            document.getElementById('gameOver').style.display = 'none';
+            
+            newRound();
+            startTimer();
+        }
+
+        // Initialize the game
+        startNewGame();
+    </script>
+</body>
+</html> 
