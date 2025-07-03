@@ -71,11 +71,6 @@ class PlayerChallengeGame {
         const dropdown = document.getElementById('player-dropdown');
         const datalist = document.getElementById('nfl-players-list');
         
-        console.log('Setting up autocomplete...');
-        console.log('Dropdown element:', dropdown);
-        console.log('Datalist element:', datalist);
-        console.log('Players loaded:', this.players.length);
-        
         if (!dropdown || !datalist) {
             console.error('Dropdown elements not found');
             return;
@@ -96,101 +91,37 @@ class PlayerChallengeGame {
             datalist.appendChild(option);
         });
         
-        console.log('Added options to datalist:', datalist.options.length);
+        console.log('Added options to datalist:', datalist.options.length); // Debug log
         
-        // Store reference for validation
-        this.playerOptions = sortedPlayers;
+        // Remove any existing event listeners
+        const newDropdown = dropdown.cloneNode(true);
+        dropdown.parentNode.replaceChild(newDropdown, dropdown);
         
-        // Clear any existing event listeners by removing and re-adding
-        dropdown.removeEventListener('input', this.inputHandler);
-        dropdown.removeEventListener('change', this.changeHandler);
-        dropdown.removeEventListener('keyup', this.keyupHandler);
-        
-        // Create bound event handlers
-        this.inputHandler = (event) => {
-            this.handleInputChange(event);
-        };
-        
-        this.changeHandler = (event) => {
-            this.handleInputChange(event);
-        };
-        
-        this.keyupHandler = (event) => {
-            // Allow partial matching and enable button for close matches
-            this.handleInputChange(event);
+        // Add fresh event listener
+        newDropdown.addEventListener('input', (event) => {
+            const submitBtn = document.getElementById('submit-guess-btn');
+            const inputValue = event.target.value;
+            const selectedOption = Array.from(datalist.options).find(opt => opt.value === inputValue);
             
-            // Handle Enter key
-            if (event.key === 'Enter') {
-                const submitBtn = document.getElementById('submit-guess-btn');
-                if (submitBtn && !submitBtn.disabled) {
-                    this.submitPlayerGuess();
-                }
-            }
-        };
-        
-        // Add event listeners
-        dropdown.addEventListener('input', this.inputHandler);
-        dropdown.addEventListener('change', this.changeHandler);
-        dropdown.addEventListener('keyup', this.keyupHandler);
-        
-        // Enable submit button initially for testing
-        const submitBtn = document.getElementById('submit-guess-btn');
-        if (submitBtn) {
-            submitBtn.disabled = true;
-        }
-    }
-    
-    handleInputChange(event) {
-        const inputValue = event.target.value.trim();
-        const submitBtn = document.getElementById('submit-guess-btn');
-        const datalist = document.getElementById('nfl-players-list');
-        
-        if (!submitBtn || !datalist) return;
-        
-        // Check for exact match first
-        const exactMatch = Array.from(datalist.options).find(opt => opt.value === inputValue);
-        
-        if (exactMatch) {
-            submitBtn.disabled = false;
-            console.log('Exact match found:', inputValue);
-            return;
-        }
-        
-        // Check for partial matches (player name only)
-        const playerName = inputValue.toLowerCase().trim();
-        
-        // Try multiple matching strategies
-        let partialMatch = null;
-        
-        if (playerName.length >= 2) {
-            // First try: exact name match
-            partialMatch = this.playerOptions.find(player => 
-                player.name.toLowerCase() === playerName
-            );
-            
-            // Second try: name starts with input
-            if (!partialMatch) {
-                partialMatch = this.playerOptions.find(player => 
-                    player.name.toLowerCase().startsWith(playerName)
-                );
+            if (submitBtn) {
+                submitBtn.disabled = !selectedOption;
             }
             
-            // Third try: name contains input (for nicknames/partial names)
-            if (!partialMatch && playerName.length >= 3) {
-                partialMatch = this.playerOptions.find(player => 
-                    player.name.toLowerCase().includes(playerName)
-                );
+            console.log('Input changed:', inputValue, 'Found option:', !!selectedOption); // Debug log
+        });
+        
+        // Also listen for change events (when user selects from dropdown)
+        newDropdown.addEventListener('change', (event) => {
+            const submitBtn = document.getElementById('submit-guess-btn');
+            const inputValue = event.target.value;
+            const selectedOption = Array.from(datalist.options).find(opt => opt.value === inputValue);
+            
+            if (submitBtn) {
+                submitBtn.disabled = !selectedOption;
             }
-        }
-        
-        if (partialMatch) {
-            submitBtn.disabled = false;
-            console.log('Match found:', partialMatch.name);
-        } else {
-            submitBtn.disabled = true;
-        }
-        
-        console.log('Input value:', inputValue, 'Submit enabled:', !submitBtn.disabled);
+            
+            console.log('Selection changed:', inputValue, 'Found option:', !!selectedOption); // Debug log
+        });
     }
     
     submitPlayerGuess() {
@@ -204,59 +135,19 @@ class PlayerChallengeGame {
             return;
         }
         
-        const inputValue = dropdown.value.trim();
-        if (!inputValue) {
-            this.showMessage('player-message', 'Please enter a player name!', 'error', 2000);
+        const selectedOption = Array.from(datalist.options).find(opt => opt.value === dropdown.value);
+        
+        if (!selectedOption) {
+            this.showMessage('player-message', 'Please select a valid player from the list!', 'error', 2000);
             return;
         }
         
-        let guessedPlayer = null;
-        
-        // First try exact match from datalist
-        const selectedOption = Array.from(datalist.options).find(opt => opt.value === inputValue);
-        
-        if (selectedOption) {
-            try {
-                guessedPlayer = JSON.parse(selectedOption.getAttribute('data-player'));
-                console.log('Found exact match:', guessedPlayer.name);
-            } catch (error) {
-                console.error('Error parsing player data:', error);
-            }
-        }
-        
-        // If no exact match, try partial match using same logic as input handler
-        if (!guessedPlayer) {
-            const playerName = inputValue.toLowerCase().trim();
-            
-            if (playerName.length >= 2) {
-                // First try: exact name match
-                let partialMatch = this.playerOptions.find(player => 
-                    player.name.toLowerCase() === playerName
-                );
-                
-                // Second try: name starts with input
-                if (!partialMatch) {
-                    partialMatch = this.playerOptions.find(player => 
-                        player.name.toLowerCase().startsWith(playerName)
-                    );
-                }
-                
-                // Third try: name contains input (for nicknames/partial names)
-                if (!partialMatch && playerName.length >= 3) {
-                    partialMatch = this.playerOptions.find(player => 
-                        player.name.toLowerCase().includes(playerName)
-                    );
-                }
-                
-                if (partialMatch) {
-                    guessedPlayer = partialMatch;
-                    console.log('Found match:', guessedPlayer.name);
-                }
-            }
-        }
-        
-        if (!guessedPlayer) {
-            this.showMessage('player-message', 'Please select a valid player from the list!', 'error', 2000);
+        let guessedPlayer;
+        try {
+            guessedPlayer = JSON.parse(selectedOption.getAttribute('data-player'));
+        } catch (error) {
+            console.error('Error parsing player data:', error);
+            this.showMessage('player-message', 'Error processing player selection!', 'error', 2000);
             return;
         }
         
