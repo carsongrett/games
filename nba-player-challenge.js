@@ -12,7 +12,7 @@ class NBAPlayerChallengeGame {
     async loadPlayers() {
         try {
             console.log('Starting to load NBA players...'); // Debug log
-            const response = await fetch('nba_players.csv');
+            const response = await fetch('games/sports/nba-player-challenge/nba_players.csv');
             
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
