@@ -12,21 +12,35 @@ class PlayerChallengeGame {
     async loadPlayers() {
         try {
             console.log('Starting to load NFL players...'); // Debug log
-            const response = await fetch('nfl_players.csv');
+            
+            // Add cache busting parameter
+            const response = await fetch(`nfl_players.csv?t=${Date.now()}`);
+            
+            console.log('Fetch response status:', response.status, response.statusText); // Debug log
             
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                throw new Error(`HTTP error! status: ${response.status} - ${response.statusText}`);
             }
             
             const csvText = await response.text();
-            console.log('CSV loaded, first 200 chars:', csvText.substring(0, 200)); // Debug log
+            console.log('CSV loaded, length:', csvText.length, 'first 200 chars:', csvText.substring(0, 200)); // Debug log
+            
+            if (!csvText || csvText.trim().length === 0) {
+                throw new Error('CSV file is empty');
+            }
             
             // Skip header row and parse CSV
             const rows = csvText.split('\n').slice(1);
             console.log('Total rows after header:', rows.length); // Debug log
             
-            this.players = rows.map(row => {
+            this.players = rows.map((row, index) => {
                 const columns = row.split(',');
+                
+                // Debug first few rows
+                if (index < 3) {
+                    console.log(`Row ${index}:`, columns);
+                }
+                
                 // Skip rows that don't have enough data
                 if (columns.length < 7 || !columns[0].trim()) return null;
                 
@@ -44,10 +58,13 @@ class PlayerChallengeGame {
             console.log('Loaded players:', this.players.length); // Debug log
             if (this.players.length > 0) {
                 console.log('First player:', this.players[0]); // Debug log
+                console.log('Last player:', this.players[this.players.length - 1]); // Debug log
+            } else {
+                throw new Error('No valid players were loaded from the CSV');
             }
         } catch (error) {
             console.error('Error loading NFL players:', error);
-            this.showMessage('player-message', 'Error loading player data. Please refresh the page.', 'error', 0);
+            this.showMessage('player-message', `Error loading player data: ${error.message}. Please refresh the page.`, 'error', 0);
         }
     }
 
