@@ -127,16 +127,15 @@ function addPrivacyPolicyLink() {
 
 // Handle browser back/forward navigation
 function handleBrowserNavigation() {
-    const path = window.location.pathname;
-    const basePath = path.replace('/games', '') || '/';
-    const sectionName = routes[basePath] || 'home';
+    const path = window.location.pathname || '/';
+    const sectionName = routes[path] || 'home';
     showSection(sectionName, false); // false = don't push to history
 }
 
 // Navigate to a specific route
 function navigateToRoute(route) {
     const sectionName = routes[route] || 'home';
-    const fullPath = '/games' + route;
+    const fullPath = route;
     window.history.pushState({ route }, '', fullPath);
     showSection(sectionName, false);
 }
@@ -172,7 +171,7 @@ function showSection(sectionName, pushToHistory = true) {
     // Update browser URL if needed
     if (pushToHistory && sectionToRoute[sectionName]) {
         const route = sectionToRoute[sectionName];
-        const fullPath = '/games' + route;
+        const fullPath = route;
         window.history.pushState({ route }, '', fullPath);
     }
     

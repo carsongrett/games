@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting...</title>
+    <script>
+        // Redirect to index.html and preserve the path for client-side routing
+        // This handles GitHub Pages 404s for client-side routing
+        (function() {
+            // Get the current path
+            const path = window.location.pathname;
+            
+            // If we're already at the root, don't redirect
+            if (path === '/' || path === '/index.html') {
+                window.location.replace('/');
+                return;
+            }
+            
+            // Redirect to index.html with the path preserved
+            // The main.js routing will handle showing the correct section
+            window.location.replace('/' + window.location.search + window.location.hash);
+        })();
+    </script>
+</head>
+<body>
+    <p>Redirecting...</p>
+</body>
+</html> 
