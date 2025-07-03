@@ -71,6 +71,11 @@ class PlayerChallengeGame {
         const dropdown = document.getElementById('player-dropdown');
         const datalist = document.getElementById('nfl-players-list');
         
+        console.log('Setting up autocomplete...');
+        console.log('Dropdown element:', dropdown);
+        console.log('Datalist element:', datalist);
+        console.log('Players loaded:', this.players.length);
+        
         if (!dropdown || !datalist) {
             console.error('Dropdown elements not found');
             return;
@@ -92,6 +97,7 @@ class PlayerChallengeGame {
         });
         
         console.log('Added options to datalist:', datalist.options.length); // Debug log
+        console.log('First few options:', Array.from(datalist.options).slice(0, 5).map(o => o.value));
         
         // Remove any existing event listeners
         const newDropdown = dropdown.cloneNode(true);
@@ -431,7 +437,4 @@ function submitPlayerGuess() {
     if (window.nflGame) {
         window.nflGame.submitPlayerGuess();
     }
-}
-
-// Initialize when the page loads
-document.addEventListener('DOMContentLoaded', initializePlayerChallenge); 
+} 

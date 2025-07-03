@@ -192,7 +192,10 @@ function showSection(sectionName, pushToHistory = true) {
     } else if (sectionName === 'nfl-trivia' && typeof initializeNFLTrivia === 'function') {
         initializeNFLTrivia();
     } else if (sectionName === 'player-challenge' && typeof initializePlayerChallenge === 'function') {
-        initializePlayerChallenge();
+        console.log('Initializing NFL Player Challenge...');
+        initializePlayerChallenge().catch(error => {
+            console.error('Error initializing NFL Player Challenge:', error);
+        });
     } else if (sectionName === 'weather-challenge' && typeof initializeWeatherChallenge === 'function') {
         initializeWeatherChallenge();
     } else if (sectionName === 'rent-guessing' && typeof initializeRentGuessing === 'function') {
