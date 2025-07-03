@@ -10,12 +10,9 @@ const routes = {
     '/nfl-player-challenge': 'player-challenge',
     '/nba-player-challenge': 'nba-player-challenge',
     '/mlb-team-challenge': 'mlb-player-challenge',
-    '/mlb-batter-guessing': 'mlb-batter-guessing',
-    '/mlb-standings-challenge': 'mlb-standings-challenge',
     '/color-memory': 'color-memory',
     '/rent-guessing': 'rent-guessing',
-    '/flight-guessing': 'flight-guessing',
-    '/math-hunt': 'math-hunt'
+    '/flight-guessing': 'flight-guessing'
 };
 
 // Reverse mapping for generating URLs
@@ -29,12 +26,9 @@ const sectionToRoute = {
     'player-challenge': '/nfl-player-challenge',
     'nba-player-challenge': '/nba-player-challenge',
     'mlb-player-challenge': '/mlb-team-challenge',
-    'mlb-batter-guessing': '/mlb-batter-guessing',
-    'mlb-standings-challenge': '/mlb-standings-challenge',
     'color-memory': '/color-memory',
     'rent-guessing': '/rent-guessing',
-    'flight-guessing': '/flight-guessing',
-    'math-hunt': '/math-hunt'
+    'flight-guessing': '/flight-guessing'
 };
 
 // Game categorization
@@ -43,13 +37,10 @@ const gameCategories = {
     'player-challenge': 'sports',
     'nba-player-challenge': 'sports',
     'mlb-player-challenge': 'sports',
-    'mlb-batter-guessing': 'sports',
-    'mlb-standings-challenge': 'sports',
     'color-memory': 'other',
     'weather-challenge': 'other',
     'rent-guessing': 'other',
-    'flight-guessing': 'other',
-    'math-hunt': 'other'
+    'flight-guessing': 'other'
 };
 
 // Game titles for page titles and breadcrumbs
@@ -63,12 +54,9 @@ const gameTitles = {
     'player-challenge': 'NFL Player Challenge',
     'nba-player-challenge': 'NBA Player Challenge',
     'mlb-player-challenge': 'MLB Team Challenge',
-    'mlb-batter-guessing': 'MLB Batter Challenge',
-    'mlb-standings-challenge': 'MLB Standings Challenge',
     'color-memory': 'Color Memory',
     'rent-guessing': 'Rent Guessing',
-    'flight-guessing': 'Flight Time Challenge',
-    'math-hunt': 'Math Hunt'
+    'flight-guessing': 'Flight Time Challenge'
 };
 
 // Breadcrumb management
@@ -131,28 +119,16 @@ function addPrivacyPolicyLink() {
 
 // Handle browser back/forward navigation
 function handleBrowserNavigation() {
-    // Check if we were redirected from 404.html (GitHub Pages SPA routing)
-    const redirectPath = sessionStorage.getItem('redirectPath');
-    if (redirectPath) {
-        sessionStorage.removeItem('redirectPath'); // Clear it so it doesn't persist
-        const sectionName = routes[redirectPath] || 'home';
-        // Update the URL without causing a page reload
-        if (redirectPath !== '/') {
-            window.history.replaceState({ route: redirectPath }, '', redirectPath);
-        }
-        showSection(sectionName, false);
-        return;
-    }
-    
-    const path = window.location.pathname || '/';
-    const sectionName = routes[path] || 'home';
+    const path = window.location.pathname;
+    const basePath = path.replace('/games', '') || '/';
+    const sectionName = routes[basePath] || 'home';
     showSection(sectionName, false); // false = don't push to history
 }
 
 // Navigate to a specific route
 function navigateToRoute(route) {
     const sectionName = routes[route] || 'home';
-    const fullPath = route;
+    const fullPath = '/games' + route;
     window.history.pushState({ route }, '', fullPath);
     showSection(sectionName, false);
 }
@@ -188,7 +164,7 @@ function showSection(sectionName, pushToHistory = true) {
     // Update browser URL if needed
     if (pushToHistory && sectionToRoute[sectionName]) {
         const route = sectionToRoute[sectionName];
-        const fullPath = route;
+        const fullPath = '/games' + route;
         window.history.pushState({ route }, '', fullPath);
     }
     
@@ -209,22 +185,13 @@ function showSection(sectionName, pushToHistory = true) {
     } else if (sectionName === 'nfl-trivia' && typeof initializeNFLTrivia === 'function') {
         initializeNFLTrivia();
     } else if (sectionName === 'player-challenge' && typeof initializePlayerChallenge === 'function') {
-        console.log('Initializing NFL Player Challenge...');
-        initializePlayerChallenge().catch(error => {
-            console.error('Error initializing NFL Player Challenge:', error);
-        });
+        initializePlayerChallenge();
     } else if (sectionName === 'weather-challenge' && typeof initializeWeatherChallenge === 'function') {
         initializeWeatherChallenge();
     } else if (sectionName === 'rent-guessing' && typeof initializeRentGuessing === 'function') {
         initializeRentGuessing();
     } else if (sectionName === 'flight-guessing' && typeof initializeFlightChallenge === 'function') {
         initializeFlightChallenge();
-    } else if (sectionName === 'mlb-batter-guessing' && typeof initializeMLBBatterGame === 'function') {
-        initializeMLBBatterGame();
-    } else if (sectionName === 'mlb-standings-challenge' && typeof initializeMLBStandingsGame === 'function') {
-        initializeMLBStandingsGame();
-    } else if (sectionName === 'math-hunt' && typeof initMathHuntGame === 'function') {
-        initMathHuntGame();
     }
 }
 
