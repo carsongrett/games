@@ -838,65 +838,33 @@ header {
     }
 
     .game-grid {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-        margin-bottom: 1rem;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        margin-bottom: 2rem;
     }
 
     .game-card {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0.75rem 1rem;
-        border-radius: 8px;
-        background: white;
-        border: 1px solid #e5e7eb;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        min-height: 60px;
-        margin: 0;
-    }
-
-    .game-card:hover {
-        transform: none;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        border-color: #2563eb;
-    }
-
-    .game-info-mobile {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        gap: 0.25rem;
+        padding: 2.5rem;
+        border-radius: 16px;
+        margin: 0 1rem;
     }
 
     .game-card h3 {
-        font-size: 0.95rem;
-        margin: 0;
-        font-weight: 600;
-        line-height: 1.2;
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
     }
 
     .game-card p {
-        margin: 0;
-        font-size: 0.75rem;
-        line-height: 1.3;
-        color: #6b7280;
-        overflow: hidden;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
+        font-size: 1.1rem;
+        line-height: 1.7;
+        margin-bottom: 2rem;
     }
 
     .play-btn {
-        padding: 0.5rem 0.75rem;
-        font-size: 0.8rem;
-        min-width: 60px;
-        width: auto;
-        margin-left: 0.75rem;
-        white-space: nowrap;
-        border-radius: 6px;
-        font-weight: 600;
+        padding: 1.2rem 2rem;
+        font-size: 1.2rem;
+        border-radius: 12px;
+        font-weight: 700;
     }
 
     .game-header {
@@ -3153,273 +3121,6 @@ header {
     }
 }
 
-/* Ensure mobile layout doesn't interfere with desktop */
-@media (min-width: 769px) {
-    .game-card {
-        display: block !important;
-        justify-content: unset !important;
-        align-items: unset !important;
-    }
-    
-    .game-info-mobile {
-        display: block !important;
-        flex-direction: unset !important;
-        gap: unset !important;
-    }
-    
-    .play-btn {
-        margin-left: 0 !important;
-        width: 100% !important;
-    }
-}
 
-/* Math Hunt Game Styles */
-.math-hunt-stats {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.5rem;
-    flex-wrap: wrap;
-    gap: 1rem;
-}
 
-.math-hunt-stats span {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #374151;
-}
-
-.math-hunt-timer {
-    color: #dc2626;
-}
-
-.math-hunt-timer.warning {
-    animation: blink 1s infinite;
-    color: #dc2626;
-    font-weight: 700;
-}
-
-@keyframes blink {
-    0%, 50% { opacity: 1; }
-    51%, 100% { opacity: 0.3; }
-}
-
-#math-hunt-new-game {
-    background: #2563eb;
-    color: white;
-    border: none;
-    padding: 0.75rem 1.5rem;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-#math-hunt-new-game:hover {
-    background: #1d4ed8;
-}
-
-.math-hunt-container {
-    max-width: 600px;
-    margin: 0 auto;
-    text-align: center;
-}
-
-.math-hunt-target {
-    font-size: 2.5rem;
-    color: #dc2626;
-    margin-bottom: 2rem;
-    padding: 1rem;
-    background: #fef2f2;
-    border-radius: 12px;
-    border: 3px solid #dc2626;
-    font-weight: bold;
-    animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
-}
-
-.math-hunt-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-    margin-bottom: 2rem;
-    max-width: 400px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.math-hunt-grid-item {
-    background: #2563eb;
-    color: white;
-    border: none;
-    border-radius: 12px;
-    font-size: 1.8rem;
-    font-weight: bold;
-    width: 80px;
-    height: 80px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.math-hunt-grid-item:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.25);
-    background: #1d4ed8;
-}
-
-.math-hunt-grid-item.selected {
-    background: #dc2626;
-    transform: scale(1.1);
-    box-shadow: 0 8px 16px rgba(0,0,0,0.3);
-}
-
-.math-hunt-grid-item:active {
-    transform: translateY(0);
-}
-
-.math-hunt-message {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 2rem;
-    min-height: 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #374151;
-}
-
-.math-hunt-message.correct {
-    color: #059669;
-    animation: bounce 0.6s ease;
-}
-
-.math-hunt-message.incorrect {
-    color: #dc2626;
-    animation: shake 0.6s ease;
-}
-
-@keyframes bounce {
-    0%, 20%, 60%, 100% { transform: translateY(0); }
-    40% { transform: translateY(-10px); }
-    80% { transform: translateY(-5px); }
-}
-
-@keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-5px); }
-    75% { transform: translateX(5px); }
-}
-
-.math-hunt-game-over {
-    background: #fef2f2;
-    border: 3px solid #dc2626;
-    border-radius: 12px;
-    padding: 2rem;
-    margin-top: 2rem;
-}
-
-.math-hunt-game-over h3 {
-    color: #dc2626;
-    margin-bottom: 1rem;
-    font-size: 1.8rem;
-}
-
-.math-hunt-game-over p {
-    color: #374151;
-    margin-bottom: 1.5rem;
-    font-size: 1.2rem;
-}
-
-.math-hunt-game-over button {
-    background: #2563eb;
-    color: white;
-    border: none;
-    padding: 0.75rem 1.5rem;
-    border-radius: 8px;
-    font-size: 1.1rem;
-    cursor: pointer;
-    transition: background 0.3s ease;
-}
-
-.math-hunt-game-over button:hover {
-    background: #1d4ed8;
-}
-
-/* Math Hunt Mobile Styles */
-@media (max-width: 768px) {
-    .math-hunt-stats {
-        flex-direction: column;
-        gap: 0.5rem;
-        text-align: center;
-    }
-
-    .math-hunt-target {
-        font-size: 2rem;
-        margin-bottom: 1.5rem;
-        padding: 0.75rem;
-    }
-
-    .math-hunt-grid {
-        gap: 8px;
-        max-width: 300px;
-    }
-
-    .math-hunt-grid-item {
-        width: 65px;
-        height: 65px;
-        font-size: 1.5rem;
-    }
-
-    .math-hunt-message {
-        font-size: 1.2rem;
-        margin-bottom: 1.5rem;
-    }
-
-    .math-hunt-game-over {
-        padding: 1.5rem;
-    }
-
-    .math-hunt-game-over h3 {
-        font-size: 1.5rem;
-    }
-
-    .math-hunt-game-over p {
-        font-size: 1rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .math-hunt-target {
-        font-size: 1.8rem;
-        padding: 0.5rem;
-    }
-
-    .math-hunt-grid {
-        gap: 6px;
-        max-width: 260px;
-    }
-
-    .math-hunt-grid-item {
-        width: 55px;
-        height: 55px;
-        font-size: 1.3rem;
-    }
-
-    .math-hunt-stats span {
-        font-size: 1rem;
-    }
-
-    #math-hunt-new-game {
-        padding: 0.6rem 1.2rem;
-        font-size: 0.9rem;
-    }
-}
+ 

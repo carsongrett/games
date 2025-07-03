@@ -49,11 +49,6 @@ class MLBBatterGame {
             console.error('Error loading batter data:', error);
             this.showMessage('Error loading game data. Please try again.', 'error');
         }
-        
-        console.log('loadBatterData completed, batters loaded:', this.batters.length);
-        if (this.batters.length > 0) {
-            console.log('First batter example:', this.batters[0]);
-        }
     }
 
     parseCSVLine(line) {
@@ -115,11 +110,9 @@ class MLBBatterGame {
     }
 
     displayPlayerStats() {
-        console.log('displayPlayerStats called, currentPlayer:', this.currentPlayer);
         if (!this.currentPlayer) return;
         
         const statsDisplay = document.getElementById('mlb-batter-stats-display');
-        console.log('statsDisplay element found:', !!statsDisplay);
         if (statsDisplay) {
             const doubles = this.currentPlayer['2B'] || '0';
             const triples = this.currentPlayer['3B'] || '0';

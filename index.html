@@ -57,50 +57,38 @@
                 
                 <div class="game-grid">
                     <div class="game-card" onclick="navigateToRoute('/nfl-trivia')">
-                        <div class="game-info-mobile">
-                            <h3>🏈 NFL Trivia</h3>
-                            <p>NFL history, players, and recent seasons</p>
-                        </div>
+                        <h3>🏈 NFL Trivia</h3>
+                        <p>NFL history, players, and recent seasons</p>
                         <button class="play-btn">Play Now!</button>
                     </div>
                     
                     <div class="game-card" onclick="navigateToRoute('/nfl-player-challenge')">
-                        <div class="game-info-mobile">
-                            <h3>🏆 NFL Player Challenge</h3>
-                            <p>Guess the NFL player using clues about their team, position, age, and jersey number</p>
-                        </div>
+                        <h3>🏆 NFL Player Challenge</h3>
+                        <p>Guess the NFL player using clues about their team, position, age, and jersey number</p>
                         <button class="play-btn">Play Now!</button>
                     </div>
 
                     <div class="game-card" onclick="navigateToRoute('/nba-player-challenge')">
-                        <div class="game-info-mobile">
-                            <h3>🏀 NBA Player Challenge</h3>
-                            <p>Guess players using their conference, team, position, and stats</p>
-                        </div>
+                        <h3>🏀 NBA Player Challenge</h3>
+                        <p>Guess players using their conference, team, position, and stats</p>
                         <button class="play-btn">Play Now!</button>
                     </div>
 
                     <div class="game-card" onclick="navigateToRoute('/mlb-team-challenge')">
-                        <div class="game-info-mobile">
-                            <h3>⚾ MLB Team Challenge</h3>
-                            <p>Guess MLB teams using their league, division, runs per game, and home runs</p>
-                        </div>
+                        <h3>⚾ MLB Team Challenge</h3>
+                        <p>Guess MLB teams using their league, division, runs per game, and home runs</p>
                         <button class="play-btn">Play Now!</button>
                     </div>
 
                     <div class="game-card" onclick="navigateToRoute('/mlb-batter-guessing')">
-                        <div class="game-info-mobile">
-                            <h3>⚾ MLB Batter Challenge</h3>
-                            <p>Guess the MLB batter from their recent week performance stats</p>
-                        </div>
+                        <h3>⚾ MLB Batter Challenge</h3>
+                        <p>Guess the MLB batter from their recent week performance stats</p>
                         <button class="play-btn">Play Now!</button>
                     </div>
 
                     <div class="game-card" onclick="navigateToRoute('/mlb-standings-challenge')">
-                        <div class="game-info-mobile">
-                            <h3>📊 MLB Standings Challenge</h3>
-                            <p>Identify all 30 MLB teams based on current league standings and records</p>
-                        </div>
+                        <h3>📊 MLB Standings Challenge</h3>
+                        <p>Identify all 30 MLB teams based on current league standings and records</p>
                         <button class="play-btn">Play Now!</button>
                     </div>
                 </div>
@@ -116,42 +104,26 @@
                 
                 <div class="game-grid">
                     <div class="game-card" onclick="navigateToRoute('/color-memory')">
-                        <div class="game-info-mobile">
-                            <h3>🌈 Color Memory</h3>
-                            <p>Memorize and repeat color sequences</p>
-                        </div>
+                        <h3>🌈 Color Memory</h3>
+                        <p>Memorize and repeat color sequences</p>
                         <button class="play-btn">Play Now!</button>
                     </div>
 
                     <div class="game-card" onclick="navigateToRoute('/weather')">
-                        <div class="game-info-mobile">
-                            <h3>🌡️ Weather Challenge</h3>
-                            <p>Guess current temperatures worldwide</p>
-                        </div>
+                        <h3>🌡️ Weather Challenge</h3>
+                        <p>Guess current temperatures worldwide</p>
                         <button class="play-btn">Play Now!</button>
                     </div>
 
                     <div class="game-card" onclick="navigateToRoute('/rent-guessing')">
-                        <div class="game-info-mobile">
-                            <h3>🏠 Rent Guessing</h3>
-                            <p>Guess monthly rent for U.S. apartments</p>
-                        </div>
+                        <h3>🏠 Rent Guessing</h3>
+                        <p>Guess monthly rent for U.S. apartments</p>
                         <button class="play-btn">Play Now!</button>
                     </div>
 
                     <div class="game-card" onclick="navigateToRoute('/flight-guessing')">
-                        <div class="game-info-mobile">
-                            <h3>✈️ Flight Time Challenge</h3>
-                            <p>Guess flight durations between cities</p>
-                        </div>
-                        <button class="play-btn">Play Now!</button>
-                    </div>
-
-                    <div class="game-card" onclick="navigateToRoute('/math-hunt')">
-                        <div class="game-info-mobile">
-                            <h3>🔢 Math Hunt</h3>
-                            <p>Find two numbers whose product equals the target in 30 seconds</p>
-                        </div>
+                        <h3>✈️ Flight Time Challenge</h3>
+                        <p>Guess flight durations between cities</p>
                         <button class="play-btn">Play Now!</button>
                     </div>
                 </div>
@@ -256,7 +228,7 @@
                     </div>
                     
                     <div class="player-input-container">
-                        <input type="text" id="player-dropdown" list="nfl-players-list" class="player-dropdown" placeholder="Type player name (e.g., 'Josh Allen' or just 'Josh')...">
+                        <input type="text" id="player-dropdown" list="nfl-players-list" class="player-dropdown" placeholder="Type to search for a player...">
                         <datalist id="nfl-players-list">
                             <!-- Options will be populated by JavaScript -->
                         </datalist>
@@ -688,59 +660,13 @@
             </div>
         </section>
 
-        <!-- Math Hunt Game Section -->
-        <section id="math-hunt" class="section">
-            <div class="container">
-                <div class="game-header">
-                    <h2>🔢 Math Hunt</h2>
-                    <button class="back-btn" onclick="navigateBack()">← Back</button>
-                </div>
-                
-                <div class="game-container">
-                    <div class="game-info">
-                        <p>Find two numbers in the grid whose product equals the target number</p>
-                        <div class="game-notes">
-                            <p><strong>Goal:</strong> Click two numbers whose product matches the target</p>
-                            <p><strong>Time Limit:</strong> 30 seconds to score as many points as possible</p>
-                            <p><strong>Scoring:</strong> +1 point for each correct pair found</p>
-                        </div>
-                        <div class="math-hunt-stats">
-                            <span>Score: <span id="math-hunt-score">0</span></span>
-                            <span class="math-hunt-timer">Time: <span id="math-hunt-timer">30</span>s</span>
-                            <button id="math-hunt-new-game" onclick="startNewMathHuntGame()">New Game</button>
-                        </div>
-                    </div>
-                    
-                    <div class="math-hunt-container">
-                        <div class="math-hunt-target">
-                            Target: <span id="math-hunt-target-number">24</span>
-                        </div>
-
-                        <div class="math-hunt-grid" id="math-hunt-grid">
-                            <!-- Grid will be generated by JavaScript -->
-                        </div>
-
-                        <div id="math-hunt-message" class="math-hunt-message">
-                            Find two numbers that multiply to make the target!
-                        </div>
-
-                        <div id="math-hunt-game-over" class="math-hunt-game-over" style="display: none;">
-                            <h3>Game Over!</h3>
-                            <p>Final Score: <span id="math-hunt-final-score">0</span></p>
-                            <button onclick="startNewMathHuntGame()">Play Again</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
 
     </main>
 
     <!-- Temporarily hidden Wordle game -->
     <!-- <script src="wordle.js"></script> -->
     <script src="nfl-trivia.js"></script>
-    <script src="player-challenge.js?v=6"></script>
+    <script src="player-challenge.js"></script>
     <script src="nba-player-challenge.js"></script>
     <script src="mlb-player-challenge.js"></script>
     <script src="mlb-batter-guessing.js"></script>
@@ -749,7 +675,6 @@
     <script src="weather-challenge.js"></script>
     <script src="rent-guessing.js"></script>
     <script src="flight-guessing.js"></script>
-    <script src="math-hunt.js"></script>
     <script src="main.js"></script>
 </body>
 </html> 
