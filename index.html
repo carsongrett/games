@@ -79,18 +79,6 @@
                         <p>Guess MLB teams using their league, division, runs per game, and home runs</p>
                         <button class="play-btn">Play Now!</button>
                     </div>
-
-                    <div class="game-card" onclick="navigateToRoute('/mlb-batter-guessing')">
-                        <h3>⚾ MLB Batter Challenge</h3>
-                        <p>Guess the MLB batter from their recent week performance stats</p>
-                        <button class="play-btn">Play Now!</button>
-                    </div>
-
-                    <div class="game-card" onclick="navigateToRoute('/mlb-standings-challenge')">
-                        <h3>📊 MLB Standings Challenge</h3>
-                        <p>Identify all 30 MLB teams based on current league standings and records</p>
-                        <button class="play-btn">Play Now!</button>
-                    </div>
                 </div>
             </div>
         </section>
@@ -569,97 +557,6 @@
             </div>
         </section>
 
-        <!-- MLB Batter Guessing Game Section -->
-        <section id="mlb-batter-guessing" class="section">
-            <div class="container">
-                <div class="game-header">
-                    <h2>⚾ MLB Batter Challenge</h2>
-                    <button class="back-btn" onclick="navigateBack()">← Back</button>
-                </div>
-                
-                <div class="game-container">
-                    <div class="game-info">
-                        <p>Guess the MLB batter from their recent week performance</p>
-                        <div class="game-notes">
-                            <p><strong>Goal:</strong> Identify the player based on their last 7 days of stats</p>
-                            <p><strong>Rounds:</strong> 5 rounds, 4 guesses per round</p>
-                            <p><strong>Hints:</strong> Team revealed after 1st miss, first letter after 3rd miss</p>
-                        </div>
-                        <div class="mlb-batter-stats">
-                            <span>Round: <span id="mlb-batter-round">1</span>/5</span>
-                            <span>Guesses: <span id="mlb-batter-guesses">4</span>/4</span>
-                            <span>Score: <span id="mlb-batter-score">0</span></span>
-                            <button id="mlb-batter-new-game" onclick="newMLBBatterGame()">New Game</button>
-                        </div>
-                    </div>
-                    
-                    <div class="mlb-batter-container">
-                        <div id="mlb-batter-stats-display" class="batter-stats-display">
-                            <!-- Player stats will be displayed here -->
-                        </div>
-                        
-                        <div class="mlb-batter-input">
-                            <label for="mlb-batter-guess-input">Enter player's full name:</label>
-                            <div class="input-group">
-                                <input type="text" id="mlb-batter-guess-input" placeholder="e.g., Aaron Judge" />
-                                <button id="mlb-batter-submit" onclick="submitMLBBatterGuess()">Submit Guess</button>
-                            </div>
-                        </div>
-                        
-                        <div class="mlb-batter-controls">
-                            <button id="mlb-batter-next-round" onclick="nextMLBBatterRound()" style="display: none;">Next Round</button>
-                            <button id="mlb-batter-play-again" onclick="newMLBBatterGame()" style="display: none;">Play Again</button>
-                        </div>
-                    </div>
-                    
-                    <div id="mlb-batter-message" class="game-message"></div>
-                </div>
-            </div>
-        </section>
-
-        <!-- MLB Standings Challenge Section -->
-        <section id="mlb-standings-challenge" class="section">
-            <div class="container">
-                <div class="game-header">
-                    <h2>📊 MLB Standings Challenge</h2>
-                    <button class="back-btn" onclick="navigateBack()">← Back</button>
-                </div>
-                
-                <div class="game-container">
-                    <div class="game-info">
-                        <p>Identify all 30 MLB teams based on their current league standings and W-L records</p>
-                        <div class="game-notes">
-                            <p><strong>Goal:</strong> Click on any team position to guess which team occupies that rank</p>
-                            <p><strong>Lives:</strong> Start with 15 lives, lose 1 for each incorrect guess</p>
-                            <p><strong>Win:</strong> Identify all 30 teams before running out of lives</p>
-                        </div>
-                        <div class="mlb-standings-stats">
-                            <span>Lives: <span id="mlb-standings-lives">10</span>/10</span>
-                            <span>Progress: <span id="mlb-standings-progress">0/30</span></span>
-                            <button id="mlb-standings-new-game" onclick="newMLBStandingsGame()">New Game</button>
-                        </div>
-                    </div>
-                    
-                    <div class="mlb-standings-container">
-                        <div class="leagues-grid">
-                            <div class="league-section">
-                                <div id="mlb-standings-al">
-                                    <!-- American League standings will be rendered here -->
-                                </div>
-                            </div>
-                            <div class="league-section">
-                                <div id="mlb-standings-nl">
-                                    <!-- National League standings will be rendered here -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div id="mlb-standings-message" class="game-message"></div>
-                </div>
-            </div>
-        </section>
-
 
     </main>
 
@@ -669,8 +566,6 @@
     <script src="player-challenge.js"></script>
     <script src="nba-player-challenge.js"></script>
     <script src="mlb-player-challenge.js"></script>
-    <script src="mlb-batter-guessing.js"></script>
-    <script src="mlb-standings-challenge.js"></script>
     <script src="color-memory.js"></script>
     <script src="weather-challenge.js"></script>
     <script src="rent-guessing.js"></script>
