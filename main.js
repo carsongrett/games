@@ -14,7 +14,8 @@ const routes = {
     '/mlb-standings-challenge': 'mlb-standings-challenge',
     '/color-memory': 'color-memory',
     '/rent-guessing': 'rent-guessing',
-    '/flight-guessing': 'flight-guessing'
+    '/flight-guessing': 'flight-guessing',
+    '/math-hunt': 'math-hunt'
 };
 
 // Reverse mapping for generating URLs
@@ -32,7 +33,8 @@ const sectionToRoute = {
     'mlb-standings-challenge': '/mlb-standings-challenge',
     'color-memory': '/color-memory',
     'rent-guessing': '/rent-guessing',
-    'flight-guessing': '/flight-guessing'
+    'flight-guessing': '/flight-guessing',
+    'math-hunt': '/math-hunt'
 };
 
 // Game categorization
@@ -46,7 +48,8 @@ const gameCategories = {
     'color-memory': 'other',
     'weather-challenge': 'other',
     'rent-guessing': 'other',
-    'flight-guessing': 'other'
+    'flight-guessing': 'other',
+    'math-hunt': 'other'
 };
 
 // Game titles for page titles and breadcrumbs
@@ -64,7 +67,8 @@ const gameTitles = {
     'mlb-standings-challenge': 'MLB Standings Challenge',
     'color-memory': 'Color Memory',
     'rent-guessing': 'Rent Guessing',
-    'flight-guessing': 'Flight Time Challenge'
+    'flight-guessing': 'Flight Time Challenge',
+    'math-hunt': 'Math Hunt'
 };
 
 // Breadcrumb management
@@ -206,6 +210,8 @@ function showSection(sectionName, pushToHistory = true) {
         initializeMLBBatterGame();
     } else if (sectionName === 'mlb-standings-challenge' && typeof initializeMLBStandingsGame === 'function') {
         initializeMLBStandingsGame();
+    } else if (sectionName === 'math-hunt' && typeof initMathHuntGame === 'function') {
+        initMathHuntGame();
     }
 }
 
