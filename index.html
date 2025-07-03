@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Games</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-container">
+                <h1 class="logo">GAMES</h1>
+                <div class="nav-links">
+                    <button class="nav-btn active" data-section="home" onclick="navigateToRoute('/')">Home</button>
+                    <button class="nav-btn" data-section="sports" onclick="navigateToRoute('/sports')">Sports</button>
+                    <button class="nav-btn" data-section="other" onclick="navigateToRoute('/other')">Other</button>
+                </div>
+                <div class="breadcrumb" id="breadcrumb">
+                    <span onclick="navigateToRoute('/')" class="breadcrumb-link">Home</span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Home Section -->
+        <section id="home" class="section active">
+            <div class="container">
+                <div class="hero">
+                    <h2>Welcome to Games</h2>
+                    <p>Choose from Sports games or Other fun challenges</p>
+                </div>
+                
+                <div class="category-grid">
+                    <div class="category-card" onclick="navigateToRoute('/sports')">
+                        <h3>🏈 Sports</h3>
+                        <p>NFL, NBA, and MLB player challenges and trivia</p>
+                        <button class="category-btn">Explore Sports</button>
+                    </div>
+
+                    <div class="category-card" onclick="navigateToRoute('/other')">
+                        <h3>🎮 Other Games</h3>
+                        <p>Memory, geography, and puzzle challenges</p>
+                        <button class="category-btn">Explore Other</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sports Category Section -->
+        <section id="sports" class="section">
+            <div class="container">
+                <div class="category-header">
+                    <h2>🏈 Sports Games</h2>
+                </div>
+                
+                <div class="game-grid">
+                    <div class="game-card" onclick="navigateToRoute('/nfl-trivia')">
+                        <div class="game-info-mobile">
+                            <h3>🏈 NFL Trivia</h3>
+                            <p>NFL history, players, and recent seasons</p>
+                        </div>
+                        <button class="play-btn">Play Now!</button>
+                    </div>
+                    
+                    <div class="game-card" onclick="navigateToRoute('/nfl-player-challenge')">
+                        <div class="game-info-mobile">
+                            <h3>🏆 NFL Player Challenge</h3>
+                            <p>Guess the NFL player using clues about their team, position, age, and jersey number</p>
+                        </div>
+                        <button class="play-btn">Play Now!</button>
+                    </div>
+
+                    <div class="game-card" onclick="navigateToRoute('/nba-player-challenge')">
+                        <div class="game-info-mobile">
+                            <h3>🏀 NBA Player Challenge</h3>
+                            <p>Guess players using their conference, team, position, and stats</p>
+                        </div>
+                        <button class="play-btn">Play Now!</button>
+                    </div>
+
+                    <div class="game-card" onclick="navigateToRoute('/mlb-team-challenge')">
+                        <div class="game-info-mobile">
+                            <h3>⚾ MLB Team Challenge</h3>
+                            <p>Guess MLB teams using their league, division, runs per game, and home runs</p>
+                        </div>
+                        <button class="play-btn">Play Now!</button>
+                    </div>
+
+                    <div class="game-card" onclick="navigateToRoute('/mlb-batter-guessing')">
+                        <div class="game-info-mobile">
+                            <h3>⚾ MLB Batter Challenge</h3>
+                            <p>Guess the MLB batter from their recent week performance stats</p>
+                        </div>
+                        <button class="play-btn">Play Now!</button>
+                    </div>
+
+                    <div class="game-card" onclick="navigateToRoute('/mlb-standings-challenge')">
+                        <div class="game-info-mobile">
+                            <h3>📊 MLB Standings Challenge</h3>
+                            <p>Identify all 30 MLB teams based on current league standings and records</p>
+                        </div>
+                        <button class="play-btn">Play Now!</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Other Games Category Section -->
+        <section id="other" class="section">
+            <div class="container">
+                <div class="category-header">
+                    <h2>🎮 Other Games</h2>
+                </div>
+                
+                <div class="game-grid">
+                    <div class="game-card" onclick="navigateToRoute('/color-memory')">
+                        <div class="game-info-mobile">
+                            <h3>🌈 Color Memory</h3>
+                            <p>Memorize and repeat color sequences</p>
+                        </div>
+                        <button class="play-btn">Play Now!</button>
+                    </div>
+
+                    <div class="game-card" onclick="navigateToRoute('/weather')">
+                        <div class="game-info-mobile">
+                            <h3>🌡️ Weather Challenge</h3>
+                            <p>Guess current temperatures worldwide</p>
+                        </div>
+                        <button class="play-btn">Play Now!</button>
+                    </div>
+
+                    <div class="game-card" onclick="navigateToRoute('/rent-guessing')">
+                        <div class="game-info-mobile">
+                            <h3>🏠 Rent Guessing</h3>
+                            <p>Guess monthly rent for U.S. apartments</p>
+                        </div>
+                        <button class="play-btn">Play Now!</button>
+                    </div>
+
+                    <div class="game-card" onclick="navigateToRoute('/flight-guessing')">
+                        <div class="game-info-mobile">
+                            <h3>✈️ Flight Time Challenge</h3>
+                            <p>Guess flight durations between cities</p>
+                        </div>
+                        <button class="play-btn">Play Now!</button>
+                    </div>
+
+                    <div class="game-card" onclick="navigateToRoute('/math-hunt')">
+                        <div class="game-info-mobile">
+                            <h3>🔢 Math Hunt</h3>
+                            <p>Find two numbers whose product equals the target in 30 seconds</p>
+                        </div>
+                        <button class="play-btn">Play Now!</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Privacy Policy Section -->
+        <section id="privacy-policy" class="section">
+            <div class="container">
+                <div class="policy-header">
+                    <h2>Privacy Policy</h2>
+                </div>
+                
+                <div class="policy-content">
+                    <div class="policy-section">
+                        <h3>Information We Collect</h3>
+                        <p>This website is a collection of simple games that runs entirely in your browser. We do not collect, store, or transmit any personal information.</p>
+                    </div>
+
+                    <div class="policy-section">
+                        <h3>Local Storage</h3>
+                        <p>Game scores and preferences may be stored locally in your browser using localStorage. This data never leaves your device and can be cleared by deleting your browser data.</p>
+                    </div>
+
+                    <div class="policy-section">
+                        <h3>No Tracking</h3>
+                        <p>We do not use cookies, analytics, or any tracking technologies. Your gameplay is completely private.</p>
+                    </div>
+
+                    <div class="policy-section">
+                        <h3>Third-Party Services</h3>
+                        <p>This website does not integrate with any third-party services or APIs that could access your data.</p>
+                    </div>
+
+                    <div class="policy-section">
+                        <h3>Contact</h3>
+                        <p>This is a personal project with no data collection. If you have questions about these games, you can review the open-source code.</p>
+                    </div>
+
+                    <div class="policy-footer">
+                        <p><em>Last updated: January 2025</em></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- NFL Trivia Section -->
+        <section id="nfl-trivia" class="section">
+            <div class="container">
+                <div class="game-header">
+                    <h2>🏈 NFL Trivia</h2>
+                    <button class="back-btn" onclick="navigateToRoute('/')">← Back to Home</button>
+                </div>
+                
+                <div class="game-container">
+                    <div class="game-info">
+                        <div class="trivia-stats">
+                            <span>Score: <span id="trivia-score">0</span></span>
+                            <span>Question: <span id="question-number">1</span>/10</span>
+                            <button id="new-trivia-btn" onclick="newTriviaGame()">New Game</button>
+                        </div>
+                    </div>
+                    
+                    <div class="trivia-container">
+                        <div class="question-container">
+                            <h3 id="trivia-question">Loading question...</h3>
+                        </div>
+                        
+                        <div class="answers-container" id="answers-container">
+                            <!-- Answers will be generated by JavaScript -->
+                        </div>
+                        
+                        <div id="trivia-message" class="game-message"></div>
+                        
+                        <div class="trivia-controls">
+                            <button id="next-question-btn" onclick="nextQuestion()" style="display: none;">Next Question</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- NFL Player Challenge Section -->
+        <section id="player-challenge" class="section">
+            <div class="container">
+                <div class="game-header">
+                    <h2>🏆 NFL Player Challenge</h2>
+                    <button class="back-btn" onclick="navigateToRoute('/')">← Back to Home</button>
+                </div>
+                
+                <div class="game-container">
+                    <div class="game-info">
+                        <p>Guess the NFL player using their conference, team, position, and stats!</p>
+                        <div class="game-notes">
+                            <p><strong>Stats are from the 2024-2025 NFL season.</strong></p>
+                            <p><strong>Color Coding:</strong> 🟢 Correct match | 🟡 Close (Rec ±10, Rec Yds ±100, Rush Yds ±100, Tot TDs ±3) | ⚫ Incorrect</p>
+                        </div>
+                        <div class="player-challenge-stats">
+                            <span>Guesses: <span id="player-guesses">0</span>/8</span>
+                            <button id="new-player-btn" onclick="newPlayerGame()">New Game</button>
+                        </div>
+                    </div>
+                    
+                    <div class="player-input-container">
+                        <input type="text" id="player-dropdown" list="nfl-players-list" class="player-dropdown" placeholder="Type player name (e.g., 'Josh Allen' or just 'Josh')...">
+                        <datalist id="nfl-players-list">
+                            <!-- Options will be populated by JavaScript -->
+                        </datalist>
+                        <button id="submit-guess-btn" onclick="submitPlayerGuess()" disabled>Submit Guess</button>
+                    </div>
+                    
+                    <div class="player-grid-container">
+                        <div class="player-grid-header">
+                            <div class="grid-cell header">Conference</div>
+                            <div class="grid-cell header">Team</div>
+                            <div class="grid-cell header">Position</div>
+                            <div class="grid-cell header">Rec Yds</div>
+                            <div class="grid-cell header">Rush Yds</div>
+                            <div class="grid-cell header">Tot TDs</div>
+                        </div>
+                        <div id="player-grid" class="player-grid">
+                            <!-- Guesses will be added here -->
+                        </div>
+                    </div>
+                    
+                    <div id="player-message" class="game-message"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- NBA Player Challenge Section -->
+        <section id="nba-player-challenge" class="section">
+            <div class="container">
+                <div class="game-header">
+                    <h2>🏀 NBA Player Challenge</h2>
+                    <button class="back-btn" onclick="navigateToRoute('/')">← Back to Home</button>
+                </div>
+                
+                <div class="game-container">
+                    <div class="game-info">
+                        <p>Guess the NBA player using their age, team, conference, position, and stats!</p>
+                        <div class="game-notes">
+                            <p><strong>Stats are from the 2024-2025 NBA season.</strong></p>
+                            <p><strong>Color Coding:</strong> 🟢 Correct match | 🟡 Close (3P% ±5%, Points ±3, Rebounds ±2) | ⚫ Incorrect</p>
+                        </div>
+                        <div class="player-challenge-stats">
+                            <span>Guesses: <span id="nba-player-guesses">0</span>/8</span>
+                            <button id="new-nba-player-btn" onclick="newNBAPlayerGame()">New Game</button>
+                        </div>
+                    </div>
+                    
+                    <div class="player-input-container">
+                        <input type="text" id="nba-player-dropdown" list="nba-players-list" class="player-dropdown" placeholder="Type to search for a player...">
+                        <datalist id="nba-players-list">
+                            <!-- Options will be populated by JavaScript -->
+                        </datalist>
+                        <button id="submit-nba-guess-btn" onclick="submitNBAPlayerGuess()" disabled>Submit Guess</button>
+                    </div>
+                    
+                    <div class="player-grid-container">
+                        <div class="player-grid-header">
+                            <div class="grid-cell header">Conference</div>
+                            <div class="grid-cell header">Team</div>
+                            <div class="grid-cell header">Position</div>
+                            <div class="grid-cell header">3P%</div>
+                            <div class="grid-cell header">PTS</div>
+                            <div class="grid-cell header">REB</div>
+                        </div>
+                        <div id="nba-player-grid" class="player-grid">
+                            <!-- Guesses will be added here -->
+                        </div>
+                    </div>
+                    
+                    <div id="nba-player-message" class="game-message"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MLB Team Challenge Section -->
+        <section id="mlb-player-challenge" class="section">
+            <div class="container">
+                <div class="game-header">
+                    <h2>⚾ MLB Team Challenge</h2>
+                    <button class="back-btn" onclick="navigateToRoute('/')">← Back to Home</button>
+                </div>
+                
+                <div class="game-container">
+                    <div class="game-info">
+                        <p>Guess the MLB team using their league, division, and team statistics!</p>
+                        <div class="game-notes">
+                            <p><strong>Stats are from the 2025 MLB season.</strong></p>
+                            <p><strong>Color Coding:</strong> 🟢 Correct match | 🟡 Close (Runs/Game ±0.5, Home Runs ±10, Stolen Bases ±10, Batting Avg ±0.01) | ⚫ Incorrect</p>
+                        </div>
+                        <div class="player-challenge-stats">
+                            <span>Guesses: <span id="mlb-player-guesses">0</span>/6</span>
+                            <button id="new-mlb-player-btn" onclick="newMLBTeamGame()">New Game</button>
+                        </div>
+                    </div>
+                    
+                    <div class="player-input-container">
+                        <input type="text" id="mlb-player-dropdown" list="mlb-players-list" class="player-dropdown" placeholder="Type to search for a team...">
+                        <datalist id="mlb-players-list">
+                            <!-- Options will be populated by JavaScript -->
+                        </datalist>
+                        <button id="submit-mlb-guess-btn" onclick="submitMLBTeamGuess()" disabled>Submit Guess</button>
+                    </div>
+                    
+                    <div class="player-grid-container">
+                        <div class="mobile-scroll-hint">← Swipe to see all stats →</div>
+                        <div class="player-grid-header">
+                            <div class="grid-cell header">League</div>
+                            <div class="grid-cell header">Division</div>
+                            <div class="grid-cell header">Runs/Game</div>
+                            <div class="grid-cell header">Home Runs</div>
+                            <div class="grid-cell header">Stolen Bases</div>
+                            <div class="grid-cell header">Batting Avg</div>
+                        </div>
+                        <div id="mlb-player-grid" class="player-grid">
+                            <!-- Guesses will be added here -->
+                        </div>
+                    </div>
+                    
+                    <div id="mlb-player-message" class="game-message"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Color Memory Game Section -->
+        <section id="color-memory" class="section">
+            <div class="container">
+                <div class="game-header">
+                    <h2>🌈 Color Memory</h2>
+                    <button class="back-btn" onclick="navigateToRoute('/')">← Back to Home</button>
+                </div>
+                
+                <div class="game-container">
+                    <div class="game-info">
+                        <p>Memorize and repeat color sequences</p>
+                        <div class="game-notes">
+                            <p><strong>Goal:</strong> Watch colors light up, then click them in the same order</p>
+                            <p><strong>Scoring:</strong> 1 point per completed sequence</p>
+                        </div>
+                        <div class="color-memory-stats">
+                            <span>Level: <span id="color-memory-score">0</span></span>
+                            <span>High Score: <span id="color-memory-high-score">0</span></span>
+                            <button id="new-color-memory-btn" onclick="newColorMemoryGame()">Start Game</button>
+                        </div>
+                    </div>
+                    
+                    <div class="color-memory-container">
+                        <div class="color-grid">
+                            <button id="color-red" class="color-button red"></button>
+                            <button id="color-blue" class="color-button blue"></button>
+                            <button id="color-green" class="color-button green"></button>
+                            <button id="color-yellow" class="color-button yellow"></button>
+                        </div>
+                    </div>
+                    
+                    <div id="color-memory-message" class="game-message"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Weather Challenge Section -->
+        <section id="weather-challenge" class="section">
+            <div class="container">
+                <div class="game-header">
+                    <h2>🌡️ Weather Challenge</h2>
+                    <button class="back-btn" onclick="navigateToRoute('/')">← Back to Home</button>
+                </div>
+                
+                <div class="game-container">
+                    <div class="game-info">
+                        <p>Guess current temperatures worldwide</p>
+                        <div class="game-notes">
+                            <p><strong>Goal:</strong> Guess temperature in 5 cities</p>
+                            <p><strong>Scoring:</strong> Exact = 10 pts | ±2°F = 8 pts | ±5°F = 5 pts | ±10°F = 3 pts | ±15°F = 1 pt</p>
+                        </div>
+                        <div class="weather-challenge-stats">
+                            <span>Score: <span id="weather-score">0</span></span>
+                            <span>Round: <span id="weather-round">1</span>/5</span>
+                            <button id="new-weather-btn" onclick="newWeatherGame()">New Game</button>
+                        </div>
+                    </div>
+                    
+                    <div class="weather-container">
+                        <div class="current-weather">
+                            <div class="city-info">
+                                <h3 id="weather-city">Loading...</h3>
+                                <div class="weather-icon-container">
+                                    <img id="weather-icon" src="" alt="" style="width: 80px; height: 80px;">
+                                    <p id="weather-description"></p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="temperature-input">
+                            <label for="temperature-guess">What's the current temperature?</label>
+                            <div class="input-group">
+                                <input type="number" id="temperature-guess" placeholder="Enter temperature" min="-50" max="150">
+                                <span class="temperature-unit">°F</span>
+                                <button id="submit-weather-btn" onclick="submitTemperatureGuess()">Submit</button>
+                            </div>
+                        </div>
+                        
+                        <div id="weather-result" class="weather-result" style="display: none;">
+                            <p id="actual-temperature"></p>
+                            <p id="temperature-difference"></p>
+                            <p id="points-earned"></p>
+                            <button id="next-city-btn" onclick="nextWeatherRound()" style="display: none;">Next City</button>
+                        </div>
+                    </div>
+                    
+                    <div id="weather-message" class="game-message"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Rent Guessing Game Section -->
+        <section id="rent-guessing" class="section">
+            <div class="container">
+                <div class="game-header">
+                    <h2>🏠 Rent Guessing</h2>
+                    <button class="back-btn" onclick="navigateToRoute('/')">← Back to Home</button>
+                </div>
+                
+                <div class="game-container">
+                    <div class="game-info">
+                        <p>Guess monthly rent for U.S. apartments</p>
+                        <div class="game-notes">
+                            <p><strong>Goal:</strong> Get within $50 of actual rent in 3 guesses across 5 locations</p>
+                            <p><strong>Scoring:</strong> Higher/lower hints on first 2 guesses, proximity points if not exact on guess 3</p>
+                        </div>
+                        <div class="rent-challenge-stats">
+                            <span>Round: <span id="rent-round">1</span>/5</span>
+                            <span>Guesses: <span id="rent-guess-count">0/3</span></span>
+                            <span>Score: <span id="rent-total-score">0</span></span>
+                            <button id="new-rent-btn" onclick="newRentGame()">New Game</button>
+                        </div>
+                    </div>
+                    
+                    <div class="rent-container">
+                        <div class="rent-location-info">
+                            <h3 id="rent-region">Loading...</h3>
+                            <p id="rent-bedrooms">Loading...</p>
+                        </div>
+                        
+
+                        
+                        <div class="rent-input">
+                            <label for="rent-guess-input">What's the monthly rent?</label>
+                            <div class="input-group">
+                                <span class="currency-symbol">$</span>
+                                <input type="number" id="rent-guess-input" placeholder="Enter rent amount" min="500" max="10000">
+                                <button id="submit-rent-guess" onclick="submitRentGuess()">Submit</button>
+                            </div>
+                        </div>
+                        
+                        <div id="rent-feedback" class="rent-feedback" style="display: none;">
+                            <p id="rent-feedback-text"></p>
+                        </div>
+                        
+                        <div id="rent-result" class="rent-result" style="display: none;">
+                            <p id="rent-result-text"></p>
+                            <button id="play-again-btn" onclick="newRentGame()" style="display: none;">Play Again</button>
+                        </div>
+                    </div>
+                    
+                    <div id="rent-message" class="game-message"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Flight Guessing Game Section -->
+        <section id="flight-guessing" class="section">
+            <div class="container">
+                <div class="game-header">
+                    <h2>✈️ Flight Time Challenge</h2>
+                    <button class="back-btn" onclick="navigateToRoute('/')">← Back to Home</button>
+                </div>
+                
+                <div class="game-container">
+                    <div class="game-info">
+                        <p>Guess flight durations between cities</p>
+                        <div class="game-notes">
+                            <p><strong>Goal:</strong> Estimate flight time using distance and city information</p>
+                            <p><strong>Scoring:</strong> Perfect = 100pts, within 5min = 90pts, within 10min = 80pts</p>
+                        </div>
+                        <div class="flight-challenge-stats">
+                            <span id="flight-round-info">Round 1/5</span>
+                            <span id="flight-score">Score: 0</span>
+                            <button id="new-flight-btn" onclick="newGame()">New Game</button>
+                        </div>
+                    </div>
+                    
+                    <div class="flight-container">
+                        <div class="flight-route-info">
+                            <div class="route-display">
+                                <div class="route-point origin">
+                                    <span class="route-label">From:</span>
+                                    <span id="flight-origin" class="city-name"></span>
+                                </div>
+                                <div class="route-arrow">✈️</div>
+                                <div class="route-point destination">
+                                    <span class="route-label">To:</span>
+                                    <span id="flight-destination" class="city-name"></span>
+                                </div>
+                            </div>
+                            <div class="flight-distance-info">
+                                <span class="distance-label">Distance:</span>
+                                <span id="flight-distance" class="distance-value"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="flight-input">
+                            <label>How long is this flight?</label>
+                            <div class="time-input-group">
+                                <div class="time-input-field">
+                                    <input type="number" id="flight-hours" placeholder="0" min="0" max="12">
+                                    <span class="time-label">hours</span>
+                                </div>
+                                <div class="time-input-field">
+                                    <input type="number" id="flight-minutes" placeholder="0" min="0" max="59">
+                                    <span class="time-label">minutes</span>
+                                </div>
+                                <button id="flight-submit-btn" onclick="submitGuess()">Submit</button>
+                            </div>
+                        </div>
+                        
+                        <div id="flight-round-result" class="flight-round-result" style="display: none;">
+                            <div id="flight-round-result-text"></div>
+                            <button id="flight-next-round-btn" onclick="goToNextRound()" style="display: none;">Next Round</button>
+                        </div>
+                        
+                        <div id="flight-final-result" class="flight-result" style="display: none;">
+                            <div id="flight-result-text"></div>
+                            <button id="flight-play-again-btn" onclick="newGame()" style="display: none;">Play Again</button>
+                        </div>
+                    </div>
+                    
+                    <div id="flight-message" class="game-message"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MLB Batter Guessing Game Section -->
+        <section id="mlb-batter-guessing" class="section">
+            <div class="container">
+                <div class="game-header">
+                    <h2>⚾ MLB Batter Challenge</h2>
+                    <button class="back-btn" onclick="navigateBack()">← Back</button>
+                </div>
+                
+                <div class="game-container">
+                    <div class="game-info">
+                        <p>Guess the MLB batter from their recent week performance</p>
+                        <div class="game-notes">
+                            <p><strong>Goal:</strong> Identify the player based on their last 7 days of stats</p>
+                            <p><strong>Rounds:</strong> 5 rounds, 4 guesses per round</p>
+                            <p><strong>Hints:</strong> Team revealed after 1st miss, first letter after 3rd miss</p>
+                        </div>
+                        <div class="mlb-batter-stats">
+                            <span>Round: <span id="mlb-batter-round">1</span>/5</span>
+                            <span>Guesses: <span id="mlb-batter-guesses">4</span>/4</span>
+                            <span>Score: <span id="mlb-batter-score">0</span></span>
+                            <button id="mlb-batter-new-game" onclick="newMLBBatterGame()">New Game</button>
+                        </div>
+                    </div>
+                    
+                    <div class="mlb-batter-container">
+                        <div id="mlb-batter-stats-display" class="batter-stats-display">
+                            <!-- Player stats will be displayed here -->
+                        </div>
+                        
+                        <div class="mlb-batter-input">
+                            <label for="mlb-batter-guess-input">Enter player's full name:</label>
+                            <div class="input-group">
+                                <input type="text" id="mlb-batter-guess-input" placeholder="e.g., Aaron Judge" />
+                                <button id="mlb-batter-submit" onclick="submitMLBBatterGuess()">Submit Guess</button>
+                            </div>
+                        </div>
+                        
+                        <div class="mlb-batter-controls">
+                            <button id="mlb-batter-next-round" onclick="nextMLBBatterRound()" style="display: none;">Next Round</button>
+                            <button id="mlb-batter-play-again" onclick="newMLBBatterGame()" style="display: none;">Play Again</button>
+                        </div>
+                    </div>
+                    
+                    <div id="mlb-batter-message" class="game-message"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MLB Standings Challenge Section -->
+        <section id="mlb-standings-challenge" class="section">
+            <div class="container">
+                <div class="game-header">
+                    <h2>📊 MLB Standings Challenge</h2>
+                    <button class="back-btn" onclick="navigateBack()">← Back</button>
+                </div>
+                
+                <div class="game-container">
+                    <div class="game-info">
+                        <p>Identify all 30 MLB teams based on their current league standings and W-L records</p>
+                        <div class="game-notes">
+                            <p><strong>Goal:</strong> Click on any team position to guess which team occupies that rank</p>
+                            <p><strong>Lives:</strong> Start with 15 lives, lose 1 for each incorrect guess</p>
+                            <p><strong>Win:</strong> Identify all 30 teams before running out of lives</p>
+                        </div>
+                        <div class="mlb-standings-stats">
+                            <span>Lives: <span id="mlb-standings-lives">10</span>/10</span>
+                            <span>Progress: <span id="mlb-standings-progress">0/30</span></span>
+                            <button id="mlb-standings-new-game" onclick="newMLBStandingsGame()">New Game</button>
+                        </div>
+                    </div>
+                    
+                    <div class="mlb-standings-container">
+                        <div class="leagues-grid">
+                            <div class="league-section">
+                                <div id="mlb-standings-al">
+                                    <!-- American League standings will be rendered here -->
+                                </div>
+                            </div>
+                            <div class="league-section">
+                                <div id="mlb-standings-nl">
+                                    <!-- National League standings will be rendered here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="mlb-standings-message" class="game-message"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Math Hunt Game Section -->
+        <section id="math-hunt" class="section">
+            <div class="container">
+                <div class="game-header">
+                    <h2>🔢 Math Hunt</h2>
+                    <button class="back-btn" onclick="navigateBack()">← Back</button>
+                </div>
+                
+                <div class="game-container">
+                    <div class="game-info">
+                        <p>Find two numbers in the grid whose product equals the target number</p>
+                        <div class="game-notes">
+                            <p><strong>Goal:</strong> Click two numbers whose product matches the target</p>
+                            <p><strong>Time Limit:</strong> 30 seconds to score as many points as possible</p>
+                            <p><strong>Scoring:</strong> +1 point for each correct pair found</p>
+                        </div>
+                        <div class="math-hunt-stats">
+                            <span>Score: <span id="math-hunt-score">0</span></span>
+                            <span class="math-hunt-timer">Time: <span id="math-hunt-timer">30</span>s</span>
+                            <button id="math-hunt-new-game" onclick="startNewMathHuntGame()">New Game</button>
+                        </div>
+                    </div>
+                    
+                    <div class="math-hunt-container">
+                        <div class="math-hunt-target">
+                            Target: <span id="math-hunt-target-number">24</span>
+                        </div>
+
+                        <div class="math-hunt-grid" id="math-hunt-grid">
+                            <!-- Grid will be generated by JavaScript -->
+                        </div>
+
+                        <div id="math-hunt-message" class="math-hunt-message">
+                            Find two numbers that multiply to make the target!
+                        </div>
+
+                        <div id="math-hunt-game-over" class="math-hunt-game-over" style="display: none;">
+                            <h3>Game Over!</h3>
+                            <p>Final Score: <span id="math-hunt-final-score">0</span></p>
+                            <button onclick="startNewMathHuntGame()">Play Again</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+    </main>
+
+    <!-- Temporarily hidden Wordle game -->
+    <!-- <script src="wordle.js"></script> -->
+    <script src="nfl-trivia.js"></script>
+    <script src="player-challenge.js?v=6"></script>
+    <script src="nba-player-challenge.js"></script>
+    <script src="mlb-player-challenge.js"></script>
+    <script src="mlb-batter-guessing.js"></script>
+    <script src="mlb-standings-challenge.js"></script>
+    <script src="color-memory.js"></script>
+    <script src="weather-challenge.js"></script>
+    <script src="rent-guessing.js"></script>
+    <script src="flight-guessing.js"></script>
+    <script src="math-hunt.js"></script>
+    <script src="main.js"></script>
+</body>
+</html> 
