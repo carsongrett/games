@@ -12,7 +12,7 @@ class PlayerChallengeGame {
     async loadPlayers() {
         try {
             console.log('Starting to load NFL players...'); // Debug log
-            const response = await fetch('nfl_players.csv');
+            const response = await fetch('nfl_players.csv?v=4');
             
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
@@ -433,5 +433,4 @@ function submitPlayerGuess() {
     }
 }
 
-// Initialize when the page loads
-document.addEventListener('DOMContentLoaded', initializePlayerChallenge); 
+// Note: Game is initialized by main.js when section is shown 

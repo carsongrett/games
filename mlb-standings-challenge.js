@@ -34,6 +34,7 @@ class MLBStandingsGame {
             "New York Mets": "NL",
             "New York Yankees": "AL",
             "Oakland Athletics": "AL",
+            "Athletics": "AL", // Handle both "Oakland Athletics" and "Athletics"
             "Philadelphia Phillies": "NL",
             "Pittsburgh Pirates": "NL",
             "San Diego Padres": "NL",
