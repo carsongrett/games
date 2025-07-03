@@ -12,14 +12,41 @@ class NFLPlayerChallengeGame {
     async loadPlayers() {
         try {
             console.log('Starting to load NFL players...'); // Debug log
-            const response = await fetch('nfl_players.csv');
+            console.log('Current URL:', window.location.href); // Debug log
             
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+            // Try multiple possible paths
+            const possiblePaths = [
+                'nfl_players.csv',
+                './nfl_players.csv',
+                '/nfl_players.csv'
+            ];
+            
+            let response = null;
+            let successPath = null;
+            
+            for (const path of possiblePaths) {
+                try {
+                    console.log(`Trying path: ${path}`); // Debug log
+                    response = await fetch(path);
+                    if (response.ok) {
+                        successPath = path;
+                        console.log(`Success with path: ${path}`); // Debug log
+                        break;
+                    } else {
+                        console.log(`Failed with path: ${path}, status: ${response.status}`); // Debug log
+                    }
+                } catch (error) {
+                    console.log(`Error with path: ${path}`, error); // Debug log
+                }
+            }
+            
+            if (!response || !response.ok) {
+                throw new Error(`HTTP error! Could not load CSV from any path. Last status: ${response?.status}`);
             }
             
             const csvText = await response.text();
-            console.log('CSV loaded, first 200 chars:', csvText.substring(0, 200)); // Debug log
+            console.log('CSV loaded successfully from:', successPath); // Debug log
+            console.log('CSV length:', csvText.length, 'first 200 chars:', csvText.substring(0, 200)); // Debug log
             
             // Skip header row and parse CSV
             const rows = csvText.split('\n').slice(1);
