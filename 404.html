@@ -5,21 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Redirecting...</title>
     <script>
-        // Redirect to index.html and preserve the path for client-side routing
-        // This handles GitHub Pages 404s for client-side routing
+        // GitHub Pages SPA routing fix
+        // When GitHub Pages serves this 404.html, capture the intended path and redirect to index.html
         (function() {
-            // Get the current path
-            const path = window.location.pathname;
+            const repoName = window.location.pathname.split('/')[1];
+            const isGitHubPages = window.location.hostname.includes('github.io');
             
-            // If we're already at the root, don't redirect
-            if (path === '/' || path === '/index.html') {
+            if (isGitHubPages) {
+                // For GitHub Pages, preserve the full path after the repo name
+                const pathSegments = window.location.pathname.split('/').slice(2); // Remove empty string and repo name
+                const intendedPath = '/' + pathSegments.join('/');
+                
+                // Store the intended path in sessionStorage so index.html can read it
+                sessionStorage.setItem('redirectPath', intendedPath);
+                
+                // Redirect to the base of the GitHub Pages site
+                window.location.replace(`/${repoName}/`);
+            } else {
+                // For local development or custom domain
+                sessionStorage.setItem('redirectPath', window.location.pathname);
                 window.location.replace('/');
-                return;
             }
-            
-            // Redirect to index.html with the path preserved
-            // The main.js routing will handle showing the correct section
-            window.location.replace('/' + window.location.search + window.location.hash);
         })();
     </script>
 </head>
