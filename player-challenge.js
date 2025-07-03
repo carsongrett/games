@@ -11,41 +11,35 @@ class PlayerChallengeGame {
 
     async loadPlayers() {
         try {
-            console.log('Loading NFL players from embedded data...'); // Debug log
+            console.log('Starting to load NFL players...'); // Debug log
+            const response = await fetch('nfl_players.csv');
             
-            // Embedded player data - no external file needed
-            this.players = [
-                {name: "Saquon Barkley", conference: "NFC", team: "PHI", position: "RB", receivingYards: 278, rushingYards: 2005, totalTDs: 15},
-                {name: "Derrick Henry", conference: "AFC", team: "BAL", position: "RB", receivingYards: 193, rushingYards: 1921, totalTDs: 18},
-                {name: "Josh Allen", conference: "AFC", team: "BUF", position: "QB", receivingYards: 7, rushingYards: 531, totalTDs: 13},
-                {name: "Lamar Jackson", conference: "AFC", team: "BAL", position: "QB", receivingYards: 0, rushingYards: 915, totalTDs: 4},
-                {name: "Ja'Marr Chase", conference: "AFC", team: "CIN", position: "WR", receivingYards: 1708, rushingYards: 32, totalTDs: 17},
-                {name: "Justin Jefferson", conference: "NFC", team: "MIN", position: "WR", receivingYards: 1533, rushingYards: 3, totalTDs: 10},
-                {name: "Travis Kelce", conference: "AFC", team: "KAN", position: "TE", receivingYards: 823, rushingYards: 1, totalTDs: 3},
-                {name: "George Kittle", conference: "NFC", team: "SFO", position: "TE", receivingYards: 1106, rushingYards: 0, totalTDs: 8},
-                {name: "Tyreek Hill", conference: "AFC", team: "MIA", position: "WR", receivingYards: 959, rushingYards: 53, totalTDs: 6},
-                {name: "Davante Adams", conference: "AFC", team: "NYJ", position: "WR", receivingYards: 1063, rushingYards: 0, totalTDs: 8},
-                {name: "Cooper Kupp", conference: "NFC", team: "LAR", position: "WR", receivingYards: 710, rushingYards: 10, totalTDs: 6},
-                {name: "Mike Evans", conference: "NFC", team: "TAM", position: "WR", receivingYards: 1004, rushingYards: 0, totalTDs: 11},
-                {name: "CeeDee Lamb", conference: "NFC", team: "DAL", position: "WR", receivingYards: 1194, rushingYards: 70, totalTDs: 6},
-                {name: "A.J. Brown", conference: "NFC", team: "PHI", position: "WR", receivingYards: 1079, rushingYards: 0, totalTDs: 7},
-                {name: "Stefon Diggs", conference: "AFC", team: "HOU", position: "WR", receivingYards: 496, rushingYards: 8, totalTDs: 4},
-                {name: "DeVonta Smith", conference: "NFC", team: "PHI", position: "WR", receivingYards: 833, rushingYards: 1, totalTDs: 8},
-                {name: "Amon-Ra St. Brown", conference: "NFC", team: "DET", position: "WR", receivingYards: 1263, rushingYards: 6, totalTDs: 12},
-                {name: "Puka Nacua", conference: "NFC", team: "LAR", position: "WR", receivingYards: 990, rushingYards: 46, totalTDs: 4},
-                {name: "Tee Higgins", conference: "AFC", team: "CIN", position: "WR", receivingYards: 911, rushingYards: 0, totalTDs: 10},
-                {name: "DK Metcalf", conference: "NFC", team: "SEA", position: "WR", receivingYards: 992, rushingYards: 0, totalTDs: 5},
-                {name: "Terry McLaurin", conference: "NFC", team: "WAS", position: "WR", receivingYards: 1096, rushingYards: 2, totalTDs: 13},
-                {name: "Calvin Ridley", conference: "AFC", team: "TEN", position: "WR", receivingYards: 1017, rushingYards: 55, totalTDs: 5},
-                {name: "Malik Nabers", conference: "NFC", team: "NYG", position: "WR", receivingYards: 1204, rushingYards: 2, totalTDs: 7},
-                {name: "Brian Thomas", conference: "AFC", team: "JAX", position: "WR", receivingYards: 1282, rushingYards: 48, totalTDs: 10},
-                {name: "Garrett Wilson", conference: "AFC", team: "NYJ", position: "WR", receivingYards: 1104, rushingYards: 5, totalTDs: 7},
-                {name: "Drake London", conference: "NFC", team: "ATL", position: "WR", receivingYards: 1271, rushingYards: -3, totalTDs: 9},
-                {name: "Courtland Sutton", conference: "AFC", team: "DEN", position: "WR", receivingYards: 1081, rushingYards: 0, totalTDs: 8},
-                {name: "Brock Bowers", conference: "AFC", team: "LVR", position: "TE", receivingYards: 1194, rushingYards: 13, totalTDs: 5},
-                {name: "Trey McBride", conference: "NFC", team: "ARI", position: "TE", receivingYards: 1146, rushingYards: 2, totalTDs: 3},
-                {name: "Sam LaPorta", conference: "NFC", team: "DET", position: "TE", receivingYards: 726, rushingYards: 0, totalTDs: 7}
-            ];
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const csvText = await response.text();
+            console.log('CSV loaded, first 200 chars:', csvText.substring(0, 200)); // Debug log
+            
+            // Skip header row and parse CSV
+            const rows = csvText.split('\n').slice(1);
+            console.log('Total rows after header:', rows.length); // Debug log
+            
+            this.players = rows.map(row => {
+                const columns = row.split(',');
+                // Skip rows that don't have enough data
+                if (columns.length < 7 || !columns[0].trim()) return null;
+                
+                return {
+                    name: columns[0].trim(),
+                    conference: columns[1].trim(),
+                    team: columns[2].trim(),
+                    position: columns[3].trim(),
+                    receivingYards: parseInt(columns[4]) || 0,
+                    rushingYards: parseInt(columns[5]) || 0,
+                    totalTDs: parseInt(columns[6]) || 0
+                };
+            }).filter(player => player && player.name); // Filter out null and empty rows
             
             console.log('Loaded players:', this.players.length); // Debug log
             if (this.players.length > 0) {
