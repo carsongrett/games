@@ -3,12 +3,12 @@ let mathHuntGrid = [];
 let mathHuntSelectedNumbers = [];
 let mathHuntTargetNumber = 0;
 let mathHuntScore = 0;
-let mathHuntTimeLeft = 90;
+let mathHuntTimeLeft = 30;
 let mathHuntGameTimer;
 let mathHuntGameActive = false;
 
 function generateRandomNumber() {
-    return Math.floor(Math.random() * 12) + 1;
+    return Math.floor(Math.random() * 10) + 3;
 }
 
 function createMathHuntGrid() {
@@ -112,7 +112,7 @@ function startMathHuntTimer() {
         
         // Add warning class when time is low
         const timerContainer = document.querySelector('.math-hunt-timer');
-        if (mathHuntTimeLeft <= 10) {
+        if (mathHuntTimeLeft <= 5) {
             timerContainer.classList.add('warning');
         }
         
@@ -139,7 +139,7 @@ function endMathHuntGame() {
 function startNewMathHuntGame() {
     mathHuntGameActive = true;
     mathHuntScore = 0;
-    mathHuntTimeLeft = 90;
+    mathHuntTimeLeft = 30;
     mathHuntSelectedNumbers = [];
     
     document.getElementById('math-hunt-score').textContent = mathHuntScore;
