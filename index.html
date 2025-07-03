@@ -13,11 +13,6 @@
                 <h1 class="logo">GAMES</h1>
                 <div class="nav-links">
                     <button class="nav-btn active" data-section="home" onclick="navigateToRoute('/')">Home</button>
-                    <button class="nav-btn" data-section="sports" onclick="navigateToRoute('/sports')">Sports</button>
-                    <button class="nav-btn" data-section="other" onclick="navigateToRoute('/other')">Other</button>
-                </div>
-                <div class="breadcrumb" id="breadcrumb">
-                    <span onclick="navigateToRoute('/')" class="breadcrumb-link">Home</span>
                 </div>
             </div>
         </nav>
@@ -29,36 +24,20 @@
             <div class="container">
                 <div class="hero">
                     <h2>Welcome to Games</h2>
-                    <p>Choose from Sports games or Other fun challenges</p>
-                </div>
-                
-                <div class="category-grid">
-                    <div class="category-card" onclick="navigateToRoute('/sports')">
-                        <h3>🏈 Sports</h3>
-                        <p>NFL, NBA, and MLB player challenges and trivia</p>
-                        <button class="category-btn">Explore Sports</button>
-                    </div>
-
-                    <div class="category-card" onclick="navigateToRoute('/other')">
-                        <h3>🎮 Other Games</h3>
-                        <p>Memory, geography, and puzzle challenges</p>
-                        <button class="category-btn">Explore Other</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Sports Category Section -->
-        <section id="sports" class="section">
-            <div class="container">
-                <div class="category-header">
-                    <h2>🏈 Sports Games</h2>
+                    <p>More sports and other categories coming soon</p>
                 </div>
                 
                 <div class="game-grid">
+                    <!-- Temporarily hidden Wordle game -->
+                    <!-- <div class="game-card" onclick="showSection('wordle')">
+                        <h3>🔤 Word Challenge</h3>
+                        <p>Guess the hidden word in 6 tries. A classic word puzzle game that tests your vocabulary and deduction skills.</p>
+                        <button class="play-btn">Play Now!</button>
+                    </div> -->
+                    
                     <div class="game-card" onclick="navigateToRoute('/nfl-trivia')">
                         <h3>🏈 NFL Trivia</h3>
-                        <p>NFL history, players, and recent seasons</p>
+                        <p>NFL history, players, and recent seasons. </p>
                         <button class="play-btn">Play Now!</button>
                     </div>
                     
@@ -79,18 +58,7 @@
                         <p>Guess MLB teams using their league, division, runs per game, and home runs</p>
                         <button class="play-btn">Play Now!</button>
                     </div>
-                </div>
-            </div>
-        </section>
 
-        <!-- Other Games Category Section -->
-        <section id="other" class="section">
-            <div class="container">
-                <div class="category-header">
-                    <h2>🎮 Other Games</h2>
-                </div>
-                
-                <div class="game-grid">
                     <div class="game-card" onclick="navigateToRoute('/color-memory')">
                         <h3>🌈 Color Memory</h3>
                         <p>Memorize and repeat color sequences</p>
@@ -118,45 +86,35 @@
             </div>
         </section>
 
-        <!-- Privacy Policy Section -->
-        <section id="privacy-policy" class="section">
+        <!-- Temporarily hidden Wordle game section -->
+        <!-- <section id="wordle" class="section">
             <div class="container">
-                <div class="policy-header">
-                    <h2>Privacy Policy</h2>
+                <div class="game-header">
+                    <h2>🔤 Word Challenge</h2>
+                    <button class="back-btn" onclick="showSection('home')">← Back to Home</button>
                 </div>
                 
-                <div class="policy-content">
-                    <div class="policy-section">
-                        <h3>Information We Collect</h3>
-                        <p>This website is a collection of simple games that runs entirely in your browser. We do not collect, store, or transmit any personal information.</p>
+                <div class="game-container">
+                    <div class="game-info">
+                        <p>Guess the 5-letter word in 6 tries!</p>
+                        <div class="game-stats">
+                            <span>Attempts: <span id="attempts">0</span>/6</span>
+                            <button id="new-word-btn" onclick="newWordleGame()">New Game</button>
+                        </div>
                     </div>
-
-                    <div class="policy-section">
-                        <h3>Local Storage</h3>
-                        <p>Game scores and preferences may be stored locally in your browser using localStorage. This data never leaves your device and can be cleared by deleting your browser data.</p>
+                    
+                    <div class="wordle-grid" id="wordle-grid">
+                        <!-- Grid will be generated by JavaScript -->
                     </div>
-
-                    <div class="policy-section">
-                        <h3>No Tracking</h3>
-                        <p>We do not use cookies, analytics, or any tracking technologies. Your gameplay is completely private.</p>
+                    
+                    <div class="keyboard" id="keyboard">
+                        <!-- Keyboard will be generated by JavaScript -->
                     </div>
-
-                    <div class="policy-section">
-                        <h3>Third-Party Services</h3>
-                        <p>This website does not integrate with any third-party services or APIs that could access your data.</p>
-                    </div>
-
-                    <div class="policy-section">
-                        <h3>Contact</h3>
-                        <p>This is a personal project with no data collection. If you have questions about these games, you can review the open-source code.</p>
-                    </div>
-
-                    <div class="policy-footer">
-                        <p><em>Last updated: January 2025</em></p>
-                    </div>
+                    
+                    <div id="wordle-message" class="game-message"></div>
                 </div>
             </div>
-        </section>
+        </section> -->
 
         <!-- NFL Trivia Section -->
         <section id="nfl-trivia" class="section">
@@ -556,8 +514,6 @@
                 </div>
             </div>
         </section>
-
-
     </main>
 
     <!-- Temporarily hidden Wordle game -->

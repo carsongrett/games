@@ -2,9 +2,6 @@
 const routes = {
     '/': 'home',
     '/home': 'home',
-    '/sports': 'sports',
-    '/other': 'other',
-    '/privacy-policy': 'privacy-policy',
     '/weather': 'weather-challenge',
     '/nfl-trivia': 'nfl-trivia',
     '/nfl-player-challenge': 'player-challenge',
@@ -18,9 +15,6 @@ const routes = {
 // Reverse mapping for generating URLs
 const sectionToRoute = {
     'home': '/',
-    'sports': '/sports',
-    'other': '/other',
-    'privacy-policy': '/privacy-policy',
     'weather-challenge': '/weather',
     'nfl-trivia': '/nfl-trivia',
     'player-challenge': '/nfl-player-challenge',
@@ -31,63 +25,18 @@ const sectionToRoute = {
     'flight-guessing': '/flight-guessing'
 };
 
-// Game categorization
-const gameCategories = {
-    'nfl-trivia': 'sports',
-    'player-challenge': 'sports',
-    'nba-player-challenge': 'sports',
-    'mlb-player-challenge': 'sports',
-    'color-memory': 'other',
-    'weather-challenge': 'other',
-    'rent-guessing': 'other',
-    'flight-guessing': 'other'
-};
-
-// Game titles for page titles and breadcrumbs
+// Game titles for page titles
 const gameTitles = {
     'home': 'Games - Sports & Fun Challenges',
-    'sports': 'Sports Games',
-    'other': 'Other Games',
-    'privacy-policy': 'Privacy Policy',
-    'weather-challenge': 'Weather Challenge',
-    'nfl-trivia': 'NFL Trivia',
-    'player-challenge': 'NFL Player Challenge',
-    'nba-player-challenge': 'NBA Player Challenge',
-    'mlb-player-challenge': 'MLB Team Challenge',
-    'color-memory': 'Color Memory',
-    'rent-guessing': 'Rent Guessing',
-    'flight-guessing': 'Flight Time Challenge'
+    'weather-challenge': 'Weather Challenge - Guess City Temperatures',
+    'nfl-trivia': 'NFL Trivia - Test Your Football Knowledge',
+    'player-challenge': 'NFL Player Challenge - Guess the Player',
+    'nba-player-challenge': 'NBA Player Challenge - Guess the Player',
+    'mlb-player-challenge': 'MLB Team Challenge - Guess the Team',
+    'color-memory': 'Color Memory - Memory Sequence Game',
+    'rent-guessing': 'Rent Guessing - Guess US Apartment Rents',
+    'flight-guessing': 'Flight Time Challenge - Guess Flight Durations'
 };
-
-// Breadcrumb management
-function updateBreadcrumb(sectionName) {
-    const breadcrumbElement = document.getElementById('breadcrumb');
-    if (!breadcrumbElement) return;
-    
-    let breadcrumbHTML = '<span onclick="navigateToRoute(\'/\')" class="breadcrumb-link">Home</span>';
-    
-    if (sectionName === 'sports' || sectionName === 'other') {
-        breadcrumbHTML += ` <span class="breadcrumb-separator">></span> <span class="breadcrumb-current">${gameTitles[sectionName]}</span>`;
-    } else if (gameCategories[sectionName]) {
-        const category = gameCategories[sectionName];
-        const categoryTitle = gameTitles[category];
-        const categoryRoute = sectionToRoute[category];
-        breadcrumbHTML += ` <span class="breadcrumb-separator">></span> <span onclick="navigateToRoute('${categoryRoute}')" class="breadcrumb-link">${categoryTitle}</span>`;
-        breadcrumbHTML += ` <span class="breadcrumb-separator">></span> <span class="breadcrumb-current">${gameTitles[sectionName]}</span>`;
-    } else if (sectionName === 'privacy-policy') {
-        breadcrumbHTML += ` <span class="breadcrumb-separator">></span> <span class="breadcrumb-current">Privacy Policy</span>`;
-    }
-    
-    breadcrumbElement.innerHTML = breadcrumbHTML;
-}
-
-// Get back navigation for games
-function getBackRoute(sectionName) {
-    if (gameCategories[sectionName]) {
-        return sectionToRoute[gameCategories[sectionName]];
-    }
-    return '/';
-}
 
 // Main navigation and utility functions
 document.addEventListener('DOMContentLoaded', function() {
@@ -99,23 +48,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Add keyboard event listeners for games
     document.addEventListener('keydown', handleGlobalKeydown);
-    
-    // Add privacy policy link to footer if it exists
-    addPrivacyPolicyLink();
 });
-
-// Add privacy policy link to footer
-function addPrivacyPolicyLink() {
-    const footer = document.querySelector('footer') || document.body;
-    if (!document.getElementById('privacy-link')) {
-        const privacyLink = document.createElement('div');
-        privacyLink.id = 'privacy-link';
-        privacyLink.innerHTML = '<a href="#" onclick="navigateToRoute(\'/privacy-policy\')" style="color: #6b7280; font-size: 0.875rem; text-decoration: none; padding: 1rem; display: inline-block;">Privacy Policy</a>';
-        privacyLink.style.textAlign = 'center';
-        privacyLink.style.marginTop = '2rem';
-        footer.appendChild(privacyLink);
-    }
-}
 
 // Handle browser back/forward navigation
 function handleBrowserNavigation() {
@@ -158,9 +91,6 @@ function showSection(sectionName, pushToHistory = true) {
         document.title = gameTitles[sectionName];
     }
     
-    // Update breadcrumb
-    updateBreadcrumb(sectionName);
-    
     // Update browser URL if needed
     if (pushToHistory && sectionToRoute[sectionName]) {
         const route = sectionToRoute[sectionName];
@@ -168,16 +98,13 @@ function showSection(sectionName, pushToHistory = true) {
         window.history.pushState({ route }, '', fullPath);
     }
     
-    // Update active nav button
-    const activeButton = document.querySelector(`.nav-btn[data-section="${sectionName}"]`) || 
-                        document.querySelector(`.nav-btn[data-section="${gameCategories[sectionName]}"]`) ||
-                        document.querySelector(`.nav-btn[data-section="home"]`);
-    if (activeButton) {
-        activeButton.classList.add('active');
+    // Update active nav button (for home button)
+    if (sectionName === 'home') {
+        const homeButton = document.querySelector('.nav-btn[data-section="home"]');
+        if (homeButton) {
+            homeButton.classList.add('active');
+        }
     }
-    
-    // Update back buttons in games
-    updateBackButtons(sectionName);
     
     // Initialize games when their sections are shown
     if (sectionName === 'wordle' && typeof initializeWordle === 'function') {
@@ -195,26 +122,6 @@ function showSection(sectionName, pushToHistory = true) {
     }
 }
 
-// Update back buttons to navigate to appropriate category
-function updateBackButtons(sectionName) {
-    const backButtons = document.querySelectorAll('.back-btn');
-    const backRoute = getBackRoute(sectionName);
-    
-    backButtons.forEach(btn => {
-        btn.onclick = function() {
-            navigateToRoute(backRoute);
-        };
-        
-        // Update button text based on destination
-        if (gameCategories[sectionName]) {
-            const categoryName = gameTitles[gameCategories[sectionName]];
-            btn.textContent = `← Back to ${categoryName}`;
-        } else {
-            btn.textContent = '← Back to Home';
-        }
-    });
-}
-
 // Global keyboard event handler
 function handleGlobalKeydown(event) {
     const activeSection = document.querySelector('.section.active');
@@ -227,10 +134,9 @@ function handleGlobalKeydown(event) {
         handleWordleKeydown(event);
     }
     
-    // Handle escape key to go back appropriately
+    // Handle escape key to go back to home
     if (event.key === 'Escape' && sectionId !== 'home') {
-        const backRoute = getBackRoute(sectionId);
-        navigateToRoute(backRoute);
+        navigateToRoute('/');
     }
 }
 
